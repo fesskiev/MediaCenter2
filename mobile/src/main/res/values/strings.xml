@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">SoloPlayer</string>
+
+    <string name="splash_screen_title">Power media player</string>
+
+    <string name="tab_audio">Audio</string>
+    <string name="tab_video">Video</string>
+    <string name="tab_files">Files</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+</resources>
