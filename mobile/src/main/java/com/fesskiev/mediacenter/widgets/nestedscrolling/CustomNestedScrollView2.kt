@@ -26,7 +26,7 @@ class CustomNestedScrollView2(context: Context, attrs: AttributeSet) : NestedScr
     }
 
     /**
-     * Returns true iff the [NestedScrollView] is scrolled to the bottom
+     * Returns true if the [NestedScrollView] is scrolled to the bottom
      * of its content (i.e. the card is completely expanded).
      */
     private fun isNsvScrolledToBottom(nsv: NestedScrollView): Boolean {
@@ -34,7 +34,7 @@ class CustomNestedScrollView2(context: Context, attrs: AttributeSet) : NestedScr
     }
 
     /**
-     * Returns true iff the [RecyclerView] is scrolled to the
+     * Returns true if the [RecyclerView] is scrolled to the
      * top of its content (i.e. its first item is completely visible).
      */
     private fun isRvScrolledToTop(rv: RecyclerView): Boolean {

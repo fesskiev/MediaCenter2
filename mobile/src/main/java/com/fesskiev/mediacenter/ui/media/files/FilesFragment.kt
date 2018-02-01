@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 
 
-class FilesFragment : Fragment() {
+class FilesFragment : Fragment(), FilesContract.View {
 
     companion object {
         fun newInstance(): FilesFragment {

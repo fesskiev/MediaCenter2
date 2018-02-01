@@ -25,22 +25,21 @@ import java.util.concurrent.ThreadLocalRandom
         indices = [Index("folderId")])
 @Parcelize
 @SuppressLint("ParcelCreator")
-class VideoFile() : MediaFile, Parcelable {
+class VideoFile(@NotNull
+                @PrimaryKey
+                var videoFileId: String = "",
+                var videoFolderId: String = "",
+                var videoFilePath: File = File(""),
+                var videoFramePath: String = "",
+                var videoFileDescription: String = "",
+                var videoFileResolution: String = "",
+                var videoFileInPlayList: Boolean = false,
+                var videoFileIsHidden: Boolean = false,
+                var videoFileIsSelected: Boolean = false,
+                var videoFileSize: Long = 0,
+                var videoFileTimestamp: Long = 0,
+                var videoFileDuration: Long = 0) : MediaFile, Parcelable {
 
-    @NotNull
-    @PrimaryKey
-    var videoFileId: String = ""
-    var videoFolderId: String = ""
-    var videoFilePath: File = File("")
-    var videoFramePath: String = ""
-    var videoFileDescription: String = ""
-    var videoFileResolution: String = ""
-    var videoFileInPlayList: Boolean = false
-    var videoFileIsHidden: Boolean = false
-    var videoFileIsSelected: Boolean = false
-    var videoFileSize: Long = 0
-    var videoFileTimestamp: Long = 0
-    var videoFileDuration: Long = 0
 
     constructor(folderId: String, path: File) : this() {
         this.videoFolderId = folderId

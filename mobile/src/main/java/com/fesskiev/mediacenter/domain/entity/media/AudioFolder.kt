@@ -10,18 +10,16 @@ import java.io.File
 
 @Parcelize
 @SuppressLint("ParcelCreator")
-class AudioFolder : MediaFolder, Parcelable, Comparable<AudioFolder> {
-
-    @NotNull
-    @PrimaryKey
-    var audioFolderId: String = ""
-    var audioFolderPath: File? = null
-    var audioFolderImage: File? = null
-    var audioFolderName: String = ""
-    var audioFolderIndex: Int = 0
-    var audioFolderTimestamp: Long = 0
-    var audioFolderSelected: Boolean = false
-    var audioFolderHidden: Boolean = false
+class AudioFolder(@NotNull
+                  @PrimaryKey
+                  var audioFolderId: String = "",
+                  var audioFolderPath: File? = null,
+                  var audioFolderImage: File? = null,
+                  var audioFolderName: String = "",
+                  var audioFolderIndex: Int = 0,
+                  var audioFolderTimestamp: Long = 0,
+                  var audioFolderSelected: Boolean = false,
+                  var audioFolderHidden: Boolean = false) : MediaFolder, Parcelable, Comparable<AudioFolder> {
 
     override fun getId(): String {
         return audioFolderId

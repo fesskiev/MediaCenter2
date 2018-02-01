@@ -17,30 +17,29 @@ import java.util.*
         childColumns = ["folderId"],
         onDelete = CASCADE)],
         indices = [Index("folderId")])
-class AudioFile() : MediaFile, Parcelable {
+class AudioFile(@NotNull
+                @PrimaryKey
+                var audioFileId: String = "",
+                var audioFolderId: String = "",
+                var audioFilePath: File = File(""),
+                @Ignore
+                var audioFileConvertedPath: File? = null,
+                var audioFileArtist: String = "",
+                var audioFileTitle: String = "",
+                var audioFileAlbum: String = "",
+                var audioFileGenre: String = "",
+                var audioFileBitrate: String = "",
+                var audioFileSampleRate: String = "",
+                var audioFileArtworkPath: String = "",
+                var folderArtworkPath: String = "",
+                var audioFileTrackNumber: Int = 0,
+                var audioFileDuration: Long = 0,
+                var audioFileSize: Long = 0,
+                var audioFileTimestamp: Long = 0,
+                var audioFileInPlayList: Boolean = false,
+                var audioFileIsSelected: Boolean = false,
+                var audioFileIsHidden: Boolean = false) : MediaFile, Parcelable {
 
-    @NotNull
-    @PrimaryKey
-    var audioFileId: String = ""
-    var audioFolderId: String = ""
-    var audioFilePath: File = File("")
-    @Ignore
-    var audioFileConvertedPath: File? = null
-    var audioFileArtist: String = ""
-    var audioFileTitle: String = ""
-    var audioFileAlbum: String = ""
-    var audioFileGenre: String = ""
-    var audioFileBitrate: String = ""
-    var audioFileSampleRate: String = ""
-    var audioFileArtworkPath: String = ""
-    var folderArtworkPath: String = ""
-    var audioFileTrackNumber: Int = 0
-    var audioFileDuration: Long = 0
-    var audioFileSize: Long = 0
-    var audioFileTimestamp: Long = 0
-    var audioFileInPlayList: Boolean = false
-    var audioFileIsSelected: Boolean = false
-    var audioFileIsHidden: Boolean = false
 
     constructor(folderId: String, path: File) : this() {
         this.audioFolderId = folderId

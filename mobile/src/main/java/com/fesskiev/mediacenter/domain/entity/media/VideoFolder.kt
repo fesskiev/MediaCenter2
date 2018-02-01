@@ -9,18 +9,17 @@ import java.io.File
 
 @Parcelize
 @SuppressLint("ParcelCreator")
-class VideoFolder : MediaFolder, Parcelable, Comparable<VideoFolder> {
+class VideoFolder(@NotNull
+                  @PrimaryKey
+                  var videoFolderId: String = "",
+                  var videoFolderPath: File? = null,
+                  var videoFolderImage: File? = null,
+                  var videoFolderName: String = "",
+                  var videoFolderIndex: Int = 0,
+                  var videoFolderTimestamp: Long = 0,
+                  var videoFolderSelected: Boolean = false,
+                  var videoFolderHidden: Boolean = false) : MediaFolder, Parcelable, Comparable<VideoFolder> {
 
-    @NotNull
-    @PrimaryKey
-    var videoFolderId: String = ""
-    var videoFolderPath: File? = null
-    var videoFolderImage: File? = null
-    var videoFolderName: String = ""
-    var videoFolderIndex: Int = 0
-    var videoFolderTimestamp: Long = 0
-    var videoFolderSelected: Boolean = false
-    var videoFolderHidden: Boolean = false
 
     override fun getId(): String {
         return videoFolderId

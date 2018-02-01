@@ -11,18 +11,9 @@ import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 
 
-class CustomBehavior(context: Context?, attrs: AttributeSet?) : CoordinatorLayout.Behavior<NestedScrollView>(context, attrs) {
+class BottomSheetBehavior(context: Context?, attrs: AttributeSet?) : CoordinatorLayout.Behavior<NestedScrollView>(context, attrs) {
 
-    override fun layoutDependsOn(parent: CoordinatorLayout, child: NestedScrollView,
-                                 dependency: View): Boolean {
-        // List the toolbar container as a dependency to ensure that it will
-        // always be laid out before the child (which depends on the toolbar
-        // container's height in onLayoutChild() below).
-        return dependency.id == R.id.toolbarContainer
-    }
-
-    override fun onLayoutChild(parent: CoordinatorLayout,
-                               child: NestedScrollView, layoutDirection: Int): Boolean {
+    override fun onLayoutChild(parent: CoordinatorLayout, child: NestedScrollView, layoutDirection: Int): Boolean {
         // First layout the child as normal.
         parent.onLayoutChild(child, layoutDirection)
 
@@ -59,20 +50,13 @@ class CustomBehavior(context: Context?, attrs: AttributeSet?) : CoordinatorLayou
         return true
     }
 
-    override fun onInterceptTouchEvent(parent: CoordinatorLayout, child: NestedScrollView,
-                                       ev: MotionEvent): Boolean {
-        // Block all touch events that originate within the bounds of our
-        // NestedScrollView but do *not* originate within the bounds of its
-        // inner CardView and FloatingActionButton.
-        return (ev.actionMasked == MotionEvent.ACTION_DOWN
+    override fun onInterceptTouchEvent(parent: CoordinatorLayout, child: NestedScrollView, ev: MotionEvent): Boolean {
+        return (ev.actionMasked == MotionEvent.ACTION_MOVE
                 && parent.isPointInChildBounds(child, ev.x.toInt(), ev.y.toInt())
-                && !parent.isPointInChildBounds(parent.findViewById(R.id.mainContent), ev.x.toInt(), ev.y.toInt())
                 && !parent.isPointInChildBounds(child.findViewById(R.id.cardview), ev.x.toInt(), ev.y.toInt())
                 && !parent.isPointInChildBounds(child.findViewById(R.id.fab), ev.x.toInt(), ev.y.toInt()
-
         ))
     }
-
 
     private fun setTopMargin(v: View, topMargin: Int) {
         val lp = v.layoutParams as ViewGroup.MarginLayoutParams

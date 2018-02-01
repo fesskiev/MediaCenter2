@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 
-class VideoFragment : Fragment() {
+class VideoFragment : Fragment(), VideoContract.View {
 
     companion object {
         fun newInstance(): VideoFragment {

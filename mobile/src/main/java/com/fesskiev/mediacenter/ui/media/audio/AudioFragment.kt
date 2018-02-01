@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 
 
-class AudioFragment : Fragment() {
+class AudioFragment : Fragment(), AudioContact.View {
 
     companion object {
         fun newInstance(): AudioFragment {
