@@ -1,4 +1,4 @@
-package com.fesskiev.mediacenter.ui
+package com.fesskiev.mediacenter.ui.main
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
@@ -10,7 +10,6 @@ import android.support.v4.view.GravityCompat
 import android.support.v4.view.ViewPager
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -24,9 +23,10 @@ import com.fesskiev.mediacenter.ui.media.files.FilesFragment
 import com.fesskiev.mediacenter.ui.media.video.VideoFragment
 import com.fesskiev.mediacenter.widgets.nestedscrolling.CustomNestedScrollView2
 import com.fesskiev.mediacenter.widgets.nestedscrolling.LoremIpsumAdapter
+import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private var adapter: ViewPagerAdapter? = null
     private var isShowingCardHeaderShadow: Boolean = false
