@@ -233,6 +233,14 @@ class LocalDataSource(db: MediaDB) : LocalSource {
         }
     }
 
+    override fun getAudioFiles(): Single<List<AudioFile>> {
+        return Single.fromCallable { mediaDao.getAudioFiles() }
+    }
+
+    override fun getVideoFiles(): Single<List<VideoFile>> {
+        return Single.fromCallable { mediaDao.getVideoFiles() }
+    }
+
     override fun containAudioTrack(path: String): Boolean {
         return mediaDao.getAudioFile(path) != null
     }

@@ -1,7 +1,7 @@
 package com.fesskiev.mediacenter.ui.media.audio
 
 import com.fesskiev.mediacenter.domain.source.DataRepository
-import com.fesskiev.mediacenter.utils.schedulers.SchedulerProvider
+import com.fesskiev.mediacenter.utils.schedulers.BaseSchedulerProvider
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -16,7 +16,7 @@ abstract class AudioFragmentModule {
         @Provides
         fun provideAudioPresenter(compositeDisposable: CompositeDisposable,
                                   dataRepository: DataRepository,
-                                  schedulerProvider: SchedulerProvider,
+                                  schedulerProvider: BaseSchedulerProvider,
                                   view: AudioContact.View): AudioPresenter {
             return AudioPresenter(compositeDisposable, dataRepository, schedulerProvider, view)
         }

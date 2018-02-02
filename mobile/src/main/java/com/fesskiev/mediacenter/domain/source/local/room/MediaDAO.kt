@@ -7,6 +7,12 @@ import com.fesskiev.mediacenter.domain.entity.media.*
 @Dao
 interface MediaDAO {
 
+    @Query("SELECT * FROM VideoFiles")
+    fun getVideoFiles(): List<VideoFile>
+
+    @Query("SELECT * FROM AudioFiles")
+    fun getAudioFiles(): List<AudioFile>
+
     @Query("SELECT * FROM AudioFolders")
     fun getAudioFolders(): List<AudioFolder>
 

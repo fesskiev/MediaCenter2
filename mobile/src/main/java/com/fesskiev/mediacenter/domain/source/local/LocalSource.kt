@@ -84,6 +84,8 @@ interface LocalSource {
 
     fun deleteAudioFile(audioFile: AudioFile): Single<Int>
 
+    fun getAudioFiles(): Single<List<AudioFile>>
+
     /**
      * Video files methods
      */
@@ -100,6 +102,8 @@ interface LocalSource {
     fun deleteVideoFile(videoFile: VideoFile): Single<Int>
 
     fun clearPlaylist(): Single<Int>
+
+    fun getVideoFiles(): Single<List<VideoFile>>
 
     /**
      * drop database
