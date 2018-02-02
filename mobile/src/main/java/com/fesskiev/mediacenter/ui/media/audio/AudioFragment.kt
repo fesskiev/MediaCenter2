@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
+import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -27,6 +28,15 @@ class AudioFragment : DaggerFragment(), AudioContact.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter?.fetchAudioFolders()
+    }
+
+    override fun showAudioFolders(audioFolders: List<AudioFolder>) {
+
     }
 
     override fun onDestroy() {
