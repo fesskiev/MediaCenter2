@@ -10,31 +10,31 @@ interface MediaDAO {
     @Query("SELECT * FROM AudioFolders")
     fun getAudioFolders(): List<AudioFolder>
 
-    @Query("SELECT AudioFolders.*, SelectedAudioFolder.isSelected FROM AudioFolders INNER JOIN SelectedAudioFolder ON AudioFolders.id = SelectedAudioFolder.audioFolderId")
+    @Query("SELECT AudioFolders.*, SelectedAudioFolder.isSelected FROM AudioFolders INNER JOIN SelectedAudioFolder ON AudioFolders.audioFolderId = SelectedAudioFolder.audioFolderId")
     fun getSelectedAudioFolder(): AudioFolder
 
     @Query("SELECT * FROM VideoFolders")
     fun getVideoFolders(): List<VideoFolder>
 
-    @Query("SELECT VideoFolders.*, SelectedVideoFolder.isSelected FROM VideoFolders INNER JOIN SelectedVideoFolder ON VideoFolders.id = SelectedVideoFolder.videoFolderId")
+    @Query("SELECT VideoFolders.*, SelectedVideoFolder.isSelected FROM VideoFolders INNER JOIN SelectedVideoFolder ON VideoFolders.videoFolderId = SelectedVideoFolder.videoFolderId")
     fun getSelectedVideoFolder(): VideoFolder
 
-    @Query("SELECT AudioFiles.*, SelectedAudioFile.isSelected FROM AudioFiles INNER JOIN SelectedAudioFile ON AudioFiles.fileId = SelectedAudioFile.audioFileId")
+    @Query("SELECT AudioFiles.*, SelectedAudioFile.isSelected FROM AudioFiles INNER JOIN SelectedAudioFile ON AudioFiles.audioFileId = SelectedAudioFile.audioFileId")
     fun getSelectedAudioFile(): AudioFile
 
-    @Query("SELECT VideoFiles.*, SelectedVideoFile.isSelected FROM VideoFiles INNER JOIN SelectedVideoFile ON VideoFiles.fileId = SelectedVideoFile.videoFileId")
+    @Query("SELECT VideoFiles.*, SelectedVideoFile.isSelected FROM VideoFiles INNER JOIN SelectedVideoFile ON VideoFiles.videoFileId = SelectedVideoFile.videoFileId")
     fun getSelectedVideoFile(): VideoFile
 
-    @Query("SELECT * FROM AudioFiles WHERE inPlayList LIKE 1")
+    @Query("SELECT * FROM AudioFiles WHERE audioFileInPlayList LIKE 1")
     fun getAudioFilePlaylist(): List<AudioFile>
 
-    @Query("SELECT * FROM VideoFiles WHERE inPlayList LIKE 1")
+    @Query("SELECT * FROM VideoFiles WHERE videoFileInPlayList LIKE 1")
     fun getVideoFilePlaylist(): List<VideoFile>
 
-    @Query("SELECT DISTINCT artist FROM AudioFiles")
+    @Query("SELECT DISTINCT audioFileArtist FROM AudioFiles")
     fun getArtistsList(): List<String>
 
-    @Query("SELECT DISTINCT genre FROM AudioFiles")
+    @Query("SELECT DISTINCT audioFileGenre FROM AudioFiles")
     fun getGenresList(): List<String>
 
     @Insert(onConflict = REPLACE)
@@ -46,10 +46,10 @@ interface MediaDAO {
     @Delete
     fun deleteAudioFolderWithFiles(audioFolder: AudioFolder): Int
 
-    @Query("SELECT * FROM AudioFolders WHERE folderPath LIKE :path")
+    @Query("SELECT * FROM AudioFolders WHERE audioFolderPath LIKE :path")
     fun getAudioFolderByPath(path: String): AudioFolder
 
-    @Query("SELECT * FROM AudioFiles WHERE folderId LIKE :id")
+    @Query("SELECT * FROM AudioFiles WHERE audioFolderParentId LIKE :id")
     fun getSelectedAudioFiles(id: String): List<AudioFile>
 
     @Insert(onConflict = REPLACE)
@@ -67,14 +67,14 @@ interface MediaDAO {
     @Delete
     fun deleteVideoFolderWithFiles(videoFolder: VideoFolder): Int
 
-    @Query("SELECT * FROM VideoFolders WHERE folderPath LIKE :path")
+    @Query("SELECT * FROM VideoFolders WHERE videoFolderPath LIKE :path")
     fun getVideoFolderByPath(path: String): VideoFolder
 
     @Update(onConflict = REPLACE)
     fun updateVideoFoldersIndex(videoFolders: List<VideoFolder>)
 
     @Insert(onConflict = REPLACE)
-    fun updateSelectedVideoFolder(videFolder: SelectedVideoFolder)
+    fun updateSelectedVideoFolder(videoFolder: SelectedVideoFolder)
 
     @Insert(onConflict = REPLACE)
     fun insertAudioFile(audioFile: AudioFile)
@@ -85,19 +85,19 @@ interface MediaDAO {
     @Update(onConflict = REPLACE)
     fun updateAudioFile(audioFile: AudioFile)
 
-    @Query("SELECT * FROM AudioFiles WHERE filePath LIKE :path")
+    @Query("SELECT * FROM AudioFiles WHERE audioFilePath LIKE :path")
     fun getAudioFileByPath(path: String): AudioFile
 
-    @Query("SELECT * FROM AudioFiles WHERE title LIKE '%' || :query || '%'")
+    @Query("SELECT * FROM AudioFiles WHERE audioFileTitle LIKE '%' || :query || '%'")
     fun getSearchAudioFiles(query: String): List<AudioFile>
 
-    @Query("SELECT * FROM AudioFiles WHERE genre LIKE :contentValue ORDER BY trackNumber ASC")
+    @Query("SELECT * FROM AudioFiles WHERE audioFileGenre LIKE :contentValue")
     fun getGenreTracks(contentValue: String): List<AudioFile>
 
-    @Query("SELECT * FROM AudioFiles WHERE artist LIKE :contentValue ORDER BY trackNumber ASC")
+    @Query("SELECT * FROM AudioFiles WHERE audioFileArtist LIKE :contentValue")
     fun getArtistTracks(contentValue: String): List<AudioFile>
 
-    @Query("SELECT * FROM AudioFiles WHERE folderId LIKE :id ORDER BY trackNumber ASC")
+    @Query("SELECT * FROM AudioFiles WHERE audioFolderParentId LIKE :id")
     fun getAudioTracks(id: String): List<AudioFile>
 
     @Delete
@@ -112,34 +112,34 @@ interface MediaDAO {
     @Insert(onConflict = REPLACE)
     fun updateSelectedVideoFile(selectedVideoFile: SelectedVideoFile)
 
-    @Query("SELECT * FROM VideoFiles WHERE folderId LIKE :id")
+    @Query("SELECT * FROM VideoFiles WHERE videoFolderParentId LIKE :id")
     fun getSelectedVideoFiles(id: String): List<VideoFile>
 
-    @Query("SELECT * FROM VideoFiles WHERE folderId LIKE :id")
+    @Query("SELECT * FROM VideoFiles WHERE videoFolderParentId LIKE :id")
     fun getVideoFiles(id: String): List<VideoFile>
 
-    @Query("SELECT framePath FROM VideoFiles WHERE folderId LIKE :id")
+    @Query("SELECT videoFileFramePath FROM VideoFiles WHERE videoFolderParentId LIKE :id")
     fun getVideoFilesFrame(id: String): List<String>
 
     @Delete
     fun deleteVideoFile(videoFile: VideoFile): Int
 
-    @Query("UPDATE VideoFiles SET inPlayList = 0")
+    @Query("UPDATE VideoFiles SET videoFileInPlayList = 0")
     fun clearVideoFilesPlaylist(): Int
 
-    @Query("UPDATE AudioFiles SET inPlayList = 0")
+    @Query("UPDATE AudioFiles SET audioFileInPlayList = 0")
     fun clearAudioFilesPlaylist(): Int
 
-    @Query("SELECT folderPath FROM AudioFolders WHERE folderName LIKE :name")
+    @Query("SELECT audioFolderPath FROM AudioFolders WHERE audioFolderName LIKE :name")
     fun getFolderFilePaths(name: String): List<String>
 
-    @Query("SELECT * FROM AudioFiles WHERE filePath LIKE :path")
+    @Query("SELECT * FROM AudioFiles WHERE audioFilePath LIKE :path")
     fun getAudioFile(path: String): AudioFile
 
-    @Query("SELECT * FROM AudioFolders WHERE folderPath LIKE :path")
+    @Query("SELECT * FROM AudioFolders WHERE audioFolderPath LIKE :path")
     fun getAudioFolder(path: String): AudioFolder
 
-    @Query("SELECT * FROM VideoFolders WHERE folderPath LIKE :path")
+    @Query("SELECT * FROM VideoFolders WHERE videoFolderPath LIKE :path")
     fun getVideoFolder(path: String): VideoFolder
 
     @Query("DELETE FROM VideoFolders")

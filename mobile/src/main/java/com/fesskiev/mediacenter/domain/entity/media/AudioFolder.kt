@@ -1,6 +1,7 @@
 package com.fesskiev.mediacenter.domain.entity.media
 
 import android.annotation.SuppressLint
+import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
@@ -10,7 +11,8 @@ import java.io.File
 
 @Parcelize
 @SuppressLint("ParcelCreator")
-class AudioFolder(@NotNull
+@Entity(tableName = "AudioFolders")
+data class AudioFolder(@NotNull
                   @PrimaryKey
                   var audioFolderId: String = "",
                   var audioFolderPath: File? = null,
@@ -34,7 +36,7 @@ class AudioFolder(@NotNull
     }
 
     override fun getTimestamp(): Long {
-        return audioFolderTimestamp;
+        return audioFolderTimestamp
     }
 
     override fun exists(): Boolean {

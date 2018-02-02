@@ -13,17 +13,15 @@ import java.util.*
 @Parcelize
 @SuppressLint("ParcelCreator")
 @Entity(tableName = "AudioFiles", foreignKeys = [ForeignKey(entity = AudioFolder::class,
-        parentColumns = ["id"],
-        childColumns = ["folderId"],
+        parentColumns = ["audioFolderId"],
+        childColumns = ["audioFolderParentId"],
         onDelete = CASCADE)],
-        indices = [Index("folderId")])
-class AudioFile(@NotNull
+        indices = [Index("audioFolderParentId")])
+data class AudioFile(@NotNull
                 @PrimaryKey
                 var audioFileId: String = "",
-                var audioFolderId: String = "",
+                var audioFolderParentId: String = "",
                 var audioFilePath: File = File(""),
-                @Ignore
-                var audioFileConvertedPath: File? = null,
                 var audioFileArtist: String = "",
                 var audioFileTitle: String = "",
                 var audioFileAlbum: String = "",
@@ -40,9 +38,8 @@ class AudioFile(@NotNull
                 var audioFileIsSelected: Boolean = false,
                 var audioFileIsHidden: Boolean = false) : MediaFile, Parcelable {
 
-
     constructor(folderId: String, path: File) : this() {
-        this.audioFolderId = folderId
+        this.audioFolderParentId = folderId
         this.audioFileId = UUID.randomUUID().toString()
 
         val newPath = File(path.parent, StringUtils.replaceSymbols(path.name))

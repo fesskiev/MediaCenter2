@@ -1,5 +1,8 @@
 package com.fesskiev.mediacenter.utils
 
+import android.content.Context
 
-class NotificationUtils {
+
+class NotificationUtils(private val context: Context) {
+
 }

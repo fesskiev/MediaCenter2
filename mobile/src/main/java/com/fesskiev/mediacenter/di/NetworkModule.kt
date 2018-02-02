@@ -29,7 +29,7 @@ class NetworkModule {
     fun provideRetrofit(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
                 .client(client)
-                .baseUrl("")
+                .baseUrl("http://ws.audioscrobbler.com/2.0/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()

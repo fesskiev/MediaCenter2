@@ -1,6 +1,7 @@
 package com.fesskiev.mediacenter.domain.entity.media
 
 import android.annotation.SuppressLint
+import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
@@ -9,7 +10,8 @@ import java.io.File
 
 @Parcelize
 @SuppressLint("ParcelCreator")
-class VideoFolder(@NotNull
+@Entity(tableName = "VideoFolders")
+data class VideoFolder(@NotNull
                   @PrimaryKey
                   var videoFolderId: String = "",
                   var videoFolderPath: File? = null,

@@ -6,31 +6,28 @@ import android.arch.persistence.room.ForeignKey
 import android.arch.persistence.room.ForeignKey.CASCADE
 import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
-import android.media.MediaMetadataRetriever
 import android.os.Parcelable
 import com.fesskiev.mediacenter.utils.StringUtils
-import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import org.jetbrains.annotations.NotNull
 import java.io.File
 import java.util.*
-import java.util.concurrent.ThreadLocalRandom
 
 
 @Entity(tableName = "VideoFiles",
         foreignKeys = [ForeignKey(entity = VideoFolder::class,
-                parentColumns = ["id"],
-                childColumns = ["folderId"],
+                parentColumns = ["videoFolderId"],
+                childColumns = ["videoFolderParentId"],
                 onDelete = CASCADE)],
-        indices = [Index("folderId")])
+        indices = [Index("videoFolderParentId")])
 @Parcelize
 @SuppressLint("ParcelCreator")
-class VideoFile(@NotNull
+data class VideoFile(@NotNull
                 @PrimaryKey
                 var videoFileId: String = "",
-                var videoFolderId: String = "",
+                var videoFolderParentId: String = "",
                 var videoFilePath: File = File(""),
-                var videoFramePath: String = "",
+                var videoFileFramePath: String = "",
                 var videoFileDescription: String = "",
                 var videoFileResolution: String = "",
                 var videoFileInPlayList: Boolean = false,
@@ -42,7 +39,7 @@ class VideoFile(@NotNull
 
 
     constructor(folderId: String, path: File) : this() {
-        this.videoFolderId = folderId
+        this.videoFolderParentId = folderId
         this.videoFileId = UUID.randomUUID().toString()
 
         val newPath = File(path.parent, StringUtils.replaceSymbols(path.name))
@@ -74,7 +71,7 @@ class VideoFile(@NotNull
     }
 
     override fun getArtworkPath(): String {
-        return videoFramePath
+        return videoFileFramePath
     }
 
     override fun getDuration(): Long {
