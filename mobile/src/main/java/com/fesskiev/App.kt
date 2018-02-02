@@ -1,5 +1,6 @@
 package com.fesskiev
 
+import com.fesskiev.kotlinsamples.di.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 

@@ -1,14 +1,13 @@
 package com.fesskiev.mediacenter.ui.media.video
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
+import dagger.android.support.DaggerFragment
 
-class VideoFragment : Fragment(), VideoContract.View {
+class VideoFragment : DaggerFragment(), VideoContract.View {
 
     companion object {
         fun newInstance(): VideoFragment {
@@ -22,7 +21,6 @@ class VideoFragment : Fragment(), VideoContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.e("test", "VideoFragment")
     }
 
 }

@@ -1,15 +1,14 @@
 package com.fesskiev.mediacenter.ui.media.audio
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
+import dagger.android.support.DaggerFragment
 
 
-class AudioFragment : Fragment(), AudioContact.View {
+class AudioFragment : DaggerFragment(), AudioContact.View {
 
     companion object {
         fun newInstance(): AudioFragment {
@@ -23,6 +22,5 @@ class AudioFragment : Fragment(), AudioContact.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.e("test", "AudioFragment")
     }
 }
