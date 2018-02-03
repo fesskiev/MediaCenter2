@@ -51,11 +51,18 @@ class BottomSheetBehavior(context: Context?, attrs: AttributeSet?) : Coordinator
     }
 
     override fun onInterceptTouchEvent(parent: CoordinatorLayout, child: NestedScrollView, ev: MotionEvent): Boolean {
-        return (ev.actionMasked == MotionEvent.ACTION_MOVE
-                && parent.isPointInChildBounds(child, ev.x.toInt(), ev.y.toInt())
-                && !parent.isPointInChildBounds(child.findViewById(R.id.cardview), ev.x.toInt(), ev.y.toInt())
-                && !parent.isPointInChildBounds(child.findViewById(R.id.fab), ev.x.toInt(), ev.y.toInt()
-        ))
+        if (ev.actionMasked == MotionEvent.ACTION_DOWN) {
+            if (parent.isPointInChildBounds(child.findViewById(R.id.card_recyclerview), ev.x.toInt(), ev.y.toInt()) ||
+                    parent.isPointInChildBounds(child.findViewById(R.id.cardview), ev.x.toInt(), ev.y.toInt()) ||
+                    parent.isPointInChildBounds(child.findViewById(R.id.fab), ev.x.toInt(), ev.y.toInt())) {
+                val nestedScrollView: CustomNestedScrollView2 = child as CustomNestedScrollView2
+                nestedScrollView.enableScrolling = true
+            } else {
+                val nestedScrollView: CustomNestedScrollView2 = child as CustomNestedScrollView2
+                nestedScrollView.enableScrolling = false
+            }
+        }
+        return false
     }
 
     private fun setTopMargin(v: View, topMargin: Int) {

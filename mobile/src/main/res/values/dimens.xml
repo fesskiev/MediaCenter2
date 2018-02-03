@@ -5,4 +5,8 @@
     <dimen name="nav_header_height">180dp</dimen>
 
     <dimen name="tab_margin">8dp</dimen>
+
+    <dimen name="pause_bar_width">6dp</dimen>
+    <dimen name="pause_bar_distance">5dp</dimen>
+    <dimen name="pause_bar_height">18dp</dimen>
 </resources>

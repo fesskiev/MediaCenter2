@@ -6,9 +6,14 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
+import android.view.MotionEvent
+
+
 
 
 class CustomNestedScrollView2(context: Context, attrs: AttributeSet) : NestedScrollView2(context, attrs) {
+
+    var enableScrolling = true
 
     override fun onNestedPreScroll(target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
         val rv = target as RecyclerView
@@ -40,6 +45,22 @@ class CustomNestedScrollView2(context: Context, attrs: AttributeSet) : NestedScr
     private fun isRvScrolledToTop(rv: RecyclerView): Boolean {
         val lm = rv.layoutManager as LinearLayoutManager
         return lm.findFirstVisibleItemPosition() == 0 && lm.findViewByPosition(0).top == 0
+    }
+
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        return if (enableScrolling) {
+            super.onInterceptTouchEvent(ev)
+        } else {
+            false
+        }
+    }
+
+    override fun onTouchEvent(ev: MotionEvent): Boolean {
+        return if (enableScrolling) {
+            super.onTouchEvent(ev)
+        } else {
+            false
+        }
     }
 
 }
