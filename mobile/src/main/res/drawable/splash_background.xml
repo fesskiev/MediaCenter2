@@ -7,7 +7,7 @@
         android:right="150dp">
         <bitmap
             android:gravity="center"
-            android:src="@drawable/ic_launcher" />
+            android:src="@mipmap/ic_launcher" />
     </item>
 
 </layer-list>

@@ -62,6 +62,22 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.menu_search -> searchTracks()
+        }
+        return true
+    }
+
+    private fun searchTracks() {
+
+    }
+
     private fun setupTabs() {
         for (i in 0 until tabLayout.tabCount) {
             val tab = tabLayout.getTabAt(i)
@@ -178,9 +194,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         return arrayOf(getString(R.string.tab_audio), getString(R.string.tab_video), getString(R.string.tab_files))
     }
 
-    //TODO change icons!
     private fun getImagesIds(): Array<Int> {
-        return arrayOf(R.drawable.icon_albums, R.drawable.icon_albums,
-                R.drawable.icon_albums)
+        return arrayOf(R.drawable.ic_audio, R.drawable.ic_video, R.drawable.ic_files)
     }
 }

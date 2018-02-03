@@ -52,4 +52,6 @@ ext {
     dagger = '2.13'
     playServices = '11.8.0'
     archComponents = "1.0.0"
+    commons = '2.5'
+    leakCanary = '1.5.4'
 }

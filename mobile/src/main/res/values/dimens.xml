@@ -4,7 +4,5 @@
 
     <dimen name="nav_header_height">180dp</dimen>
 
-    <dimen name="tab_icon_height">24dp</dimen>
-    <dimen name="tab_icon_width">24dp</dimen>
     <dimen name="tab_margin">8dp</dimen>
 </resources>

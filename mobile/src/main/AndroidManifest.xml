@@ -32,6 +32,10 @@
             android:name=".services.FileSystemService"
             android:exported="false" />
 
+        <service
+            android:name=".services.PlaybackService"
+            android:exported="false" />
+
     </application>
 
 </manifest>
