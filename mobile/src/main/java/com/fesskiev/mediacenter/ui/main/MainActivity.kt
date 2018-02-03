@@ -1,6 +1,8 @@
 package com.fesskiev.mediacenter.ui.main
 
 import android.annotation.SuppressLint
+import android.app.SearchManager
+import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -13,8 +15,13 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
+import android.text.InputType
 import android.view.*
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.animation.DecelerateInterpolator
+import android.view.inputmethod.EditorInfo
 
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.ui.adapters.ViewPagerAdapter
@@ -22,9 +29,10 @@ import com.fesskiev.mediacenter.ui.media.audio.AudioFragment
 import com.fesskiev.mediacenter.ui.media.files.FilesFragment
 import com.fesskiev.mediacenter.ui.media.video.VideoFragment
 import com.fesskiev.mediacenter.widgets.nestedscrolling.CustomNestedScrollView2
-import com.fesskiev.mediacenter.widgets.nestedscrolling.LoremIpsumAdapter
+import com.fesskiev.mediacenter.ui.adapters.BottomSheetAdapter
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -41,6 +49,27 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         setupMainNavView()
         setupViewPager()
         setupTabs()
+        setupSearchView()
+    }
+
+    private fun setupSearchView() {
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        searchView.queryHint = getString(R.string.search_hint)
+        searchView.inputType = InputType.TYPE_TEXT_FLAG_CAP_WORDS
+        searchView.imeOptions = searchView.imeOptions or EditorInfo.IME_ACTION_SEARCH or
+                EditorInfo.IME_FLAG_NO_EXTRACT_UI or EditorInfo.IME_FLAG_NO_FULLSCREEN
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return true
+            }
+        })
+
     }
 
     private fun setupDrawer() {
@@ -68,14 +97,28 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.menu_search -> searchTracks()
         }
         return true
     }
 
     private fun searchTracks() {
+        val fragments: List<Fragment> = adapter!!.getRegisteredFragments()
+        for (fragment in fragments) {
+            if (fragment is FilesFragment) {
+                viewPager.setCurrentItem(2, true)
+            }
+        }
+        visibleSearchView()
+    }
 
+    private fun visibleSearchView() {
+        searchView.visibility = VISIBLE
+    }
+
+    private fun invisibleSearchView() {
+        searchView.visibility = GONE
     }
 
     private fun setupTabs() {
@@ -97,7 +140,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         adapter = ViewPagerAdapter(applicationContext, supportFragmentManager)
         val fragments = getPagerFragments()
 
-        viewPager.offscreenPageLimit = 2
+        viewPager.offscreenPageLimit = 3
         for (fragment in fragments) {
             adapter!!.addFragment(fragment)
         }
@@ -113,6 +156,9 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
 
             override fun onPageSelected(position: Int) {
                 currentPosition = position
+                if (position != 2) {
+                    invisibleSearchView()
+                }
             }
 
             @SuppressLint("RestrictedApi")
@@ -147,7 +193,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         val recyclerView = findViewById<RecyclerView>(R.id.card_recyclerview)
         val linearLayoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = linearLayoutManager
-        recyclerView.adapter = LoremIpsumAdapter(this)
+        recyclerView.adapter = BottomSheetAdapter(this)
         recyclerView.addItemDecoration(DividerItemDecoration(this, linearLayoutManager.orientation))
 
         val cardHeaderShadow = findViewById<View>(R.id.card_header_shadow)
