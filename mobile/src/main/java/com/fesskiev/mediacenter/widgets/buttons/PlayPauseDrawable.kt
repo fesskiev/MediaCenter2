@@ -5,7 +5,6 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.util.Property
 import com.fesskiev.mediacenter.R
 
@@ -87,8 +86,6 @@ class PlayPauseDrawable : Drawable {
 
         // Translate the play button a tiny bit to the right so it looks more centered.
         canvas.translate(lerp(0f, pauseBarHeight / 8f, progress), 0f)
-
-        Log.w("test", " isPlay: " + isPlay)
 
         // (1) Pause --> Play: rotate 0 to 90 degrees clockwise.
         // (2) Play --> Pause: rotate 90 to 180 degrees clockwise.

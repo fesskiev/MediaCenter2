@@ -28,7 +28,7 @@ data class VideoFile(@NotNull
                 var videoFolderParentId: String = "",
                 var videoFilePath: File = File(""),
                 var videoFileFramePath: String = "",
-                var videoFileDescription: String = "",
+                var videoFileTitle: String = "",
                 var videoFileResolution: String = "",
                 var videoFileInPlayList: Boolean = false,
                 var videoFileIsHidden: Boolean = false,
@@ -49,7 +49,6 @@ data class VideoFile(@NotNull
         }
     }
 
-
     override fun getId(): String {
         return videoFileId
     }
@@ -59,7 +58,7 @@ data class VideoFile(@NotNull
     }
 
     override fun getTitle(): String {
-        return videoFileDescription
+        return videoFileTitle
     }
 
     override fun getFileName(): String {

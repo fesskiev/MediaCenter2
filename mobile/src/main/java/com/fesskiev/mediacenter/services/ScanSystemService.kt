@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.IBinder
 
 
-class FileSystemService : Service() {
+class ScanSystemService : Service() {
 
     override fun onCreate() {
         super.onCreate()

@@ -20,12 +20,6 @@ abstract class FilesFragmentModule {
                                   view: FilesContract.View): FilesPresenter {
             return FilesPresenter(compositeDisposable, dataRepository, schedulerProvider,  view)
         }
-
-        @JvmStatic
-        @Provides
-        fun provideCompositeDisposable(): CompositeDisposable {
-            return CompositeDisposable()
-        }
     }
 
     @Binds

@@ -97,6 +97,8 @@ interface LocalSource {
 
     fun getVideoFiles(id: String): Single<List<VideoFile>>
 
+    fun getSearchVideoFiles(query: String): Single<List<VideoFile>>
+
     fun getVideoFilesFrame(id: String): Single<List<String>>
 
     fun deleteVideoFile(videoFile: VideoFile): Single<Int>

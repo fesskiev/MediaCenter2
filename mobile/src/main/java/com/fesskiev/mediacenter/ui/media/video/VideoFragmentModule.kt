@@ -20,12 +20,6 @@ abstract class VideoFragmentModule {
                                   view: VideoContract.View): VideoPresenter {
             return VideoPresenter(compositeDisposable, dataRepository, schedulerProvider,  view)
         }
-
-        @JvmStatic
-        @Provides
-        fun provideCompositeDisposable(): CompositeDisposable {
-            return CompositeDisposable()
-        }
     }
 
     @Binds

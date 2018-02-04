@@ -24,6 +24,7 @@ import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.EditorInfo
 
 import com.fesskiev.mediacenter.R
+import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import com.fesskiev.mediacenter.ui.adapters.ViewPagerAdapter
 import com.fesskiev.mediacenter.ui.media.audio.AudioFragment
 import com.fesskiev.mediacenter.ui.media.files.FilesFragment
@@ -32,9 +33,14 @@ import com.fesskiev.mediacenter.widgets.nestedscrolling.CustomNestedScrollView2
 import com.fesskiev.mediacenter.ui.adapters.BottomSheetAdapter
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
 
-class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, MainContract.View {
+
+    @Inject
+    @JvmField
+    var presenter: MainPresenter? = null
 
     private var adapter: ViewPagerAdapter? = null
     private var isShowingCardHeaderShadow: Boolean = false
@@ -65,7 +71,8 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
                 return true
             }
 
-            override fun onQueryTextChange(newText: String): Boolean {
+            override fun onQueryTextChange(text: String): Boolean {
+                presenter?.queryFiles(text)
                 return true
             }
         })
@@ -101,6 +108,10 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
             R.id.menu_search -> searchTracks()
         }
         return true
+    }
+
+    override fun showQueryFiles(mediaFile: List<MediaFile>) {
+
     }
 
     private fun searchTracks() {

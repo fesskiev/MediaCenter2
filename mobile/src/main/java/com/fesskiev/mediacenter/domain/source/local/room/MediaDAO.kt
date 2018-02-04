@@ -97,6 +97,9 @@ interface MediaDAO {
     @Query("SELECT * FROM AudioFiles WHERE audioFileTitle LIKE '%' || :query || '%'")
     fun getSearchAudioFiles(query: String): List<AudioFile>
 
+    @Query("SELECT * FROM VideoFiles WHERE videoFileTitle LIKE '%' || :query || '%'")
+    fun getSearchVideoFiles(query: String): List<VideoFile>
+
     @Query("SELECT * FROM AudioFiles WHERE audioFileGenre LIKE :contentValue")
     fun getGenreTracks(contentValue: String): List<AudioFile>
 

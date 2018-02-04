@@ -151,6 +151,10 @@ class LocalDataSource(db: MediaDB) : LocalSource {
         return Single.fromCallable { mediaDao.getSearchAudioFiles(query) }
     }
 
+    override fun getSearchVideoFiles(query: String): Single<List<VideoFile>> {
+        return Single.fromCallable { mediaDao.getSearchVideoFiles(query) }
+    }
+
     override fun getGenreTracks(contentValue: String): Single<List<AudioFile>> {
         return Single.fromCallable { mediaDao.getGenreTracks(contentValue) }
     }

@@ -20,12 +20,6 @@ abstract class AudioFragmentModule {
                                   view: AudioContact.View): AudioPresenter {
             return AudioPresenter(compositeDisposable, dataRepository, schedulerProvider, view)
         }
-
-        @JvmStatic
-        @Provides
-        fun provideCompositeDisposable(): CompositeDisposable {
-            return CompositeDisposable()
-        }
     }
 
     @Binds
