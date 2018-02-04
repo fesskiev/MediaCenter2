@@ -10,7 +10,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
-abstract class MediaFragmentsBuilder {
+abstract class FragmentBuilder {
 
     @ContributesAndroidInjector(modules = [AudioFragmentModule::class])
     internal abstract fun provideAudioFragmentFactory(): AudioFragment
