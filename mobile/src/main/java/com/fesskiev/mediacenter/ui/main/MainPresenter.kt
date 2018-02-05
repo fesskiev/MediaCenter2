@@ -15,11 +15,13 @@ class MainPresenter(private var compositeDisposable: CompositeDisposable,
                     private var schedulerProvider: BaseSchedulerProvider,
                     private var view: MainContract.View) : MainContract.Presenter {
 
-    override fun queryFiles(query : String) {
-        compositeDisposable.add(getZipMediaFiles(query)
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .subscribe({ audioFolders -> handleMediaFiles(audioFolders) }, { throwable -> handleError(throwable) }))
+    override fun queryFiles(query: String) {
+        if (query.isNotEmpty()) {
+            compositeDisposable.add(getZipMediaFiles(query)
+                    .subscribeOn(schedulerProvider.io())
+                    .observeOn(schedulerProvider.ui())
+                    .subscribe({ audioFolders -> handleMediaFiles(audioFolders) }, { throwable -> handleError(throwable) }))
+        }
     }
 
     private fun getZipMediaFiles(query: String): Single<List<MediaFile>> {
@@ -43,6 +45,7 @@ class MainPresenter(private var compositeDisposable: CompositeDisposable,
     private fun handleError(throwable: Throwable) {
 
     }
+
     override fun detach() {
         if (!compositeDisposable.isDisposed) {
             compositeDisposable.dispose()

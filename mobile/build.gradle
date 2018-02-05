@@ -33,7 +33,6 @@ kapt {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compile files('libs/jaudiotagger-2.2.4.jar')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile group: "commons-io", name: "commons-io", version: "$commons"
     compile project(':ffmpegengine')
