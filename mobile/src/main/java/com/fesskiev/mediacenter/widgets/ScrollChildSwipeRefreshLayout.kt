@@ -5,8 +5,7 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.util.AttributeSet
 import android.view.View
 
-class ScrollChildSwipeRefreshLayout(context: Context, attrs: AttributeSet) :
-        SwipeRefreshLayout(context, attrs) {
+class ScrollChildSwipeRefreshLayout(context: Context, attrs: AttributeSet) : SwipeRefreshLayout(context, attrs) {
 
     private var scrollUpChild: View? = null
 

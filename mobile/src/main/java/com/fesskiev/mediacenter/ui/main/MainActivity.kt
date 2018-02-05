@@ -11,12 +11,14 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v4.view.ViewPager
 import android.support.v4.widget.NestedScrollView
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.text.InputType
+import android.util.TypedValue
 import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -36,7 +38,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 
-class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, MainContract.View {
+class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, MainContract.View,
+        SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
     @JvmField
@@ -56,6 +59,22 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         setupViewPager()
         setupTabs()
         setupSearchView()
+        setupSwipeRefresh()
+    }
+
+    private fun setupSwipeRefresh() {
+        swipeRefreshLayout.setOnRefreshListener(this)
+        swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(applicationContext, R.color.primary_light))
+        swipeRefreshLayout.setProgressViewOffset(false, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 72f,
+                resources.displayMetrics).toInt())
+
+        viewPager.setOnTouchListener { v, event ->
+            swipeRefreshLayout.setEnabled(false)
+            when (event.action) {
+                MotionEvent.ACTION_UP -> swipeRefreshLayout.setEnabled(true)
+            }
+            false
+        }
     }
 
     private fun setupSearchView() {
@@ -76,7 +95,6 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
                 return true
             }
         })
-
     }
 
     private fun setupDrawer() {
@@ -108,6 +126,10 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
             R.id.menu_search -> searchTracks()
         }
         return true
+    }
+
+    override fun onRefresh() {
+        swipeRefreshLayout.isRefreshing = false
     }
 
     override fun showQueryFiles(mediaFile: List<MediaFile>) {
