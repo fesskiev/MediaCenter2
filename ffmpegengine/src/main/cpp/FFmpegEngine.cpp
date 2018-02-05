@@ -52,6 +52,9 @@ Java_com_fesskiev_engine_FFmpegEngine_extractFileMetadata(JNIEnv *env, jobject i
         return;
     }
 
+    __android_log_print(ANDROID_LOG_VERBOSE, "MediaCenter", "name= %s", formatContext->filename);
+
+
     for (int i = 0; i < formatContext->nb_streams; i++) {
         AVCodecParameters *localCodecParameters = formatContext->streams[i]->codecpar;
 
@@ -66,20 +69,18 @@ Java_com_fesskiev_engine_FFmpegEngine_extractFileMetadata(JNIEnv *env, jobject i
                                 localCodecParameters->width, localCodecParameters->height);
         } else if (localCodecParameters->codec_type == AVMEDIA_TYPE_AUDIO) {
 
-            __android_log_print(ANDROID_LOG_VERBOSE, "MediaCenter", "channels= %d sample rate= %d",
-                                localCodecParameters->channels, localCodecParameters->sample_rate);
-
             AVDictionaryEntry *tag = NULL;
             while ((tag = av_dict_get(formatContext->metadata, "", tag, AV_DICT_IGNORE_SUFFIX))) {
                 __android_log_print(ANDROID_LOG_VERBOSE, "MediaCenter", "metadata key = %s value = %s", tag->key, tag->value);
             }
+
+            __android_log_print(ANDROID_LOG_VERBOSE, "MediaCenter", "duration = %ld", (long) formatContext->streams[i]->duration);
+
+            __android_log_print(ANDROID_LOG_VERBOSE, "MediaCenter", "channels= %d sample rate= %d",
+                                localCodecParameters->channels, localCodecParameters->sample_rate);
+            __android_log_print(ANDROID_LOG_VERBOSE, "MediaCenter", "bitrate= %ld", (long) localCodecParameters->bit_rate);
         }
-        __android_log_print(ANDROID_LOG_VERBOSE, "MediaCenter", "bitrate= %ld", localCodecParameters->bit_rate);
-
     }
-    __android_log_print(ANDROID_LOG_VERBOSE, "MediaCenter", "bitrate = %ld name= %s",
-                        formatContext->duration, formatContext->filename);
-
     avformat_close_input(&formatContext);
     avformat_free_context(formatContext);
 }
