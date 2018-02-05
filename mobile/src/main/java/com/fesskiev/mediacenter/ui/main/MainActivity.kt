@@ -143,6 +143,8 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
                 viewPager.setCurrentItem(2, true)
             }
         }
+        searchView.isFocusable = true
+        searchView.isIconified = false
         visibleSearchView()
     }
 
