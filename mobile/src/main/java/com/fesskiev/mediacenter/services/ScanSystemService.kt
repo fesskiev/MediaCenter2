@@ -30,13 +30,13 @@ class ScanSystemService : Service() {
 
         private val TAG = ScanSystemService::class.java.simpleName
 
-        private val ACTION_START_FETCH_MEDIA = "com.fesskiev.player.action.FETCH_MEDIA"
-        private val ACTION_START_FETCH_AUDIO = "com.fesskiev.player.action.START_FETCH_AUDIO"
-        private val ACTION_START_FETCH_VIDEO = "com.fesskiev.player.action.START_FETCH_VIDEO"
+        private const val ACTION_START_FETCH_MEDIA = "com.fesskiev.player.action.FETCH_MEDIA"
+        private const val ACTION_START_FETCH_AUDIO = "com.fesskiev.player.action.START_FETCH_AUDIO"
+        private const val ACTION_START_FETCH_VIDEO = "com.fesskiev.player.action.START_FETCH_VIDEO"
 
-        private val HANDLE_MEDIA = 0
-        private val HANDLE_VIDEO = 1
-        private val HANDLE_AUDIO = 2
+        private const val HANDLE_MEDIA = 0
+        private const val HANDLE_VIDEO = 1
+        private const val HANDLE_AUDIO = 2
 
         fun stopFileSystemService(context: Context) {
             val intent = Intent(context, ScanSystemService::class.java)
@@ -310,8 +310,12 @@ class ScanSystemService : Service() {
     private fun audioFilter(): FilenameFilter {
         return FilenameFilter { dir, name ->
             val lowercaseName = name.toLowerCase()
-            (lowercaseName.endsWith(".mp3") || lowercaseName.endsWith(".flac") || lowercaseName.endsWith(".wav")
-                    || lowercaseName.endsWith(".m4a") || lowercaseName.endsWith(".aac") || lowercaseName.endsWith(".aiff"))
+            (lowercaseName.endsWith(".mp3")
+                    || lowercaseName.endsWith(".flac")
+                    || lowercaseName.endsWith(".wav")
+                    || lowercaseName.endsWith(".m4a")
+                    || lowercaseName.endsWith(".aac")
+                    || lowercaseName.endsWith(".aiff"))
         }
     }
 
@@ -325,7 +329,9 @@ class ScanSystemService : Service() {
     private fun videoFilter(): FilenameFilter {
         return FilenameFilter { dir, name ->
             val lowercaseName = name.toLowerCase()
-            lowercaseName.endsWith(".mp4") || lowercaseName.endsWith(".ts") || lowercaseName.endsWith(".mkv")
+            lowercaseName.endsWith(".mp4")
+                    || lowercaseName.endsWith(".ts")
+                    || lowercaseName.endsWith(".mkv")
         }
     }
 }

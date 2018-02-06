@@ -20,9 +20,7 @@ class BitmapUtils {
                 e.printStackTrace()
             } finally {
                 try {
-                    if (out != null) {
-                        out.close()
-                    }
+                    out?.close()
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }

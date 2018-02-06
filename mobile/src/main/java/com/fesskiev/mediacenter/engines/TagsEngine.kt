@@ -14,12 +14,8 @@ import com.fesskiev.mediacenter.utils.Constants.Companion.IMAGES_AUDIO_CACHE_PAT
 import com.fesskiev.mediacenter.utils.Constants.Companion.IMAGES_VIDEO_CACHE_PATH
 import com.fesskiev.mediacenter.utils.StringUtils
 import org.jaudiotagger.audio.AudioFileIO
-import org.jaudiotagger.audio.exceptions.CannotReadException
-import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException
-import org.jaudiotagger.audio.exceptions.ReadOnlyFileException
 import org.jaudiotagger.tag.FieldKey
 import org.jaudiotagger.tag.Tag
-import org.jaudiotagger.tag.TagException
 import org.jaudiotagger.tag.TagOptionSingleton
 import org.jaudiotagger.tag.id3.ID3v24Frames
 import java.io.File
@@ -91,15 +87,7 @@ class TagsEngine(private val context: Context) {
             } else {
                 parseMP3(file, audioFile)
             }
-        } catch (e: CannotReadException) {
-            e.printStackTrace()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        } catch (e: TagException) {
-            e.printStackTrace()
-        } catch (e: ReadOnlyFileException) {
-            e.printStackTrace()
-        } catch (e: InvalidAudioFrameException) {
+        } catch (e: Exception) {
             e.printStackTrace()
         } finally {
             fillEmptyFields(audioFile)

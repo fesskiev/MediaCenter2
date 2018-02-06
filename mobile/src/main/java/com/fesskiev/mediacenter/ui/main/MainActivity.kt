@@ -40,8 +40,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 
-class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, MainContract.View,
-        SwipeRefreshLayout.OnRefreshListener {
+class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+        SwipeRefreshLayout.OnRefreshListener, MainContract.View {
 
     @Inject
     @JvmField
