@@ -4,12 +4,13 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.*
-import com.fesskiev.mediacenter.domain.entity.media.AudioFile
+import android.util.Log
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
-import com.fesskiev.mediacenter.domain.entity.media.VideoFile
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 import com.fesskiev.mediacenter.domain.source.DataRepository
-import com.fesskiev.mediacenter.utils.Constants
+import com.fesskiev.mediacenter.engines.TagsEngine
+import com.fesskiev.mediacenter.utils.CacheUtils
+import com.fesskiev.mediacenter.utils.Constants.Companion.EXTERNAL_STORAGE
 import com.fesskiev.mediacenter.utils.StorageUtils
 import com.fesskiev.mediacenter.utils.enums.ScanState
 import com.fesskiev.mediacenter.utils.enums.ScanType
@@ -26,6 +27,8 @@ import javax.inject.Inject
 class ScanSystemService : Service() {
 
     companion object {
+
+        private val TAG = ScanSystemService::class.java.simpleName
 
         private val ACTION_START_FETCH_MEDIA = "com.fesskiev.player.action.FETCH_MEDIA"
         private val ACTION_START_FETCH_AUDIO = "com.fesskiev.player.action.START_FETCH_AUDIO"
@@ -62,6 +65,10 @@ class ScanSystemService : Service() {
     @Inject
     @JvmField
     var repository: DataRepository? = null
+
+    @Inject
+    @JvmField
+    var tagsEngine: TagsEngine? = null
 
     private var scanType: ScanType? = null
     private var scanState: ScanState? = null
@@ -149,7 +156,7 @@ class ScanSystemService : Service() {
 
         try {
             for (n in listOfFiles) {
-                if (n.absolutePath == Constants.EXTERNAL_STORAGE) {
+                if (n.absolutePath == EXTERNAL_STORAGE) {
                     continue
                 }
                 if (isPlainDir(n)) {
@@ -193,10 +200,14 @@ class ScanSystemService : Service() {
             videoFolder.videoFolderName = directoryFile.name
             videoFolder.videoFolderId = UUID.randomUUID().toString()
             videoFolder.videoFolderTimestamp = System.currentTimeMillis()
+            Log.wtf(TAG, "add video folder: " + videoFolder.toString())
             repository?.localDataSource?.insertVideoFolder(videoFolder)
             for (path in videoPaths) {
-                val videoFile = VideoFile(videoFolder.videoFolderId, path)
-                repository?.localDataSource?.insertVideoFile(videoFile)
+                val videoFile = tagsEngine?.retrieveVideoFile(videoFolder, path)
+                if (videoFile != null) {
+                    Log.wtf(TAG, "add video file: " + videoFile.toString())
+                    repository?.localDataSource?.insertVideoFile(videoFile)
+                }
             }
         }
     }
@@ -217,14 +228,14 @@ class ScanSystemService : Service() {
             audioFolder.audioFolderId = UUID.randomUUID().toString()
             audioFolder.audioFolderTimestamp = System.currentTimeMillis()
 
+            Log.wtf(TAG, "add audio folder: " + audioFolder.toString())
             repository?.localDataSource?.insertAudioFolder(audioFolder)
             for (path in audioPaths) {
-                val audioFile = AudioFile(audioFolder.audioFolderId, path)
-                val folderImage = audioFolder.audioFolderImage
-                if (folderImage != null) {
-                    audioFile.folderArtworkPath = folderImage.absolutePath
+                val audioFile = tagsEngine?.retrieveAudioFile(audioFolder, path)
+                if (audioFile != null) {
+                    Log.wtf(TAG, "add audio file: " + audioFile.toString())
+                    repository?.localDataSource?.insertAudioFile(audioFile)
                 }
-                repository?.localDataSource?.insertAudioFile(audioFile)
             }
         }
     }
@@ -256,18 +267,32 @@ class ScanSystemService : Service() {
     }
 
     private fun fetchAudioContent() {
+        dropAudioContent()
         scanType = ScanType.AUDIO
         startScan(scanType)
     }
 
     private fun fetchVideoContent() {
+        dropVideoContent()
         scanType = ScanType.VIDEO
         startScan(scanType)
     }
 
     private fun fetchMediaContent() {
+        dropAudioContent()
+        dropVideoContent()
         scanType = ScanType.BOTH
         startScan(scanType)
+    }
+
+    private fun dropAudioContent() {
+        repository?.localDataSource?.resetAudioContentDatabase()
+        CacheUtils.clearAudioImagesCache()
+    }
+
+    private fun dropVideoContent() {
+        repository?.localDataSource?.resetVideoContentDatabase()
+        CacheUtils.clearVideoImagesCache()
     }
 
     private fun prepareScan() {

@@ -4,11 +4,9 @@ import android.annotation.SuppressLint
 import android.arch.persistence.room.*
 import android.arch.persistence.room.ForeignKey.CASCADE
 import android.os.Parcelable
-import com.fesskiev.mediacenter.utils.StringUtils
 import kotlinx.android.parcel.Parcelize
 import org.jetbrains.annotations.NotNull
 import java.io.File
-import java.util.*
 
 @Parcelize
 @SuppressLint("ParcelCreator")
@@ -37,17 +35,6 @@ data class AudioFile(@NotNull
                 var audioFileInPlayList: Boolean = false,
                 var audioFileIsSelected: Boolean = false,
                 var audioFileIsHidden: Boolean = false) : MediaFile, Parcelable {
-
-    constructor(folderId: String, path: File) : this() {
-        this.audioFolderParentId = folderId
-        this.audioFileId = UUID.randomUUID().toString()
-
-        val newPath = File(path.parent, StringUtils.replaceSymbols(path.name))
-        val rename = path.renameTo(newPath)
-        if (rename) {
-            audioFilePath = newPath
-        }
-    }
 
     override fun getId(): String {
         return audioFileId

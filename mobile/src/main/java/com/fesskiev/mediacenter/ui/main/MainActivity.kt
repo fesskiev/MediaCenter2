@@ -24,10 +24,10 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.EditorInfo
-import com.fesskiev.engine.FFmpegEngine
 
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
+import com.fesskiev.mediacenter.services.ScanSystemService
 import com.fesskiev.mediacenter.ui.adapters.ViewPagerAdapter
 import com.fesskiev.mediacenter.ui.media.audio.AudioFragment
 import com.fesskiev.mediacenter.ui.media.files.FilesFragment
@@ -47,10 +47,6 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     @JvmField
     var presenter: MainPresenter? = null
 
-    @Inject
-    @JvmField
-    var fFmpegEngine: FFmpegEngine? = null
-
     private var adapter: ViewPagerAdapter? = null
     private var isShowingCardHeaderShadow: Boolean = false
 
@@ -66,9 +62,6 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         setupTabs()
         setupSearchView()
         setupSwipeRefresh()
-
-        fFmpegEngine?.extractFileMetadata(Constants.EXTERNAL_STORAGE
-                + "/Music/Bersarin/11. Welche Welt.flac")
     }
 
     private fun setupSwipeRefresh() {
@@ -138,6 +131,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     override fun onRefresh() {
+        ScanSystemService.startFetchMedia(applicationContext)
         swipeRefreshLayout.isRefreshing = false
     }
 

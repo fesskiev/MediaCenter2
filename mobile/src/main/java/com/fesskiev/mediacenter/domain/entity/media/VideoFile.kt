@@ -7,11 +7,9 @@ import android.arch.persistence.room.ForeignKey.CASCADE
 import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
 import android.os.Parcelable
-import com.fesskiev.mediacenter.utils.StringUtils
 import kotlinx.android.parcel.Parcelize
 import org.jetbrains.annotations.NotNull
 import java.io.File
-import java.util.*
 
 
 @Entity(tableName = "VideoFiles",
@@ -36,18 +34,6 @@ data class VideoFile(@NotNull
                 var videoFileSize: Long = 0,
                 var videoFileTimestamp: Long = 0,
                 var videoFileDuration: Long = 0) : MediaFile, Parcelable {
-
-
-    constructor(folderId: String, path: File) : this() {
-        this.videoFolderParentId = folderId
-        this.videoFileId = UUID.randomUUID().toString()
-
-        val newPath = File(path.parent, StringUtils.replaceSymbols(path.name))
-        val rename = path.renameTo(newPath)
-        if (rename) {
-            videoFilePath = newPath
-        }
-    }
 
     override fun getId(): String {
         return videoFileId
