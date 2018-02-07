@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.fragment_audio.*
 import javax.inject.Inject
 
 class VideoFragment : DaggerFragment(), VideoContract.View {
@@ -32,6 +33,14 @@ class VideoFragment : DaggerFragment(), VideoContract.View {
     override fun onResume() {
         super.onResume()
         presenter?.fetchVideoFolders()
+    }
+
+    override fun showProgressBar() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideProgressBar() {
+        progressBar.visibility = View.GONE
     }
 
     override fun showVideoFolders(videoFolders: List<VideoFolder>) {

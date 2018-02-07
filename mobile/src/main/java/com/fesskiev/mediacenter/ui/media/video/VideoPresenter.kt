@@ -11,6 +11,7 @@ class VideoPresenter(private var compositeDisposable: CompositeDisposable,
                      private var view: VideoContract.View) : VideoContract.Presenter {
 
     override fun fetchVideoFolders() {
+        view.showProgressBar()
         compositeDisposable.add(dataRepository.localDataSource.getVideoFolders()
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
@@ -18,11 +19,12 @@ class VideoPresenter(private var compositeDisposable: CompositeDisposable,
     }
 
     private fun handleVideoFolders(videoFolders: List<VideoFolder>) {
+        view.hideProgressBar()
         view.showVideoFolders(videoFolders)
     }
 
     private fun handleError(throwable: Throwable) {
-
+        view.hideProgressBar()
     }
 
     override fun detach() {

@@ -5,7 +5,7 @@ import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 
 interface Playable {
 
-    fun openFile(mediaFile: MediaFile)
+    fun open(mediaFile: MediaFile)
 
     fun next()
 
@@ -20,4 +20,6 @@ interface Playable {
     fun position(position : Int)
 
     fun volume(volume : Float)
+
+    fun shuffle()
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.fragment_audio.*
 import javax.inject.Inject
 
 
@@ -33,6 +34,14 @@ class FilesFragment : DaggerFragment(), FilesContract.View {
     override fun onResume() {
         super.onResume()
         presenter?.fetchMediaFiles()
+    }
+
+    override fun showProgressBar() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideProgressBar() {
+        progressBar.visibility = View.GONE
     }
 
     override fun showMediaFiles(mediaFiles: List<MediaFile>) {

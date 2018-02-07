@@ -52,7 +52,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     @JvmField
     var permissionsUtils: PermissionsUtils? = null
 
-    private var adapter: ViewPagerAdapter? = null
+    private lateinit var adapter: ViewPagerAdapter
     private var isShowingCardHeaderShadow: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -166,19 +166,25 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         swipeRefreshLayout.isRefreshing = false
     }
 
+    override fun showProgressBar() {
+
+    }
+
+    override fun hideProgressBar() {
+
+    }
+
     override fun showQueryFiles(mediaFile: List<MediaFile>) {
 
     }
 
     private fun searchTracks() {
-        val fragments = adapter?.getRegisteredFragments()
-        if (fragments != null) {
+        val fragments = adapter.getRegisteredFragments()
             for (fragment in fragments) {
                 if (fragment is FilesFragment) {
                     viewPager.setCurrentItem(2, true)
                 }
             }
-        }
         searchView.isFocusable = true
         searchView.isIconified = false
         visibleSearchView()
@@ -197,10 +203,10 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
             val tab = tabLayout.getTabAt(i)
             if (tab != null) {
                 if (i == 0) {
-                    tab.customView = adapter?.getTabView(getImagesIds()[i], getTitles()[i],
+                    tab.customView = adapter.getTabView(getImagesIds()[i], getTitles()[i],
                             ContextCompat.getColor(applicationContext, R.color.yellow))
                 } else {
-                    tab.customView = adapter?.getTabView(getImagesIds()[i], getTitles()[i],
+                    tab.customView = adapter.getTabView(getImagesIds()[i], getTitles()[i],
                             ContextCompat.getColor(applicationContext, R.color.white))
                 }
             }
@@ -213,7 +219,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
 
         viewPager.offscreenPageLimit = 3
         for (fragment in fragments) {
-            adapter?.addFragment(fragment)
+            adapter.addFragment(fragment)
         }
         viewPager.adapter = adapter
         tabLayout.setupWithViewPager(viewPager)
@@ -235,8 +241,8 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
             @SuppressLint("RestrictedApi")
             override fun onPageScrollStateChanged(state: Int) {
                 if (ViewPager.SCROLL_STATE_IDLE == state) {
-                    val titleTexts = adapter!!.getTitleTextViews()
-                    val titleImages = adapter!!.getTitleImageViews()
+                    val titleTexts = adapter.getTitleTextViews()
+                    val titleImages = adapter.getTitleImageViews()
                     for (i in titleTexts.indices) {
                         val textView = titleTexts[i]
                         val imageView = titleImages[i]

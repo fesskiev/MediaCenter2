@@ -10,7 +10,7 @@ class MediaPlayer(var ffmpegEngine: FFmpegEngine,
                   var exoPlayerEngine: ExoPlayerEngine) : Playable {
 
 
-    override fun openFile(mediaFile: MediaFile) {
+    override fun open(mediaFile: MediaFile) {
 
     }
 
@@ -39,6 +39,10 @@ class MediaPlayer(var ffmpegEngine: FFmpegEngine,
     }
 
     override fun volume(volume: Float) {
+
+    }
+
+    override fun shuffle() {
 
     }
 }

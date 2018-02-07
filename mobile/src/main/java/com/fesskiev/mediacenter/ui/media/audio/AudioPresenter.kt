@@ -11,6 +11,7 @@ class AudioPresenter(private var compositeDisposable: CompositeDisposable,
                      private var view: AudioContact.View) : AudioContact.Presenter {
 
     override fun fetchAudioFolders() {
+        view.showProgressBar()
         compositeDisposable.add(dataRepository.localDataSource.getAudioFolders()
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
@@ -18,11 +19,12 @@ class AudioPresenter(private var compositeDisposable: CompositeDisposable,
     }
 
     private fun handleAudioFolders(audioFolders: List<AudioFolder>) {
+        view.hideProgressBar()
         view.showAudioFolders(audioFolders)
     }
 
     private fun handleError(throwable: Throwable) {
-
+        view.hideProgressBar()
     }
 
     override fun detach() {

@@ -16,6 +16,7 @@ class FilesPresenter(private var compositeDisposable: CompositeDisposable,
                      private var view: FilesContract.View) : FilesContract.Presenter {
 
     override fun fetchMediaFiles() {
+        view.showProgressBar()
         compositeDisposable.add(getZipMediaFiles()
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
@@ -36,11 +37,12 @@ class FilesPresenter(private var compositeDisposable: CompositeDisposable,
     }
 
     private fun handleMediaFiles(mediaFiles: List<MediaFile>) {
+        view.hideProgressBar()
         view.showMediaFiles(mediaFiles)
     }
 
     private fun handleError(throwable: Throwable) {
-
+        view.hideProgressBar()
     }
 
     override fun detach() {
