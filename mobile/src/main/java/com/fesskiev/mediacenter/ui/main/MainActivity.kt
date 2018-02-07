@@ -34,7 +34,8 @@ import com.fesskiev.mediacenter.ui.media.files.FilesFragment
 import com.fesskiev.mediacenter.ui.media.video.VideoFragment
 import com.fesskiev.mediacenter.widgets.nestedscrolling.CustomNestedScrollView2
 import com.fesskiev.mediacenter.ui.adapters.BottomSheetAdapter
-import com.fesskiev.mediacenter.utils.Constants
+import com.fesskiev.mediacenter.utils.PermissionsUtils
+import com.fesskiev.mediacenter.utils.PermissionsUtils.Companion.PERMISSION_STORAGE
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -46,6 +47,10 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     @Inject
     @JvmField
     var presenter: MainPresenter? = null
+
+    @Inject
+    @JvmField
+    var permissionsUtils: PermissionsUtils? = null
 
     private var adapter: ViewPagerAdapter? = null
     private var isShowingCardHeaderShadow: Boolean = false
@@ -130,8 +135,34 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         return true
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            PERMISSION_STORAGE -> checkGrantResults(grantResults)
+        }
+    }
+
+    private fun checkGrantResults(grantResults: IntArray) {
+        if (grantResults.isNotEmpty()) {
+            val checkPermission = permissionsUtils?.checkPermissionsResultGranted(grantResults)
+            if (checkPermission != null && checkPermission) {
+                ScanSystemService.startFetchMedia(applicationContext)
+            } else {
+                val showRationale = permissionsUtils?.shouldShowRequestStoragePermissionRationale(this)
+                if (showRationale != null && showRationale) {
+                    permissionsDenied()
+                } else {
+                    createExplanationPermissionDialog()
+                }
+            }
+        }
+    }
+
     override fun onRefresh() {
-        ScanSystemService.startFetchMedia(applicationContext)
+        val checkPermission = permissionsUtils?.checkPermissionsStorage(this)
+        if (checkPermission != null && checkPermission) {
+            ScanSystemService.startFetchMedia(applicationContext)
+        }
         swipeRefreshLayout.isRefreshing = false
     }
 
@@ -282,5 +313,13 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
 
     private fun getImagesIds(): Array<Int> {
         return arrayOf(R.drawable.ic_audio, R.drawable.ic_video, R.drawable.ic_files)
+    }
+
+    private fun createExplanationPermissionDialog() {
+
+    }
+
+    private fun permissionsDenied() {
+
     }
 }
