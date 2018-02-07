@@ -140,10 +140,12 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     private fun searchTracks() {
-        val fragments: List<Fragment> = adapter!!.getRegisteredFragments()
-        for (fragment in fragments) {
-            if (fragment is FilesFragment) {
-                viewPager.setCurrentItem(2, true)
+        val fragments = adapter?.getRegisteredFragments()
+        if (fragments != null) {
+            for (fragment in fragments) {
+                if (fragment is FilesFragment) {
+                    viewPager.setCurrentItem(2, true)
+                }
             }
         }
         searchView.isFocusable = true
@@ -180,7 +182,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
 
         viewPager.offscreenPageLimit = 3
         for (fragment in fragments) {
-            adapter!!.addFragment(fragment)
+            adapter?.addFragment(fragment)
         }
         viewPager.adapter = adapter
         tabLayout.setupWithViewPager(viewPager)

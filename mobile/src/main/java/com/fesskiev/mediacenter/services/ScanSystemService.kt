@@ -4,13 +4,13 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.*
-import android.util.Log
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 import com.fesskiev.mediacenter.domain.source.DataRepository
 import com.fesskiev.mediacenter.engines.TagsEngine
 import com.fesskiev.mediacenter.utils.CacheUtils
 import com.fesskiev.mediacenter.utils.Constants.Companion.EXTERNAL_STORAGE
+import com.fesskiev.mediacenter.utils.NotificationUtils
 import com.fesskiev.mediacenter.utils.StorageUtils
 import com.fesskiev.mediacenter.utils.enums.ScanState
 import com.fesskiev.mediacenter.utils.enums.ScanType
@@ -27,8 +27,6 @@ import javax.inject.Inject
 class ScanSystemService : Service() {
 
     companion object {
-
-        private val TAG = ScanSystemService::class.java.simpleName
 
         private const val ACTION_START_FETCH_MEDIA = "com.fesskiev.player.action.FETCH_MEDIA"
         private const val ACTION_START_FETCH_AUDIO = "com.fesskiev.player.action.START_FETCH_AUDIO"
@@ -65,10 +63,12 @@ class ScanSystemService : Service() {
     @Inject
     @JvmField
     var repository: DataRepository? = null
-
     @Inject
     @JvmField
     var tagsEngine: TagsEngine? = null
+    @Inject
+    @JvmField
+    var notificationUtils: NotificationUtils? = null
 
     private var scanType: ScanType? = null
     private var scanState: ScanState? = null
@@ -123,6 +123,7 @@ class ScanSystemService : Service() {
 
     private fun startScan(scanType: ScanType?) {
         prepareScan()
+        notificationUtils?.createScanNotification()
         val storagePaths = StorageUtils.getStorageDirectories(applicationContext)
         if (storagePaths.isNotEmpty()) {
             scanning()
@@ -131,6 +132,7 @@ class ScanSystemService : Service() {
             }
         }
         finishScan()
+        notificationUtils?.removeScanNotification()
     }
 
     private fun fileWalk(startPath: String, scanType: ScanType?) {
@@ -155,15 +157,21 @@ class ScanSystemService : Service() {
                 })
 
         try {
+            val size = listOfFiles.size
+            var count = 0f
+            var progress: Float
+
             for (n in listOfFiles) {
                 if (n.absolutePath == EXTERNAL_STORAGE) {
                     continue
                 }
+                progress = +(count / size.toFloat()) * 100
                 if (isPlainDir(n)) {
-                    checkDir(n, scanType)
+                    checkDir(n, scanType, progress)
                 } else {
                     checkFile(n, scanType)
                 }
+                count++
             }
         } catch (e: IOException) {
             e.printStackTrace()
@@ -181,45 +189,45 @@ class ScanSystemService : Service() {
         }
     }
 
-    private fun checkDir(dir: File, scanType: ScanType?) {
+    private fun checkDir(dir: File, scanType: ScanType?, progress: Float) {
         when (scanType) {
             ScanType.BOTH -> {
-                filterAudioFolders(dir)
-                filterVideoFolders(dir)
+                filterAudioFolders(dir, progress)
+                filterVideoFolders(dir, progress)
             }
-            ScanType.AUDIO -> filterAudioFolders(dir)
-            ScanType.VIDEO -> filterVideoFolders(dir)
+            ScanType.AUDIO -> filterAudioFolders(dir, progress)
+            ScanType.VIDEO -> filterVideoFolders(dir, progress)
         }
     }
 
-    private fun filterVideoFolders(directoryFile: File) {
+    private fun filterVideoFolders(directoryFile: File, progress: Float) {
         val videoPaths = directoryFile.listFiles(videoFilter())
-        if (videoPaths != null && videoPaths.isNotEmpty()) {
+        if (videoPaths.isNotEmpty()) {
             val videoFolder = VideoFolder()
             videoFolder.videoFolderPath = directoryFile
             videoFolder.videoFolderName = directoryFile.name
             videoFolder.videoFolderId = UUID.randomUUID().toString()
             videoFolder.videoFolderTimestamp = System.currentTimeMillis()
-            Log.wtf(TAG, "add video folder: " + videoFolder.toString())
+
+            notificationUtils?.updateScanNotification(videoFolder, null, progress.toInt())
             repository?.localDataSource?.insertVideoFolder(videoFolder)
             for (path in videoPaths) {
                 val videoFile = tagsEngine?.retrieveVideoFile(videoFolder, path)
                 if (videoFile != null) {
-                    Log.wtf(TAG, "add video file: " + videoFile.toString())
+                    notificationUtils?.updateScanNotification(videoFolder, videoFile, progress.toInt())
                     repository?.localDataSource?.insertVideoFile(videoFile)
                 }
             }
         }
     }
 
-    private fun filterAudioFolders(directoryFile: File) {
+    private fun filterAudioFolders(directoryFile: File, progress: Float) {
         val audioPaths = directoryFile.listFiles(audioFilter())
-        if (audioPaths != null && audioPaths.isNotEmpty()) {
-
+        if (audioPaths.isNotEmpty()) {
             val audioFolder = AudioFolder()
 
             val filterImages = directoryFile.listFiles(folderImageFilter())
-            if (filterImages != null && filterImages.isNotEmpty()) {
+            if (filterImages.isNotEmpty()) {
                 audioFolder.audioFolderImage = filterImages[0]
             }
 
@@ -228,12 +236,12 @@ class ScanSystemService : Service() {
             audioFolder.audioFolderId = UUID.randomUUID().toString()
             audioFolder.audioFolderTimestamp = System.currentTimeMillis()
 
-            Log.wtf(TAG, "add audio folder: " + audioFolder.toString())
+            notificationUtils?.updateScanNotification(audioFolder, null, progress.toInt())
             repository?.localDataSource?.insertAudioFolder(audioFolder)
             for (path in audioPaths) {
                 val audioFile = tagsEngine?.retrieveAudioFile(audioFolder, path)
                 if (audioFile != null) {
-                    Log.wtf(TAG, "add audio file: " + audioFile.toString())
+                    notificationUtils?.updateScanNotification(audioFolder, audioFile, progress.toInt())
                     repository?.localDataSource?.insertAudioFile(audioFile)
                 }
             }
