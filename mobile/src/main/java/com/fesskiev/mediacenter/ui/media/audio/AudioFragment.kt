@@ -40,7 +40,6 @@ class AudioFragment : DaggerFragment(), AudioContact.View {
 
     private fun setupRecyclerView() {
         val gridLayoutManager = GridLayoutManager(activity, 2)
-        val spacing = resources.getDimensionPixelOffset(R.dimen.default_spacing_small)
         recyclerView.layoutManager = gridLayoutManager
         adapter = AudioFoldersAdapter(this)
         adapter.setHasStableIds(true)
@@ -61,7 +60,7 @@ class AudioFragment : DaggerFragment(), AudioContact.View {
     }
 
     override fun showAudioFolders(audioFolders: List<AudioFolder>) {
-
+        adapter.refresh(audioFolders)
     }
 
     override fun onDestroy() {

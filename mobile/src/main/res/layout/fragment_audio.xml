@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <com.fesskiev.mediacenter.widgets.recycler.GridRecyclerView
@@ -10,14 +10,15 @@
         style="@style/FolderGridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/from_bottom_sheet_padding"
         tools:listitem="@layout/item_audio" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="@dimen/progress_bar_size"
         android:layout_height="@dimen/progress_bar_size"
-        android:indeterminateTintMode="src_atop"
+        android:layout_gravity="center"
         android:indeterminateTint="@color/yellow"
-        android:layout_gravity="center" />
+        android:indeterminateTintMode="src_atop" />
 
 </FrameLayout>
