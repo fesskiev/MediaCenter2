@@ -76,4 +76,20 @@
         <item name="android:fontFamily">@font/ubuntu</item>
     </style>
 
+    <style name="FoldersNameTextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/secondary_text</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/ubuntu</item>
+    </style>
+
+    <style name="DividerStyle" parent="@android:style/TextAppearance">
+        <item name="android:background">@color/divider</item>
+    </style>
+
+    <style name="FolderGridView">
+        <item name="android:drawSelectorOnTop">true</item>
+        <item name="android:listSelector">@drawable/grid_view_list_selector</item>
+    </style>
+
 </resources>

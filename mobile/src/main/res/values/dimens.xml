@@ -9,4 +9,10 @@
     <dimen name="pause_bar_width">6dp</dimen>
     <dimen name="pause_bar_distance">5dp</dimen>
     <dimen name="pause_bar_height">18dp</dimen>
+
+    <dimen name="progress_bar_size">52dp</dimen>
+
+    <dimen name="card_view_elevation">2dp</dimen>
+    <dimen name="card_view_corner_radius">2dp</dimen>
+    <dimen name="default_spacing_small">4dp</dimen>
 </resources>

@@ -13,4 +13,10 @@
     <color name="primary_light_50">#804fb3bf</color>
     <color name="white">#ffffff</color>
     <color name="yellow">#efc84a</color>
+
+    <color name="track_background">#ecf5f9</color>
+    <color name="divider">#b6b6b6</color>
+
+    <color name="grid_state_pressed">#1affffff</color>
+    <color name="grid_state_focused">#80000000</color>
 </resources>
