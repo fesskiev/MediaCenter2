@@ -201,18 +201,12 @@ class LocalDataSource(db: MediaDB) : LocalSource {
         }
     }
 
-    override fun resetVideoContentDatabase(): Single<Int> {
-        return Single.fromCallable {
-            mediaDao.dropVideoFolders()
-            mediaDao.dropVideoFiles()
-        }
+    override fun resetVideoContentDatabase() {
+        mediaDao.dropVideoFolders()
     }
 
-    override fun resetAudioContentDatabase(): Single<Int> {
-        return Single.fromCallable {
-            mediaDao.dropAudioFolders()
-            mediaDao.dropAudioFiles()
-        }
+    override fun resetAudioContentDatabase() {
+        mediaDao.dropAudioFolders()
     }
 
     override fun getFolderFilePaths(name: String): Single<List<String>> {

@@ -110,9 +110,9 @@ interface LocalSource {
     /**
      * drop database
      */
-    fun resetVideoContentDatabase(): Single<Int>
+    fun resetVideoContentDatabase()
 
-    fun resetAudioContentDatabase(): Single<Int>
+    fun resetAudioContentDatabase()
 
 
     fun containAudioTrack(path: String): Boolean

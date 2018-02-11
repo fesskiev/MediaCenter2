@@ -6,19 +6,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 
-internal class BottomSheetAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    private val mInflater: LayoutInflater = LayoutInflater.from(context)
+internal class BottomSheetAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return object : RecyclerView.ViewHolder(
-                mInflater.inflate(R.layout.view_holder_item, parent, false)) {
+                LayoutInflater.from(parent.context).inflate(R.layout.view_holder_item, parent, false)) {
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {}
 
-    override fun getItemCount(): Int {
-        return 5
-    }
+    override fun getItemCount() = 5
 }

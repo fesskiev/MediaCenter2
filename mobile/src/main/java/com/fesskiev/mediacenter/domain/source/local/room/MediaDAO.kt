@@ -143,13 +143,13 @@ interface MediaDAO {
     fun getFolderFilePaths(name: String): List<String>
 
     @Query("SELECT * FROM AudioFiles WHERE audioFilePath LIKE :path")
-    fun getAudioFile(path: String): AudioFile
+    fun getAudioFile(path: String): AudioFile?
 
     @Query("SELECT * FROM AudioFolders WHERE audioFolderPath LIKE :path")
-    fun getAudioFolder(path: String): AudioFolder
+    fun getAudioFolder(path: String): AudioFolder?
 
     @Query("SELECT * FROM VideoFolders WHERE videoFolderPath LIKE :path")
-    fun getVideoFolder(path: String): VideoFolder
+    fun getVideoFolder(path: String): VideoFolder?
 
     @Query("DELETE FROM VideoFolders")
     fun dropVideoFolders(): Int

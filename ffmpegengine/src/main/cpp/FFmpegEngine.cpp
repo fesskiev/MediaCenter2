@@ -9,12 +9,13 @@
 
 #include <jni.h>
 #include <android/log.h>
-#include "FFmpegEngine.h"
+
 
 extern "C" {
 #include <libavformat/avformat.h>
 #include <libavutil/dict.h>
 }
+
 
 static char *jStr2str(JNIEnv *env, jstring source) {
     jsize inputLength = env->GetStringUTFLength(source);
@@ -33,7 +34,8 @@ static void throwOpenFileException(JNIEnv *pEnv, char *pMessage) {
 }
 
 extern "C" JNIEXPORT void
-Java_com_fesskiev_engine_FFmpegEngine_extractFileMetadata(JNIEnv *env, jobject instance, jstring filePath) {
+Java_com_fesskiev_engine_FFmpegEngine_extractFileMetadata(JNIEnv *env, jobject instance,
+                                                          jstring filePath) {
     AVFormatContext *pFormatContext = NULL;
 
     av_register_all();
@@ -42,28 +44,33 @@ Java_com_fesskiev_engine_FFmpegEngine_extractFileMetadata(JNIEnv *env, jobject i
         throwOpenFileException(env, av_err2str(code));
         return;
     }
-    if (avformat_find_stream_info(pFormatContext,  NULL) < 0) {
+    if (avformat_find_stream_info(pFormatContext, NULL) < 0) {
         return;
     }
 
     for (int i = 0; i < pFormatContext->nb_streams; i++) {
         AVCodecParameters *pLocalCodecParameters = pFormatContext->streams[i]->codecpar;
-        __android_log_print(ANDROID_LOG_VERBOSE, "MediaCenter", "start_time %ld", pFormatContext->streams[i]->start_time);
+        __android_log_print(ANDROID_LOG_VERBOSE, "MediaCenter", "start_time %ld",
+                            (long) pFormatContext->streams[i]->duration);
 
         AVCodec *pLocalCodec = NULL;
         pLocalCodec = avcodec_find_decoder(pLocalCodecParameters->codec_id);
-        if (pLocalCodec==NULL) {
+        if (pLocalCodec == NULL) {
             return;
         }
         if (pLocalCodecParameters->codec_type == AVMEDIA_TYPE_VIDEO) {
-            __android_log_print(ANDROID_LOG_VERBOSE, "MediaCenter", "Video Codec: resolution %d x %d", pLocalCodecParameters->width,
+            __android_log_print(ANDROID_LOG_VERBOSE, "MediaCenter",
+                                "Video Codec: resolution %d x %d", pLocalCodecParameters->width,
                                 pLocalCodecParameters->height);
         } else if (pLocalCodecParameters->codec_type == AVMEDIA_TYPE_AUDIO) {
-            __android_log_print(ANDROID_LOG_VERBOSE, "MediaCenter",  "Audio Codec: %d channels, sample rate %d, bit rate %ld",
-                                pLocalCodecParameters->channels, pLocalCodecParameters->sample_rate, (long)pLocalCodecParameters->bit_rate);
+            __android_log_print(ANDROID_LOG_VERBOSE, "MediaCenter",
+                                "Audio Codec: %d channels, sample rate %d, bit rate %ld",
+                                pLocalCodecParameters->channels, pLocalCodecParameters->sample_rate,
+                                (long) pLocalCodecParameters->bit_rate);
             AVDictionaryEntry *tag = NULL;
             while ((tag = av_dict_get(pFormatContext->metadata, "", tag, AV_DICT_IGNORE_SUFFIX))) {
-                __android_log_print(ANDROID_LOG_VERBOSE, "MediaCenter", "metadata key = %s value = %s", tag->key, tag->value);
+                __android_log_print(ANDROID_LOG_VERBOSE, "MediaCenter",
+                                    "metadata key = %s value = %s", tag->key, tag->value);
             }
         }
     }

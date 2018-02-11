@@ -90,7 +90,7 @@ class ScanSystemService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val action = intent?.action
-        if (action != null) {
+        if (action != null && scanState != ScanState.SCANNING) {
             when (action) {
                 ACTION_START_FETCH_MEDIA -> handler?.sendEmptyMessage(HANDLE_MEDIA)
                 ACTION_START_FETCH_VIDEO -> handler?.sendEmptyMessage(HANDLE_VIDEO)
@@ -122,16 +122,16 @@ class ScanSystemService : Service() {
     }
 
     private fun startScan(scanType: ScanType?) {
-        prepareScan()
+        scanState = ScanState.PREPARE
         notificationUtils?.createScanNotification()
         val storagePaths = StorageUtils.getStorageDirectories(applicationContext)
         if (storagePaths.isNotEmpty()) {
-            scanning()
+            scanState = ScanState.SCANNING
             for (path in storagePaths) {
                 fileWalk(path, scanType)
             }
         }
-        finishScan()
+        scanState = ScanState.FINISHED
         notificationUtils?.removeScanNotification()
     }
 
@@ -256,24 +256,6 @@ class ScanSystemService : Service() {
 
     }
 
-    private fun isPlainDir(file: File): Boolean {
-        return file.isDirectory && !isSymbolicLink(file)
-    }
-
-    private fun isSymbolicLink(file: File?): Boolean {
-        if (file == null) {
-            throw NullPointerException("File must not be null")
-        }
-        val canon: File
-        if (file.parent == null) {
-            canon = file
-        } else {
-            val canonDir = file.parentFile.canonicalFile
-            canon = File(canonDir, file.name)
-        }
-        return canon.canonicalFile != canon.absoluteFile
-    }
-
     private fun fetchAudioContent() {
         dropAudioContent()
         scanType = ScanType.AUDIO
@@ -303,16 +285,22 @@ class ScanSystemService : Service() {
         CacheUtils.clearVideoImagesCache()
     }
 
-    private fun prepareScan() {
-        scanState = ScanState.PREPARE
+    private fun isSymbolicLink(file: File?): Boolean {
+        if (file == null) {
+            throw NullPointerException("File must not be null")
+        }
+        val canon: File
+        if (file.parent == null) {
+            canon = file
+        } else {
+            val canonDir = file.parentFile.canonicalFile
+            canon = File(canonDir, file.name)
+        }
+        return canon.canonicalFile != canon.absoluteFile
     }
 
-    private fun scanning() {
-        scanState = ScanState.SCANNING
-    }
-
-    private fun finishScan() {
-        scanState = ScanState.FINISHED
+    private fun isPlainDir(file: File): Boolean {
+        return file.isDirectory && !isSymbolicLink(file)
     }
 
     private fun audioFilter(): FilenameFilter {

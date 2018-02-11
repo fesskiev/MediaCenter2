@@ -5,12 +5,15 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.net.Uri
 import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import com.fesskiev.mediacenter.domain.entity.media.MediaFolder
+
+
 
 
 @TargetApi(Build.VERSION_CODES.O)
@@ -33,7 +36,6 @@ class NotificationUtils(private var context: Context) {
             val channelControl = NotificationChannel(CONTROL_CHANNEL,
                     context.getString(R.string.app_name), NotificationManager.IMPORTANCE_DEFAULT)
             channelControl.lockscreenVisibility = NotificationCompat.VISIBILITY_PUBLIC
-            channelControl.setSound(null, null)
             channelControl.enableVibration(false)
             channelControl.enableLights(false)
             channelControl.setShowBadge(false)
@@ -42,10 +44,11 @@ class NotificationUtils(private var context: Context) {
             val channelScan = NotificationChannel(SCAN_CHANNEL,
                     context.getString(R.string.app_name), NotificationManager.IMPORTANCE_DEFAULT)
             channelScan.lockscreenVisibility = NotificationCompat.VISIBILITY_PUBLIC
-            channelControl.setSound(null, null)
             channelScan.enableVibration(false)
             channelScan.enableLights(false)
             channelScan.setShowBadge(false)
+            channelScan.setSound(Uri.parse("android.resource://" + context.packageName + "/" + R.raw.notification),
+                    null)
             notificationManager?.createNotificationChannel(channelScan)
         }
     }
@@ -61,7 +64,10 @@ class NotificationUtils(private var context: Context) {
         notificationBuilder?.setVisibility(Notification.VISIBILITY_PUBLIC)
         notificationBuilder?.setContentTitle(context.getString(R.string.scan_notification_title))
         notificationBuilder?.setContentText(context.getString(R.string.scan_notification_message))
+        notificationBuilder?.setOnlyAlertOnce(true)
+        notificationBuilder?.setAutoCancel(false)
         notificationBuilder?.setWhen(System.currentTimeMillis())
+        notificationBuilder?.setShowWhen(true)
         notificationManager?.notify(NOTIFICATION_SCAN_ID, notificationBuilder?.build())
     }
 

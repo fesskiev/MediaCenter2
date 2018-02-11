@@ -31,21 +31,13 @@ class TagsEngine(private val context: Context) {
         videoFile.videoFilePath = renameFileCorrect(path)
         videoFile.videoFolderParentId = videoFolder.videoFolderId
         videoFile.videoFileId = UUID.randomUUID().toString()
-
         videoFile.videoFileSize = videoFile.videoFilePath.length()
         videoFile.videoFileTimestamp = System.currentTimeMillis()
+        videoFile.videoFileTitle = videoFile.videoFilePath.name
 
         try {
             val retriever = MediaMetadataRetriever()
             retriever.setDataSource(videoFile.videoFilePath.absolutePath)
-
-            val duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
-            if (duration != null) {
-                videoFile.videoFileDuration = Integer.valueOf(duration).toLong()
-            }
-
-            val frame = retriever.getFrameAtTime((ThreadLocalRandom.current().nextInt(0, (videoFile.videoFileDuration * 1000000).toInt()).toLong()))
-            saveFrame(frame, videoFile)
 
             val sb = StringBuilder()
             sb.append(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH))
@@ -53,11 +45,21 @@ class TagsEngine(private val context: Context) {
             sb.append(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT))
             videoFile.videoFileResolution = sb.toString()
 
-            videoFile.videoFileTitle = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)
+            val duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+            if (duration != null) {
+                try {
+                    videoFile.videoFileDuration = Integer.valueOf(duration).toLong()
+                } catch (e: NumberFormatException) {
+                    videoFile.videoFileDuration = 0
+                }
+            }
+            val frame = retriever.getFrameAtTime((ThreadLocalRandom.current().nextInt(0, (videoFile.videoFileDuration * 1000000).toInt()).toLong()))
+            saveFrame(frame, videoFile)
             retriever.release()
-        } catch (e: Exception) {
+        }catch (e : Exception){
             e.printStackTrace()
         }
+
         return videoFile
     }
 
@@ -190,7 +192,6 @@ class TagsEngine(private val context: Context) {
 
     private fun saveFrame(bitmap: Bitmap, videoFile: VideoFile) {
         try {
-
             val dir = File(IMAGES_VIDEO_CACHE_PATH)
             if (!dir.exists()) {
                 dir.mkdirs()
