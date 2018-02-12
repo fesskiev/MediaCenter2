@@ -1,4 +1,4 @@
-package com.fesskiev.mediacenter.ui.main
+package com.fesskiev.mediacenter.ui.media.audio.details
 
 import com.fesskiev.mediacenter.domain.source.DataRepository
 import com.fesskiev.mediacenter.utils.schedulers.BaseSchedulerProvider
@@ -8,18 +8,18 @@ import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
 
 @Module
-abstract class MainActivityModule {
+abstract class AudioFilesModule {
 
     @Module
     companion object {
 
         @JvmStatic
         @Provides
-        fun provideMainPresenter(compositeDisposable: CompositeDisposable,
+        fun provideAudioFilesPresenter(compositeDisposable: CompositeDisposable,
                                   dataRepository: DataRepository,
                                   schedulerProvider: BaseSchedulerProvider,
-                                  view: MainContract.View): MainPresenter {
-            return MainPresenter(compositeDisposable, dataRepository, schedulerProvider, view)
+                                  view: AudioFilesContract.View): AudioFilesPresenter {
+            return AudioFilesPresenter(compositeDisposable, dataRepository, schedulerProvider, view)
         }
 
         @JvmStatic
@@ -30,5 +30,5 @@ abstract class MainActivityModule {
     }
 
     @Binds
-    abstract fun provideMainView(mainActivity: MainActivity): MainContract.View
+    abstract fun provideAudioFilesView(audioFilesActivity: AudioFilesActivity): AudioFilesContract.View
 }

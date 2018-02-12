@@ -8,6 +8,8 @@ import com.fesskiev.mediacenter.engines.ExoPlayerEngine
 import com.fesskiev.mediacenter.utils.NotificationUtils
 import com.fesskiev.mediacenter.utils.PermissionsUtils
 import com.fesskiev.mediacenter.utils.player.MediaPlayer
+import com.fesskiev.mediacenter.utils.schedulers.BaseSchedulerProvider
+import com.fesskiev.mediacenter.utils.schedulers.SchedulerProvider
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -32,5 +34,11 @@ class UtilsModule {
     fun provideMediaPlayer(fFmpegEngine: FFmpegEngine, superpoweredEngine: SuperpoweredEngine,
                            exoPlayerEngine: ExoPlayerEngine) : MediaPlayer {
         return MediaPlayer(fFmpegEngine, superpoweredEngine, exoPlayerEngine)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSchedulerProvider(): BaseSchedulerProvider {
+        return SchedulerProvider()
     }
 }

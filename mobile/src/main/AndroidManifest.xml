@@ -28,6 +28,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.media.video.details.VideoFilesActivity"/>
+        <activity android:name=".ui.media.audio.details.AudioFilesActivity"/>
+
         <service
             android:name=".services.ScanSystemService"
             android:exported="false" />

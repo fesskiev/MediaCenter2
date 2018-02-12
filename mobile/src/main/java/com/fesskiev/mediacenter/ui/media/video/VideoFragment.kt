@@ -1,5 +1,6 @@
 package com.fesskiev.mediacenter.ui.media.video
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
@@ -8,6 +9,8 @@ import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 import com.fesskiev.mediacenter.ui.adapters.VideoFoldersAdapter
+import com.fesskiev.mediacenter.ui.media.video.details.VideoFilesActivity
+import com.fesskiev.mediacenter.utils.Constants.Companion.EXTRA_VIDEO_FOLDER
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_audio.*
 import javax.inject.Inject
@@ -61,8 +64,17 @@ class VideoFragment : DaggerFragment(), VideoContract.View, VideoFoldersAdapter.
         adapter.refresh(videoFolders)
     }
 
-    override fun onVideoFolderClick(videoFolder: VideoFolder) {
+    override fun showVideoFolderNotExist() {
 
+    }
+
+    override fun onVideoFolderClick(videoFolder: VideoFolder) {
+        val exist = presenter?.checkVideoFolderExist(videoFolder) ?: false
+        if (exist) {
+            val i = Intent(context, VideoFilesActivity::class.java)
+            i.putExtra(EXTRA_VIDEO_FOLDER, videoFolder)
+            startActivity(i)
+        }
     }
 
     override fun onDestroy() {

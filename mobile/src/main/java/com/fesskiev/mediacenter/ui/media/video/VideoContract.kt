@@ -10,10 +10,14 @@ interface VideoContract {
     interface View : BaseView {
 
         fun showVideoFolders(videoFolders : List<VideoFolder>)
+
+        fun showVideoFolderNotExist()
     }
 
     interface Presenter : BasePresenter {
 
         fun fetchVideoFolders()
+
+        fun checkVideoFolderExist(videoFolder: VideoFolder) :Boolean
     }
 }

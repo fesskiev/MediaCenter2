@@ -18,6 +18,14 @@ class AudioPresenter(private var compositeDisposable: CompositeDisposable,
                 .subscribe({ audioFolders -> handleAudioFolders(audioFolders) }, { throwable -> handleError(throwable) }))
     }
 
+    override fun checkAudioFolderExist(audioFolder: AudioFolder): Boolean {
+        if (audioFolder.exists()) {
+            return true
+        }
+        view.showAudioFolderNotExist()
+        return false
+    }
+
     private fun handleAudioFolders(audioFolders: List<AudioFolder>) {
         view.hideProgressBar()
         view.showAudioFolders(audioFolders)
@@ -32,4 +40,5 @@ class AudioPresenter(private var compositeDisposable: CompositeDisposable,
             compositeDisposable.dispose()
         }
     }
+
 }

@@ -18,6 +18,14 @@ class VideoPresenter(private var compositeDisposable: CompositeDisposable,
                 .subscribe({ videoFolders -> handleVideoFolders(videoFolders) }, { throwable -> handleError(throwable) }))
     }
 
+    override fun checkVideoFolderExist(videoFolder: VideoFolder): Boolean {
+        if (videoFolder.exists()) {
+            return true
+        }
+        view.showVideoFolderNotExist()
+        return false
+    }
+
     private fun handleVideoFolders(videoFolders: List<VideoFolder>) {
         view.hideProgressBar()
         view.showVideoFolders(videoFolders)

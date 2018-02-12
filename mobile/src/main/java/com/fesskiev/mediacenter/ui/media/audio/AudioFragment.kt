@@ -1,5 +1,6 @@
 package com.fesskiev.mediacenter.ui.media.audio
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
@@ -10,6 +11,8 @@ import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.ui.adapters.AudioFoldersAdapter
+import com.fesskiev.mediacenter.ui.media.audio.details.AudioFilesActivity
+import com.fesskiev.mediacenter.utils.Constants.Companion.EXTRA_AUDIO_FOLDER
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_audio.*
 import javax.inject.Inject
@@ -64,8 +67,17 @@ class AudioFragment : DaggerFragment(), AudioContact.View, AudioFoldersAdapter.O
         adapter.refresh(audioFolders)
     }
 
-    override fun onAudioFolderClick(audioFolder: AudioFolder) {
+    override fun showAudioFolderNotExist() {
 
+    }
+
+    override fun onAudioFolderClick(audioFolder: AudioFolder) {
+        val exist = presenter?.checkAudioFolderExist(audioFolder) ?: false
+        if (exist) {
+            val i = Intent(context, AudioFilesActivity::class.java)
+            i.putExtra(EXTRA_AUDIO_FOLDER, audioFolder)
+            startActivity(i)
+        }
     }
 
     override fun onDestroy() {

@@ -10,10 +10,14 @@ interface AudioContact {
     interface View : BaseView {
 
         fun showAudioFolders(audioFolders : List<AudioFolder>)
+
+        fun showAudioFolderNotExist()
     }
 
     interface Presenter : BasePresenter {
 
         fun fetchAudioFolders()
+
+        fun checkAudioFolderExist(audioFolder: AudioFolder) :Boolean
     }
 }
