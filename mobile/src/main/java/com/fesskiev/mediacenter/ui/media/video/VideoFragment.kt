@@ -1,11 +1,13 @@
 package com.fesskiev.mediacenter.ui.media.video
 
 import android.os.Bundle
+import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
+import com.fesskiev.mediacenter.ui.adapters.VideoFoldersAdapter
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_audio.*
 import javax.inject.Inject
@@ -22,12 +24,23 @@ class VideoFragment : DaggerFragment(), VideoContract.View {
     @JvmField
     var presenter: VideoPresenter? = null
 
+    private lateinit var adapter: VideoFoldersAdapter
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_video, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+    }
+
+    private fun setupRecyclerView() {
+        val gridLayoutManager = GridLayoutManager(activity, 2)
+        recyclerView.layoutManager = gridLayoutManager
+        adapter = VideoFoldersAdapter(this)
+        adapter.setHasStableIds(true)
+        recyclerView.adapter = adapter
     }
 
     override fun onResume() {
@@ -44,7 +57,7 @@ class VideoFragment : DaggerFragment(), VideoContract.View {
     }
 
     override fun showVideoFolders(videoFolders: List<VideoFolder>) {
-
+        adapter.refresh(videoFolders)
     }
 
     override fun onDestroy() {
