@@ -26,7 +26,7 @@ class AudioCardView(context: Context, attrs: AttributeSet) : CardView(context, a
     }
 
     private var listener: OnAudioCardViewListener? = null
-    private var detector: GestureDetector? = null
+    private lateinit var detector: GestureDetector
 
     private fun init(context: Context) {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -36,7 +36,7 @@ class AudioCardView(context: Context, attrs: AttributeSet) : CardView(context, a
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        detector?.onTouchEvent(ev)
+        detector.onTouchEvent(ev)
         return true
     }
 
@@ -64,10 +64,6 @@ class AudioCardView(context: Context, attrs: AttributeSet) : CardView(context, a
         this.listener = l
     }
 
-    fun setAlbumName(name: String) {
-        albumName.text = name
-    }
-
     fun selectedFolderVisibility(visible : Boolean) {
         if(visible) {
             selectFolder.visibility = View.VISIBLE
@@ -79,5 +75,4 @@ class AudioCardView(context: Context, attrs: AttributeSet) : CardView(context, a
     fun getAlbumCover(): ImageView {
         return albumCover
     }
-
 }

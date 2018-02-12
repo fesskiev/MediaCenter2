@@ -17,7 +17,7 @@
         style="@style/DividerStyle"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_above="@+id/audioItemFooter" />
+        android:layout_above="@+id/videoItemFooter" />
 
     <LinearLayout
         android:id="@+id/videoItemFooter"
