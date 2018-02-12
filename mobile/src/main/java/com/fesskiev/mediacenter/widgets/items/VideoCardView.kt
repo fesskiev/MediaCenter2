@@ -16,9 +16,9 @@ class VideoCardView(context: Context, attrs: AttributeSet) : CardView(context, a
 
     interface OnVideoCardViewListener {
 
-        fun onPopupMenuButton(view: View)
+        fun onPopupMenuClick(view: View)
 
-        fun onOpenVideoFiles()
+        fun onVideoFolderClick()
     }
 
     init {
@@ -44,9 +44,9 @@ class VideoCardView(context: Context, attrs: AttributeSet) : CardView(context, a
 
         override fun onSingleTapUp(e: MotionEvent): Boolean {
             if (isPointInsideView(e.rawX, e.rawY, popupMenu)) {
-                listener?.onPopupMenuButton(popupMenu)
+                listener?.onPopupMenuClick(popupMenu)
             } else {
-                listener?.onOpenVideoFiles()
+                listener?.onVideoFolderClick()
             }
             return true
         }
@@ -61,6 +61,9 @@ class VideoCardView(context: Context, attrs: AttributeSet) : CardView(context, a
         return x > viewX && x < viewX + view.width && y > viewY && y < viewY + view.height
     }
 
+    fun setOnVideoCardViewListener(l: OnVideoCardViewListener) {
+        this.listener = l
+    }
 
     fun selectedFolderVisibility(visible: Boolean) {
         if (visible) {

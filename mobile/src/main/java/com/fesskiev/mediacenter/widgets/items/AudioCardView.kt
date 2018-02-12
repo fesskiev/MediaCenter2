@@ -16,9 +16,9 @@ class AudioCardView(context: Context, attrs: AttributeSet) : CardView(context, a
 
     interface OnAudioCardViewListener {
 
-        fun onPopupMenuButton(view: View)
+        fun onPopupMenuClick(view: View)
 
-        fun onOpenTrackList()
+        fun onAudioFolderClick()
     }
 
     init {
@@ -44,9 +44,9 @@ class AudioCardView(context: Context, attrs: AttributeSet) : CardView(context, a
 
         override fun onSingleTapUp(e: MotionEvent): Boolean {
             if (isPointInsideView(e.rawX, e.rawY, popupMenu)) {
-                listener?.onPopupMenuButton(popupMenu)
+                listener?.onPopupMenuClick(popupMenu)
             } else {
-                listener?.onOpenTrackList()
+                listener?.onAudioFolderClick()
             }
             return true
         }

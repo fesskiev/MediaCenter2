@@ -12,7 +12,7 @@ import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_audio.*
 import javax.inject.Inject
 
-class VideoFragment : DaggerFragment(), VideoContract.View {
+class VideoFragment : DaggerFragment(), VideoContract.View, VideoFoldersAdapter.OnVideoFolderAdapterListener {
 
     companion object {
         fun newInstance(): VideoFragment {
@@ -40,6 +40,7 @@ class VideoFragment : DaggerFragment(), VideoContract.View {
         recyclerView.layoutManager = gridLayoutManager
         adapter = VideoFoldersAdapter(this)
         adapter.setHasStableIds(true)
+        adapter.setOnVideoFolderAdapterListener(this)
         recyclerView.adapter = adapter
     }
 
@@ -58,6 +59,10 @@ class VideoFragment : DaggerFragment(), VideoContract.View {
 
     override fun showVideoFolders(videoFolders: List<VideoFolder>) {
         adapter.refresh(videoFolders)
+    }
+
+    override fun onVideoFolderClick(videoFolder: VideoFolder) {
+
     }
 
     override fun onDestroy() {

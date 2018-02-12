@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_audio.*
 import javax.inject.Inject
 
 
-class AudioFragment : DaggerFragment(), AudioContact.View {
+class AudioFragment : DaggerFragment(), AudioContact.View, AudioFoldersAdapter.OnAudioFolderAdapterListener {
 
     companion object {
         fun newInstance(): AudioFragment {
@@ -43,6 +43,7 @@ class AudioFragment : DaggerFragment(), AudioContact.View {
         recyclerView.layoutManager = gridLayoutManager
         adapter = AudioFoldersAdapter(this)
         adapter.setHasStableIds(true)
+        adapter.setOnAudioFolderAdapterListener(this)
         recyclerView.adapter = adapter
     }
 
@@ -61,6 +62,10 @@ class AudioFragment : DaggerFragment(), AudioContact.View {
 
     override fun showAudioFolders(audioFolders: List<AudioFolder>) {
         adapter.refresh(audioFolders)
+    }
+
+    override fun onAudioFolderClick(audioFolder: AudioFolder) {
+
     }
 
     override fun onDestroy() {
