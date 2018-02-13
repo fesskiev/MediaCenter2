@@ -9,7 +9,7 @@ interface MainContract {
 
     interface View : BaseView {
 
-        fun showQueryFiles(mediaFile: List<MediaFile>)
+        fun showQueryFiles(mediaFiles: List<MediaFile>)
     }
 
     interface Presenter : BasePresenter {

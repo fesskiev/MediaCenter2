@@ -48,7 +48,7 @@ class TagsEngine(private val context: Context) {
             val duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
             if (duration != null) {
                 try {
-                    videoFile.videoFileDuration = Integer.valueOf(duration).toLong()
+                    videoFile.videoFileDuration = Integer.valueOf(duration).toLong() / 1000
                 } catch (e: NumberFormatException) {
                     videoFile.videoFileDuration = 0
                 }

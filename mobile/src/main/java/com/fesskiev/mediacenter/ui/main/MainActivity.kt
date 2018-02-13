@@ -174,7 +174,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
 
     }
 
-    override fun showQueryFiles(mediaFile: List<MediaFile>) {
+    override fun showQueryFiles(mediaFiles: List<MediaFile>) {
 
     }
 
