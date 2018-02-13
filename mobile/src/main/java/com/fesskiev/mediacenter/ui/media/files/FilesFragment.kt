@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
+import com.fesskiev.mediacenter.domain.entity.media.MediaType
 import com.fesskiev.mediacenter.ui.adapters.MediaFilesAdapter
 import com.fesskiev.mediacenter.widgets.recycler.HidingScrollListener
 import dagger.android.support.DaggerFragment
@@ -52,6 +53,9 @@ class FilesFragment : DaggerFragment(), FilesContract.View, MediaFilesAdapter.On
             }
             override fun onItemPosition(position: Int) {
                 adapter.hideOpenCards()
+            }
+            override fun onLoading(lastItem: Int) {
+
             }
         })
         adapter.setOnMediaFilesAdapterListener(this)

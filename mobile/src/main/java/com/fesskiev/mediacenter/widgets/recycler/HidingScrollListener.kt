@@ -3,7 +3,6 @@ package com.fesskiev.mediacenter.widgets.recycler
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 
-
 abstract class HidingScrollListener : RecyclerView.OnScrollListener() {
 
     companion object {
@@ -19,17 +18,24 @@ abstract class HidingScrollListener : RecyclerView.OnScrollListener() {
 
     abstract fun onItemPosition(position: Int)
 
+    abstract fun onLoading(lastItem: Int)
+
     override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
         super.onScrollStateChanged(recyclerView, newState)
         if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
-            val completelyPosition = (recyclerView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+            val linearLayoutManager: LinearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val completelyPosition = linearLayoutManager.findFirstCompletelyVisibleItemPosition()
             onItemPosition(completelyPosition)
         }
     }
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
-        val firstVisibleItem = (recyclerView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+        val linearLayoutManager: LinearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
+        val firstVisibleItem = linearLayoutManager.findFirstCompletelyVisibleItemPosition()
+        if(!recyclerView.canScrollVertically(1)){
+            onLoading(linearLayoutManager.findLastCompletelyVisibleItemPosition())
+        }
         if (firstVisibleItem == 0) {
             if (!controlsVisible) {
                 onShow()
