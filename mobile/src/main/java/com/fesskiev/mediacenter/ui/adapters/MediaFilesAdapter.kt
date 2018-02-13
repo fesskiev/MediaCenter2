@@ -15,31 +15,47 @@ import kotlinx.android.synthetic.main.layout_file_card_view.view.*
 
 class MediaFilesAdapter(filesFragment: FilesFragment) : RecyclerView.Adapter<MediaFilesAdapter.ViewHolder>() {
 
+    interface OnMediaFilesAdapterListener {
+
+        fun onDeleteFile(mediaFile: MediaFile)
+
+        fun onEditFile(mediaFile: MediaFile)
+
+        fun onPlaListFile(mediaFile: MediaFile)
+
+        fun onClickFile(mediaFile: MediaFile)
+    }
+
+    private var listener: OnMediaFilesAdapterListener? = null
     private var mediaFiles: MutableList<MediaFile> = ArrayList()
+    private var cards: MutableList<FileCardView> = ArrayList()
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindMediaFile(mediaFile: MediaFile) {
             with(mediaFile) {
                 itemView.cardFile.setOnFileCardListener(object : FileCardView.OnFileCardListener {
-
                     override fun onDeleteClick() {
-
+                        listener?.onDeleteFile(mediaFiles[adapterPosition])
                     }
 
                     override fun onEditClick() {
-
+                        listener?.onEditFile(mediaFiles[adapterPosition])
                     }
 
                     override fun onPlayListClick() {
-
+                        listener?.onPlaListFile(mediaFiles[adapterPosition])
                     }
 
                     override fun onClick() {
-
+                        listener?.onClickFile(mediaFiles[adapterPosition])
                     }
 
                     override fun onAnimateChanged(view: FileCardView, open: Boolean) {
-
+                        if (open) {
+                            cards.add(view)
+                        } else {
+                            cards.remove(view)
+                        }
                     }
                 })
                 itemView.cardFile.itemTitle.text = mediaFile.getTitle()
@@ -66,5 +82,16 @@ class MediaFilesAdapter(filesFragment: FilesFragment) : RecyclerView.Adapter<Med
         this.mediaFiles.clear()
         this.mediaFiles.addAll(mediaFiles)
         notifyDataSetChanged()
+    }
+
+    fun hideOpenCards() {
+        if (cards.isNotEmpty()) {
+            cards.filter { it.isOpen() }.forEach { it.close() }
+            cards.clear()
+        }
+    }
+
+    fun setOnMediaFilesAdapterListener(l: OnMediaFilesAdapterListener) {
+        this.listener = l
     }
 }

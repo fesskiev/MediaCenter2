@@ -9,12 +9,13 @@ import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import com.fesskiev.mediacenter.ui.adapters.MediaFilesAdapter
+import com.fesskiev.mediacenter.widgets.recycler.HidingScrollListener
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_audio.*
 import javax.inject.Inject
 
 
-class FilesFragment : DaggerFragment(), FilesContract.View {
+class FilesFragment : DaggerFragment(), FilesContract.View, MediaFilesAdapter.OnMediaFilesAdapterListener {
 
     companion object {
         fun newInstance(): FilesFragment {
@@ -42,6 +43,34 @@ class FilesFragment : DaggerFragment(), FilesContract.View {
         adapter = MediaFilesAdapter(this)
         adapter.setHasStableIds(true)
         recyclerView.adapter = adapter
+        recyclerView.addOnScrollListener(object : HidingScrollListener() {
+            override fun onHide() {
+
+            }
+            override fun onShow() {
+
+            }
+            override fun onItemPosition(position: Int) {
+                adapter.hideOpenCards()
+            }
+        })
+        adapter.setOnMediaFilesAdapterListener(this)
+    }
+
+    override fun onDeleteFile(mediaFile: MediaFile) {
+
+    }
+
+    override fun onEditFile(mediaFile: MediaFile) {
+
+    }
+
+    override fun onPlaListFile(mediaFile: MediaFile) {
+
+    }
+
+    override fun onClickFile(mediaFile: MediaFile) {
+
     }
 
     override fun onResume() {

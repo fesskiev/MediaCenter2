@@ -28,8 +28,7 @@ class FileCardView(context: Context, attrs: AttributeSet) : FrameLayout(context,
     }
 
     companion object {
-
-        private const val MIN_DISTANCE = 100
+        private const val MIN_DISTANCE = 50
         private const val DURATION = 200.toLong()
     }
 
@@ -37,8 +36,8 @@ class FileCardView(context: Context, attrs: AttributeSet) : FrameLayout(context,
         init(context)
     }
 
-    private var listener: OnFileCardListener? = null
     private lateinit var detector: GestureDetector
+    private var listener: OnFileCardListener? = null
     private var isOpen: Boolean = false
     private var x1: Float = 0.toFloat()
     private var x2: Float = 0.toFloat()
@@ -58,7 +57,7 @@ class FileCardView(context: Context, attrs: AttributeSet) : FrameLayout(context,
                 val deltaX = x2 - x1
                 if (Math.abs(deltaX) > MIN_DISTANCE) {
                     if (x2 > x1) {
-                        animateSlidingContainer(false)
+  //                    animateSlidingContainer(false)
                     } else {
                         animateSlidingContainer(true)
                     }
@@ -76,6 +75,10 @@ class FileCardView(context: Context, attrs: AttributeSet) : FrameLayout(context,
 
         override fun onSingleTapUp(e: MotionEvent): Boolean {
             if (isOpen) {
+                if(isPointInsideView(e.rawX, e.rawY, slidingContainer)){
+                    animateSlidingContainer(false)
+                    return true
+                }
                 if (isPointInsideView(e.rawX, e.rawY, addPlaylistButton)) {
                     listener?.onPlayListClick()
                     return true
@@ -134,5 +137,13 @@ class FileCardView(context: Context, attrs: AttributeSet) : FrameLayout(context,
 
     fun setOnFileCardListener(l: OnFileCardListener) {
         this.listener = l
+    }
+
+    fun isOpen() : Boolean {
+        return isOpen
+    }
+
+    fun close() {
+        animateSlidingContainer(false)
     }
 }
