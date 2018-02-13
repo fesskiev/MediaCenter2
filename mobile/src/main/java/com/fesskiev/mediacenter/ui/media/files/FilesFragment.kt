@@ -54,7 +54,8 @@ class FilesFragment : DaggerFragment(), FilesContract.View, MediaFilesAdapter.On
             override fun onItemPosition(position: Int) {
                 adapter.hideOpenCards()
             }
-            override fun onLoading(lastItem: Int) {
+
+            override fun onPaging(lastPosition: Int) {
 
             }
         })

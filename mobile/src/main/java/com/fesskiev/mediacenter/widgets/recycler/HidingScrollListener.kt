@@ -18,7 +18,7 @@ abstract class HidingScrollListener : RecyclerView.OnScrollListener() {
 
     abstract fun onItemPosition(position: Int)
 
-    abstract fun onLoading(lastItem: Int)
+    abstract fun onPaging(lastPosition: Int)
 
     override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
         super.onScrollStateChanged(recyclerView, newState)
@@ -34,7 +34,7 @@ abstract class HidingScrollListener : RecyclerView.OnScrollListener() {
         val linearLayoutManager: LinearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
         val firstVisibleItem = linearLayoutManager.findFirstCompletelyVisibleItemPosition()
         if(!recyclerView.canScrollVertically(1)){
-            onLoading(linearLayoutManager.findLastCompletelyVisibleItemPosition())
+            onPaging(linearLayoutManager.findLastCompletelyVisibleItemPosition())
         }
         if (firstVisibleItem == 0) {
             if (!controlsVisible) {
