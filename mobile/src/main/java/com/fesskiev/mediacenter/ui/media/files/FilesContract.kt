@@ -10,6 +10,10 @@ interface FilesContract {
     interface View : BaseView {
 
         fun showMediaFiles(mediaFiles: List<MediaFile>)
+
+        fun showQueryFiles(mediaFiles: List<MediaFile>)
+
+        fun fetchMediaFiles()
     }
 
     interface Presenter : BasePresenter {

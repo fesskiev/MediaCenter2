@@ -21,7 +21,7 @@ class MediaFilesAdapter(filesFragment: FilesFragment) : RecyclerView.Adapter<Med
 
         fun onEditFile(mediaFile: MediaFile)
 
-        fun onPlaListFile(mediaFile: MediaFile)
+        fun onPlayListFile(mediaFile: MediaFile)
 
         fun onClickFile(mediaFile: MediaFile)
     }
@@ -43,7 +43,7 @@ class MediaFilesAdapter(filesFragment: FilesFragment) : RecyclerView.Adapter<Med
                     }
 
                     override fun onPlayListClick() {
-                        listener?.onPlaListFile(mediaFiles[adapterPosition])
+                        listener?.onPlayListFile(mediaFiles[adapterPosition])
                     }
 
                     override fun onClick() {

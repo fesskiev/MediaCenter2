@@ -2,7 +2,6 @@ package com.fesskiev.mediacenter.widgets.nestedscrolling
 
 import android.content.Context
 import android.support.design.widget.CoordinatorLayout
-import android.support.v4.view.ViewCompat
 import android.support.v4.widget.NestedScrollView
 import android.util.AttributeSet
 import android.view.MotionEvent
@@ -33,20 +32,7 @@ class BottomSheetBehavior(context: Context?, attrs: AttributeSet?) : Coordinator
         // initially appears at the bottom of the screen. The total padding will
         // be the distance from the top of the screen to the FAB's top edge.
         val cardContainer = child.findViewById<View>(R.id.card_container)
-        val toolbarContainerHeight = 128
-        setPaddingTop(cardContainer, rvMaxHeight - toolbarContainerHeight)
-
-        // Offset the child's height so that its bounds don't overlap the
-        // toolbar container.
-        ViewCompat.offsetTopAndBottom(child, toolbarContainerHeight)
-
-        // Add the same amount of bottom padding to the RecyclerView so it doesn't
-        // display its content underneath the navigation bar.
-        setPaddingBottom(rv, toolbarContainerHeight)
-
-        // Return true so that the parent doesn't waste time laying out the
-        // child again (any modifications made above will have triggered a second
-        // layout pass anyway).
+        setPaddingTop(cardContainer, rvMaxHeight)
         return true
     }
 
@@ -84,4 +70,5 @@ class BottomSheetBehavior(context: Context?, attrs: AttributeSet?) : Coordinator
             v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, bottom)
         }
     }
+
 }

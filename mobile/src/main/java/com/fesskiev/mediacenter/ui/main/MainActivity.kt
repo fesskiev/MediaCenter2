@@ -175,16 +175,17 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     override fun showQueryFiles(mediaFiles: List<MediaFile>) {
+        val fragments = adapter.getRegisteredFragments()
+        fragments.filterIsInstance<FilesFragment>().single().showQueryFiles(mediaFiles)
+    }
 
+    override fun queryIsEmpty() {
+        val fragments = adapter.getRegisteredFragments()
+        fragments.filterIsInstance<FilesFragment>().single().fetchMediaFiles()
     }
 
     private fun searchTracks() {
-        val fragments = adapter.getRegisteredFragments()
-            for (fragment in fragments) {
-                if (fragment is FilesFragment) {
-                    viewPager.setCurrentItem(2, true)
-                }
-            }
+        viewPager.setCurrentItem(2, true)
         searchView.isFocusable = true
         searchView.isIconified = false
         visibleSearchView()

@@ -10,6 +10,8 @@ interface MainContract {
     interface View : BaseView {
 
         fun showQueryFiles(mediaFiles: List<MediaFile>)
+
+        fun queryIsEmpty()
     }
 
     interface Presenter : BasePresenter {

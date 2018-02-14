@@ -18,9 +18,12 @@ class MainPresenter(private var compositeDisposable: CompositeDisposable,
     override fun queryFiles(query: String) {
         if (query.isNotEmpty()) {
             compositeDisposable.add(getZipMediaFiles(query)
+                    .toObservable()
                     .subscribeOn(schedulerProvider.io())
                     .observeOn(schedulerProvider.ui())
                     .subscribe({ audioFolders -> handleMediaFiles(audioFolders) }, { throwable -> handleError(throwable) }))
+        } else {
+            view.queryIsEmpty()
         }
     }
 
