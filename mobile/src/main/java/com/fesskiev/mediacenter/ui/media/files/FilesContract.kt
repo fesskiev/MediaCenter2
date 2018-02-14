@@ -9,11 +9,11 @@ interface FilesContract {
 
     interface View : BaseView {
 
-        fun showMediaFiles(mediaFiles : List<MediaFile>)
+        fun showMediaFiles(mediaFiles: List<MediaFile>)
     }
 
     interface Presenter : BasePresenter {
 
-        fun fetchMediaFiles()
+        fun fetchMediaFiles(limit: Int, offset: Int)
     }
 }

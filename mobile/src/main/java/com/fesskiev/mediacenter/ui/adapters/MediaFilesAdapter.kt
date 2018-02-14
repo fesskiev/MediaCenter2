@@ -78,6 +78,11 @@ class MediaFilesAdapter(filesFragment: FilesFragment) : RecyclerView.Adapter<Med
         holder.bindMediaFile(mediaFiles[position])
     }
 
+    fun add(mediaFiles: List<MediaFile>) {
+        this.mediaFiles.addAll(mediaFiles)
+        notifyDataSetChanged()
+    }
+
     fun refresh(mediaFiles: List<MediaFile>) {
         this.mediaFiles.clear()
         this.mediaFiles.addAll(mediaFiles)

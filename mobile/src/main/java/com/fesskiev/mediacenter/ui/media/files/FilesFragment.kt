@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
-import com.fesskiev.mediacenter.domain.entity.media.MediaType
 import com.fesskiev.mediacenter.ui.adapters.MediaFilesAdapter
 import com.fesskiev.mediacenter.widgets.recycler.HidingScrollListener
 import dagger.android.support.DaggerFragment
@@ -28,6 +27,8 @@ class FilesFragment : DaggerFragment(), FilesContract.View, MediaFilesAdapter.On
     @JvmField
     var presenter: FilesPresenter? = null
     private lateinit var adapter: MediaFilesAdapter
+    private val limit = 10
+    private var offset = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_files, container, false)
@@ -48,15 +49,18 @@ class FilesFragment : DaggerFragment(), FilesContract.View, MediaFilesAdapter.On
             override fun onHide() {
 
             }
+
             override fun onShow() {
 
             }
+
             override fun onItemPosition(position: Int) {
                 adapter.hideOpenCards()
             }
 
             override fun onPaging(lastPosition: Int) {
-
+                offset = lastPosition
+                presenter?.fetchMediaFiles(limit, offset)
             }
         })
         adapter.setOnMediaFilesAdapterListener(this)
@@ -80,7 +84,7 @@ class FilesFragment : DaggerFragment(), FilesContract.View, MediaFilesAdapter.On
 
     override fun onResume() {
         super.onResume()
-        presenter?.fetchMediaFiles()
+        presenter?.fetchMediaFiles(limit, offset)
     }
 
     override fun showProgressBar() {
@@ -92,7 +96,7 @@ class FilesFragment : DaggerFragment(), FilesContract.View, MediaFilesAdapter.On
     }
 
     override fun showMediaFiles(mediaFiles: List<MediaFile>) {
-        adapter.refresh(mediaFiles)
+        adapter.add(mediaFiles)
     }
 
     override fun onDestroy() {
