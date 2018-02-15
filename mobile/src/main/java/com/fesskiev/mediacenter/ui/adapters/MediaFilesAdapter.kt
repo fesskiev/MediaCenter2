@@ -58,9 +58,9 @@ class MediaFilesAdapter(filesFragment: FilesFragment) : RecyclerView.Adapter<Med
                         }
                     }
                 })
-                itemView.cardFile.itemTitle.text = mediaFile.getTitle()
-                itemView.cardFile.filePath.text = mediaFile.getFilePath()
-                itemView.cardFile.itemDuration.text = StringUtils.getDurationString(mediaFile.getDuration())
+                itemView.cardFile.itemTitle.text = getTitle()
+                itemView.cardFile.filePath.text = getFilePath()
+                itemView.cardFile.itemDuration.text = StringUtils.getDurationString(getDuration())
             }
         }
     }

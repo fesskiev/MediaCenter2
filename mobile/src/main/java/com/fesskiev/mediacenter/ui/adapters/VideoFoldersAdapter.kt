@@ -36,8 +36,8 @@ class VideoFoldersAdapter(videoFragment: VideoFragment) : RecyclerView.Adapter<V
                         listener?.onVideoFolderClick(videoFolders[adapterPosition])
                     }
                 })
-                itemView.videoFolderCardView.selectedFolderVisibility(videoFolder.videoFolderSelected)
-                itemView.videoFolderName.text = videoFolder.videoFolderName
+                itemView.videoFolderCardView.selectedFolderVisibility(videoFolderSelected)
+                itemView.videoFolderName.text = videoFolderName
             }
         }
     }

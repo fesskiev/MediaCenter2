@@ -36,8 +36,8 @@ class AudioFoldersAdapter(audioFragment: AudioFragment) : RecyclerView.Adapter<A
                         listener?.onAudioFolderClick(audioFolders[adapterPosition])
                     }
                 })
-                itemView.audioFolderCardView.selectedFolderVisibility(audioFolder.audioFolderSelected)
-                itemView.albumName.text = audioFolder.audioFolderName
+                itemView.audioFolderCardView.selectedFolderVisibility(audioFolderSelected)
+                itemView.albumName.text = audioFolderName
             }
         }
     }
