@@ -3,24 +3,25 @@ package com.fesskiev.mediacenter.domain.source.local.room
 import android.arch.persistence.room.*
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import com.fesskiev.mediacenter.domain.entity.media.*
+import io.reactivex.Flowable
 
 @Dao
 interface MediaDAO {
 
     @Query("SELECT * FROM VideoFiles LIMIT :limit OFFSET :offset")
-    fun getVideoFiles(limit: Int, offset: Int): List<VideoFile>
+    fun getVideoFiles(limit: Int, offset: Int): Flowable<List<VideoFile>>
 
     @Query("SELECT * FROM AudioFiles LIMIT :limit OFFSET :offset")
-    fun getAudioFiles(limit: Int, offset: Int): List<AudioFile>
+    fun getAudioFiles(limit: Int, offset: Int): Flowable<List<AudioFile>>
 
     @Query("SELECT * FROM AudioFolders")
-    fun getAudioFolders(): List<AudioFolder>
+    fun getAudioFolders(): Flowable<List<AudioFolder>>
 
     @Query("SELECT AudioFolders.*, SelectedAudioFolder.isSelected FROM AudioFolders INNER JOIN SelectedAudioFolder ON AudioFolders.audioFolderId = SelectedAudioFolder.audioFolderId")
     fun getSelectedAudioFolder(): AudioFolder
 
     @Query("SELECT * FROM VideoFolders")
-    fun getVideoFolders(): List<VideoFolder>
+    fun getVideoFolders(): Flowable<List<VideoFolder>>
 
     @Query("SELECT VideoFolders.*, SelectedVideoFolder.isSelected FROM VideoFolders INNER JOIN SelectedVideoFolder ON VideoFolders.videoFolderId = SelectedVideoFolder.videoFolderId")
     fun getSelectedVideoFolder(): VideoFolder

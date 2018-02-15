@@ -5,7 +5,7 @@ import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import com.fesskiev.mediacenter.domain.entity.media.VideoFile
 import com.fesskiev.mediacenter.domain.source.DataRepository
 import com.fesskiev.mediacenter.utils.schedulers.BaseSchedulerProvider
-import io.reactivex.Single
+import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
 
@@ -23,9 +23,9 @@ class FilesPresenter(private var compositeDisposable: CompositeDisposable,
                 .subscribe({ mediaFiles -> handleMediaFiles(mediaFiles) }, { throwable -> handleError(throwable) }))
     }
 
-    private fun getZipMediaFiles(limit: Int, offset: Int): Single<List<MediaFile>> {
+    private fun getZipMediaFiles(limit: Int, offset: Int): Flowable<List<MediaFile>> {
         val localDataSource = dataRepository.localDataSource
-        return Single.zip(localDataSource.getAudioFiles(limit, offset), localDataSource.getVideoFiles(limit, offset),
+        return Flowable.zip(localDataSource.getAudioFiles(limit, offset), localDataSource.getVideoFiles(limit, offset),
                 BiFunction { audioFiles, videoFiles -> zipMediaFiles(audioFiles, videoFiles) })
     }
 

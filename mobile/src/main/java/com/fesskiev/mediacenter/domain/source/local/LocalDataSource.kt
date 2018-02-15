@@ -3,6 +3,7 @@ package com.fesskiev.mediacenter.domain.source.local
 import com.fesskiev.mediacenter.domain.entity.media.*
 import com.fesskiev.mediacenter.domain.source.local.room.MediaDAO
 import com.fesskiev.mediacenter.domain.source.local.room.MediaDB
+import io.reactivex.Flowable
 import io.reactivex.Single
 
 
@@ -14,16 +15,16 @@ class LocalDataSource(db: MediaDB) : LocalSource {
 
     private val mediaDao: MediaDAO = db.mediaDAO()
 
-    override fun getAudioFolders(): Single<List<AudioFolder>> {
-        return Single.fromCallable { mediaDao.getAudioFolders() }
+    override fun getAudioFolders(): Flowable<List<AudioFolder>> {
+        return mediaDao.getAudioFolders()
     }
 
     override fun getSelectedAudioFolder(): Single<AudioFolder> {
         return Single.fromCallable { mediaDao.getSelectedAudioFolder() }
     }
 
-    override fun getVideoFolders(): Single<List<VideoFolder>> {
-        return Single.fromCallable { mediaDao.getVideoFolders() }
+    override fun getVideoFolders(): Flowable<List<VideoFolder>> {
+        return return mediaDao.getVideoFolders()
     }
 
     override fun getSelectedAudioFile(): Single<AudioFile> {
@@ -231,12 +232,12 @@ class LocalDataSource(db: MediaDB) : LocalSource {
         }
     }
 
-    override fun getAudioFiles(limit: Int, offset: Int): Single<List<AudioFile>> {
-        return Single.fromCallable { mediaDao.getAudioFiles(limit, offset) }
+    override fun getAudioFiles(limit: Int, offset: Int): Flowable<List<AudioFile>> {
+        return mediaDao.getAudioFiles(limit, offset)
     }
 
-    override fun getVideoFiles(limit: Int, offset: Int): Single<List<VideoFile>> {
-        return Single.fromCallable { mediaDao.getVideoFiles(limit, offset) }
+    override fun getVideoFiles(limit: Int, offset: Int): Flowable<List<VideoFile>> {
+        return mediaDao.getVideoFiles(limit, offset)
     }
 
     override fun containAudioTrack(path: String): Boolean {

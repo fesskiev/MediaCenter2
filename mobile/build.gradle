@@ -53,6 +53,7 @@ dependencies {
     compile "com.android.support:support-v4:$supportLibVersion"
 
     compile "android.arch.persistence.room:runtime:$archComponents"
+    compile "android.arch.persistence.room:rxjava2:$archComponents"
     annotationProcessor "android.arch.persistence.room:compiler:$archComponents"
     kapt "android.arch.persistence.room:compiler:$archComponents"
 

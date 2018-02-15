@@ -15,7 +15,8 @@ class AudioPresenter(private var compositeDisposable: CompositeDisposable,
         compositeDisposable.add(dataRepository.localDataSource.getAudioFolders()
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
-                .subscribe({ audioFolders -> handleAudioFolders(audioFolders) }, { throwable -> handleError(throwable) }))
+                .subscribe({ audioFolders -> handleAudioFolders(audioFolders) },
+                        { throwable -> handleError(throwable) }))
     }
 
     override fun checkAudioFolderExist(audioFolder: AudioFolder): Boolean {

@@ -4,6 +4,7 @@ import com.fesskiev.mediacenter.domain.entity.media.AudioFile
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.entity.media.VideoFile
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
+import io.reactivex.Flowable
 import io.reactivex.Single
 
 interface LocalSource {
@@ -11,14 +12,14 @@ interface LocalSource {
     /**
      * Audio folders methods
      */
-    fun getAudioFolders(): Single<List<AudioFolder>>
+    fun getAudioFolders(): Flowable<List<AudioFolder>>
 
     fun getSelectedAudioFolder(): Single<AudioFolder>
 
     /**
      * Video folders methods
      */
-    fun getVideoFolders(): Single<List<VideoFolder>>
+    fun getVideoFolders(): Flowable<List<VideoFolder>>
 
     fun getSelectedVideoFolder(): Single<VideoFolder>
 
@@ -84,7 +85,7 @@ interface LocalSource {
 
     fun deleteAudioFile(audioFile: AudioFile): Single<Int>
 
-    fun getAudioFiles(limit: Int, offset: Int): Single<List<AudioFile>>
+    fun getAudioFiles(limit: Int, offset: Int): Flowable<List<AudioFile>>
 
     /**
      * Video files methods
@@ -105,7 +106,7 @@ interface LocalSource {
 
     fun clearPlaylist(): Single<Int>
 
-    fun getVideoFiles(limit: Int, offset: Int): Single<List<VideoFile>>
+    fun getVideoFiles(limit: Int, offset: Int): Flowable<List<VideoFile>>
 
     /**
      * drop database
