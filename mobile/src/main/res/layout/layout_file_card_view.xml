@@ -68,12 +68,12 @@
                 android:contentDescription="@string/app_name"
                 android:scaleType="fitCenter"/>
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="16dp"
                 android:layout_toEndOf="@+id/itemCover"
                 android:orientation="vertical">
 
@@ -82,27 +82,36 @@
                     style="@style/FileTitleTextAppearance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:layout_marginTop="10dp"
                     tools:text="Nothing Heren" />
+
+                <TextView
+                    android:id="@+id/filePath"
+                    style="@style/FileDescTextAppearance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:layout_marginTop="5dp"
+                    android:maxLines="1"
+                    tools:text="Nothing Heren.mp3" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/itemTitle"
                     android:layout_marginTop="5dp">
 
                     <TextView
-                        android:id="@+id/filePath"
-                        style="@style/FileDescTextAppearance"
+                        android:id="@+id/itemDuration"
+                        style="@style/FileDesc1TextAppearance"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="5dp"
-                        android:layout_weight="1"
                         android:ellipsize="end"
+                        android:gravity="center"
+                        android:layout_weight="1"
                         android:maxLines="1"
-                        tools:text="Nothing Heren.mp3" />
+                        tools:text="02:28" />
 
                     <View
                         style="@style/DividerStyle"
@@ -110,19 +119,19 @@
                         android:layout_height="match_parent" />
 
                     <TextView
-                        android:id="@+id/itemDuration"
-                        style="@style/FileDescTextAppearance"
+                        android:id="@+id/itemSize"
+                        style="@style/FileDesc1TextAppearance"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:ellipsize="end"
                         android:gravity="center"
+                        android:layout_weight="1"
                         android:maxLines="1"
-                        tools:text="02:28" />
+                        tools:text="122Mb" />
 
                 </LinearLayout>
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </RelativeLayout>
 

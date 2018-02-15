@@ -1,19 +1,22 @@
 package com.fesskiev.mediacenter.utils
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
+import android.widget.RemoteViews
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import com.fesskiev.mediacenter.domain.entity.media.MediaFolder
-
-
+import com.fesskiev.mediacenter.ui.main.MainActivity
 
 
 @TargetApi(Build.VERSION_CODES.O)
@@ -23,6 +26,7 @@ class NotificationUtils(private var context: Context) {
 
         private const val CONTROL_CHANNEL = "notification_channel_control"
         private const val SCAN_CHANNEL = "notification_channel_scan"
+        const val ACTION_STOP_SCAN = "action.ACTION_STOP_SCAN"
 
         private const val NOTIFICATION_SCAN_ID = 411
     }
@@ -59,26 +63,53 @@ class NotificationUtils(private var context: Context) {
         } else {
             NotificationCompat.Builder(context)
         }
+
+        val intent = Intent(context, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+
+        val notificationBigView = RemoteViews(context.packageName, R.layout.notification_scan_big_lyout)
+        val notificationView = RemoteViews(context.packageName, R.layout.notification_scan_layout)
+
+        notificationBigView.setTextViewText(R.id.notificationTitle, context.getString(R.string.scan_notification_title))
+        notificationBigView.setTextViewText(R.id.notificationText, context.getString(R.string.scan_notification_message))
+        notificationBigView.setOnClickPendingIntent(R.id.notificationClose, getPendingIntentAction(ACTION_STOP_SCAN))
+
+        notificationView.setTextViewText(R.id.notificationTitle, context.getString(R.string.scan_notification_title))
+        notificationView.setTextViewText(R.id.notificationText, context.getString(R.string.scan_notification_message))
+
         notificationBuilder?.color = ContextCompat.getColor(context, R.color.primary_light)
         notificationBuilder?.setSmallIcon(R.drawable.ic_scan)
         notificationBuilder?.setVisibility(Notification.VISIBILITY_PUBLIC)
-        notificationBuilder?.setContentTitle(context.getString(R.string.scan_notification_title))
-        notificationBuilder?.setContentText(context.getString(R.string.scan_notification_message))
+        notificationBuilder?.setCustomBigContentView(notificationBigView)
+        notificationBuilder?.setCustomContentView(notificationView)
         notificationBuilder?.setOnlyAlertOnce(true)
         notificationBuilder?.setAutoCancel(false)
         notificationBuilder?.setWhen(System.currentTimeMillis())
         notificationBuilder?.setShowWhen(true)
+        notificationBuilder?.setContentIntent(PendingIntent.getActivity(context,
+                        System.currentTimeMillis().toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT))
         notificationManager?.notify(NOTIFICATION_SCAN_ID, notificationBuilder?.build())
     }
 
+    @SuppressLint("RestrictedApi")
     fun updateScanNotification(mediaFolder: MediaFolder?, mediaFile: MediaFile?, progress: Int) {
-        notificationBuilder?.setContentTitle(mediaFolder?.getFolderName())
-        notificationBuilder?.setContentText(mediaFile?.getTitle())
-        notificationBuilder?.setProgress(100, progress, false)
+
+        notificationBuilder?.bigContentView?.setTextViewText(R.id.notificationTitle, mediaFolder?.getFolderName())
+        notificationBuilder?.bigContentView?.setTextViewText(R.id.notificationText, mediaFile?.getTitle())
+        notificationBuilder?.bigContentView?.setProgressBar(R.id.progressBar, 100, progress, false)
+
+        notificationBuilder?.contentView?.setTextViewText(R.id.notificationTitle, mediaFolder?.getFolderName())
+        notificationBuilder?.contentView?.setTextViewText(R.id.notificationText, mediaFile?.getTitle())
+
         notificationManager?.notify(NOTIFICATION_SCAN_ID, notificationBuilder?.build())
     }
 
     fun removeScanNotification() {
         notificationManager?.cancel(NOTIFICATION_SCAN_ID)
+    }
+
+    private fun getPendingIntentAction(action: String): PendingIntent {
+        val intent = Intent(action)
+        return PendingIntent.getBroadcast(context, System.currentTimeMillis().toInt(), intent, 0)
     }
 }

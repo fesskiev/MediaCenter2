@@ -1,8 +1,10 @@
 package com.fesskiev.mediacenter.services
 
 import android.app.Service
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.*
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
@@ -11,6 +13,7 @@ import com.fesskiev.mediacenter.engines.TagsEngine
 import com.fesskiev.mediacenter.utils.CacheUtils
 import com.fesskiev.mediacenter.utils.Constants.Companion.EXTERNAL_STORAGE
 import com.fesskiev.mediacenter.utils.NotificationUtils
+import com.fesskiev.mediacenter.utils.NotificationUtils.Companion.ACTION_STOP_SCAN
 import com.fesskiev.mediacenter.utils.StorageUtils
 import com.fesskiev.mediacenter.utils.enums.ScanState
 import com.fesskiev.mediacenter.utils.enums.ScanType
@@ -81,11 +84,13 @@ class ScanSystemService : Service() {
         AndroidInjection.inject(this)
         fetchContentThread = FetchContentThread()
         fetchContentThread?.start()
+        registerNotificationReceiver()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         fetchContentThread?.quitSafely()
+        unregisterNotificationReceiver()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -102,6 +107,27 @@ class ScanSystemService : Service() {
 
     override fun onBind(intent: Intent?): IBinder {
         throw NotImplementedError()
+    }
+
+    private fun registerNotificationReceiver() {
+        val filter = IntentFilter()
+        filter.addAction(ACTION_STOP_SCAN)
+        registerReceiver(notificationReceiver, filter)
+    }
+
+    private fun unregisterNotificationReceiver() {
+        unregisterReceiver(notificationReceiver)
+    }
+
+    private val notificationReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val action = intent.action
+            if (action != null) {
+                when (action) {
+                    ACTION_STOP_SCAN -> stopScan()
+                }
+            }
+        }
     }
 
     private inner class FetchContentThread : HandlerThread(FetchContentThread::class.java.simpleName,
@@ -162,6 +188,9 @@ class ScanSystemService : Service() {
             var progress: Float
 
             for (n in listOfFiles) {
+                if (scanState == ScanState.FINISHED) {
+                    break
+                }
                 if (n.absolutePath == EXTERNAL_STORAGE) {
                     continue
                 }
@@ -273,6 +302,11 @@ class ScanSystemService : Service() {
         dropVideoContent()
         scanType = ScanType.BOTH
         startScan(scanType)
+    }
+
+    private fun stopScan() {
+        scanState = ScanState.FINISHED
+        notificationUtils?.removeScanNotification()
     }
 
     private fun dropAudioContent() {

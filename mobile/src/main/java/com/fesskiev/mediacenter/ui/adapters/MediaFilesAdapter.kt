@@ -60,6 +60,7 @@ class MediaFilesAdapter(filesFragment: FilesFragment) : RecyclerView.Adapter<Med
                 })
                 itemView.cardFile.itemTitle.text = getTitle()
                 itemView.cardFile.filePath.text = getFilePath()
+                itemView.cardFile.itemSize.text = StringUtils.humanReadableByteCount(getSize(), false)
                 itemView.cardFile.itemDuration.text = StringUtils.getDurationString(getDuration())
             }
         }

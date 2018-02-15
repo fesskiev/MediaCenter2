@@ -1,11 +1,21 @@
 package com.fesskiev.mediacenter.utils
 
+import java.util.*
+
 
 class StringUtils {
 
     companion object {
         fun replaceSymbols(fileName: String): String {
             return fileName.replace("[|\\?*%<\":>+'/#]".toRegex(), "")
+        }
+
+        fun humanReadableByteCount(bytes: Long, si: Boolean): String {
+            val unit = if (si) 1000 else 1024
+            if (bytes < unit) return bytes.toString() + " B"
+            val exp = (Math.log(bytes.toDouble()) / Math.log(unit.toDouble())).toInt()
+            val pre = (if (si) "kMGTPE" else "KMGTPE")[exp - 1]
+            return String.format(Locale.ENGLISH, "%.1f %sB", bytes / Math.pow(unit.toDouble(), exp.toDouble()), pre)
         }
 
         fun getDurationString(seconds: Long): String {
