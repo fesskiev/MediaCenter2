@@ -1,5 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/menu_effects"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/effects"
+            android:icon="@drawable/ic_effects"
+            android:title="@string/drawer_item_effects" />
+    </group>
+
+    <group>
+        <item
+            android:id="@+id/playlist"
+            android:icon="@drawable/ic_playlist"
+            android:title="@string/drawer_item_playlist" />
+    </group>
+
+    <group
+        android:id="@+id/menu_wear"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/wear"
+            android:icon="@drawable/ic_wear"
+            android:title="@string/drawer_item_wear" />
+
+    </group>
+
+    <group
+        android:id="@+id/menu_settings"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/settings"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/drawer_item_settings" />
+    </group>
+
+    <group
+        android:id="@+id/menu_about"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/about"
+            android:icon="@drawable/ic_about"
+            android:title="@string/drawer_item_about" />
+    </group>
 
 </menu>

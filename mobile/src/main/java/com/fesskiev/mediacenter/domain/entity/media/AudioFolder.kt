@@ -28,7 +28,7 @@ data class AudioFolder(@NotNull
     }
 
     override fun getPath(): String {
-        return audioFolderPath!!.absolutePath
+        return audioFolderPath?.absolutePath ?: ""
     }
 
     override fun getFolderName(): String {
@@ -40,7 +40,7 @@ data class AudioFolder(@NotNull
     }
 
     override fun exists(): Boolean {
-        return audioFolderPath!!.exists()
+        return audioFolderPath?.exists() ?: false
     }
 
     override fun isHidden(): Boolean {

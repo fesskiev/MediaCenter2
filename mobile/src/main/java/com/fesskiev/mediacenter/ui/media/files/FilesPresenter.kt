@@ -1,11 +1,14 @@
 package com.fesskiev.mediacenter.ui.media.files
 
+import android.graphics.Bitmap
 import com.fesskiev.mediacenter.domain.entity.media.AudioFile
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import com.fesskiev.mediacenter.domain.entity.media.VideoFile
 import com.fesskiev.mediacenter.domain.source.DataRepository
+import com.fesskiev.mediacenter.utils.BitmapUtils
 import com.fesskiev.mediacenter.utils.schedulers.BaseSchedulerProvider
 import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
 
@@ -13,6 +16,7 @@ import io.reactivex.functions.BiFunction
 class FilesPresenter(private var compositeDisposable: CompositeDisposable,
                      private var dataRepository: DataRepository,
                      private var schedulerProvider: BaseSchedulerProvider,
+                     private var bitmapUtils: BitmapUtils,
                      private var view: FilesContract.View) : FilesContract.Presenter {
 
     override fun fetchMediaFiles(limit : Int, offset : Int) {
@@ -49,5 +53,11 @@ class FilesPresenter(private var compositeDisposable: CompositeDisposable,
         if (!compositeDisposable.isDisposed) {
             compositeDisposable.dispose()
         }
+    }
+
+    fun getAudioFolderArtwork(mediaFile: MediaFile): Single<Bitmap> {
+        return bitmapUtils.getMediaFileArtwork(mediaFile)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
     }
 }

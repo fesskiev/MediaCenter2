@@ -28,7 +28,7 @@ data class VideoFolder(@NotNull
     }
 
     override fun getPath(): String {
-        return videoFolderPath!!.absolutePath
+        return videoFolderPath?.absolutePath ?: ""
     }
 
     override fun getFolderName(): String {
@@ -36,11 +36,11 @@ data class VideoFolder(@NotNull
     }
 
     override fun getTimestamp(): Long {
-        return videoFolderTimestamp;
+        return videoFolderTimestamp
     }
 
     override fun exists(): Boolean {
-        return videoFolderPath!!.exists()
+        return videoFolderPath?.exists() ?: false
     }
 
     override fun isHidden(): Boolean {

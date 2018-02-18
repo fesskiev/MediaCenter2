@@ -24,7 +24,7 @@ import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 
 
-class TagsEngine(private val context: Context) {
+class TagsEngine(private val context: Context, private val bitmapUtils: BitmapUtils) {
 
     fun retrieveVideoFile(videoFolder: VideoFolder, path: File): VideoFile {
         val videoFile = VideoFile()
@@ -54,7 +54,7 @@ class TagsEngine(private val context: Context) {
                 }
             }
             val frame = retriever.getFrameAtTime((ThreadLocalRandom.current().nextInt(0, (videoFile.videoFileDuration * 1000000).toInt()).toLong()))
-            saveFrame(frame, videoFile)
+            saveFrame(frame, videoFolder, videoFile)
             retriever.release()
         }catch (e : Exception){
             e.printStackTrace()
@@ -179,7 +179,7 @@ class TagsEngine(private val context: Context) {
                 try {
                     val path = File.createTempFile(UUID.randomUUID().toString(), ".jpg", File(IMAGES_AUDIO_CACHE_PATH))
 
-                    BitmapUtils.saveBitmap(artwork.binaryData, path)
+                    bitmapUtils.saveBitmap(artwork.binaryData, path)
 
                     audioFile.audioFileArtworkPath = path.absolutePath
                 } catch (e: IOException) {
@@ -190,7 +190,7 @@ class TagsEngine(private val context: Context) {
         }
     }
 
-    private fun saveFrame(bitmap: Bitmap, videoFile: VideoFile) {
+    private fun saveFrame(bitmap: Bitmap, videoFolder: VideoFolder, videoFile: VideoFile) {
         try {
             val dir = File(IMAGES_VIDEO_CACHE_PATH)
             if (!dir.exists()) {
@@ -198,9 +198,10 @@ class TagsEngine(private val context: Context) {
             }
             val path = File.createTempFile(UUID.randomUUID().toString(), ".jpg", dir)
 
-            BitmapUtils.saveBitmap(bitmap, path)
+            bitmapUtils.saveBitmap(bitmap, path)
 
             videoFile.videoFileFramePath = path.absolutePath
+            videoFolder.videoFolderImage = path
         } catch (e: IOException) {
             e.printStackTrace()
         }

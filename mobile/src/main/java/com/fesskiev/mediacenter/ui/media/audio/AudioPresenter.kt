@@ -1,13 +1,17 @@
 package com.fesskiev.mediacenter.ui.media.audio
 
+import android.graphics.Bitmap
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.source.DataRepository
+import com.fesskiev.mediacenter.utils.BitmapUtils
 import com.fesskiev.mediacenter.utils.schedulers.BaseSchedulerProvider
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 
 class AudioPresenter(private var compositeDisposable: CompositeDisposable,
                      private var dataRepository: DataRepository,
                      private var schedulerProvider: BaseSchedulerProvider,
+                     private var bitmapUtils: BitmapUtils,
                      private var view: AudioContact.View) : AudioContact.Presenter {
 
     override fun fetchAudioFolders() {
@@ -42,4 +46,9 @@ class AudioPresenter(private var compositeDisposable: CompositeDisposable,
         }
     }
 
+    fun getAudioFolderArtwork(audioFolder: AudioFolder): Single<Bitmap> {
+        return bitmapUtils.getAudioFolderArtwork(audioFolder)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+    }
 }

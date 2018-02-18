@@ -247,6 +247,7 @@ class ScanSystemService : Service() {
                     repository?.localDataSource?.insertVideoFile(videoFile)
                 }
             }
+            repository?.localDataSource?.insertVideoFolder(videoFolder)
         }
     }
 

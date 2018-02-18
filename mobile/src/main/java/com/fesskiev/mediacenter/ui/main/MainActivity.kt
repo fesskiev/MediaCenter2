@@ -112,7 +112,24 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        return false
+        when (item.itemId) {
+            R.id.wear -> {
+
+            }
+            R.id.effects -> {
+
+            }
+            R.id.settings -> {
+
+            }
+            R.id.about -> {
+
+            }
+            R.id.playlist -> {
+
+            }
+        }
+        return true
     }
 
     override fun onBackPressed() {

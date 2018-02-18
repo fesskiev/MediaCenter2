@@ -44,7 +44,7 @@ class FilesFragment : DaggerFragment(), FilesContract.View, MediaFilesAdapter.On
     private fun setupRecyclerView() {
         val linearLayoutManager = LinearLayoutManager(activity, VERTICAL, false)
         recyclerView.layoutManager = linearLayoutManager
-        adapter = MediaFilesAdapter(this)
+        adapter = MediaFilesAdapter(presenter)
         adapter.setHasStableIds(true)
         recyclerView.adapter = adapter
         recyclerView.addOnScrollListener(object : HidingScrollListener() {

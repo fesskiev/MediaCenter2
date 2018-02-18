@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
-import com.fesskiev.mediacenter.ui.media.files.FilesFragment
+import com.fesskiev.mediacenter.ui.media.files.FilesPresenter
 import com.fesskiev.mediacenter.utils.StringUtils
 import com.fesskiev.mediacenter.widgets.items.FileCardView
 import kotlinx.android.synthetic.main.item_file.view.*
 import kotlinx.android.synthetic.main.layout_file_card_view.view.*
 
 
-class MediaFilesAdapter(filesFragment: FilesFragment) : RecyclerView.Adapter<MediaFilesAdapter.ViewHolder>() {
+class MediaFilesAdapter(private var presenter: FilesPresenter?) : RecyclerView.Adapter<MediaFilesAdapter.ViewHolder>() {
 
     interface OnMediaFilesAdapterListener {
 
@@ -62,6 +62,8 @@ class MediaFilesAdapter(filesFragment: FilesFragment) : RecyclerView.Adapter<Med
                 itemView.cardFile.filePath.text = getFilePath()
                 itemView.cardFile.itemSize.text = StringUtils.humanReadableByteCount(getSize(), false)
                 itemView.cardFile.itemDuration.text = StringUtils.getDurationString(getDuration())
+                presenter?.getAudioFolderArtwork(mediaFile)?.subscribe({ bitmap ->
+                    itemView.itemCover.setImageBitmap(bitmap) })
             }
         }
     }
