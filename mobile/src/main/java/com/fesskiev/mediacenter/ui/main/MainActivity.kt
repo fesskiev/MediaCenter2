@@ -60,7 +60,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         setTheme(R.style.AppTheme)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        setupBottomSheetView()
+        setupPlaybackView()
         setupDrawer()
         setupMainNavView()
         setupViewPager()
@@ -284,7 +284,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         navigationViewMain.inflateHeaderView(R.layout.nav_header_main)
     }
 
-    private fun setupBottomSheetView() {
+    private fun setupPlaybackView() {
         val recyclerView = findViewById<RecyclerView>(R.id.card_recyclerview)
         val linearLayoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = linearLayoutManager

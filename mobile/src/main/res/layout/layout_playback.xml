@@ -4,7 +4,7 @@
     android:id='@+id/nestedscrollview'
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="com.fesskiev.mediacenter.widgets.nestedscrolling.CustomBehavior">
+    app:layout_behavior="com.fesskiev.mediacenter.widgets.nestedscrolling.BottomSheetBehavior">
 
     <FrameLayout
         android:id="@+id/card_container"
@@ -67,9 +67,10 @@
                 </FrameLayout>
 
             </LinearLayout>
+
         </android.support.v7.widget.CardView>
 
-        <android.support.design.widget.FloatingActionButton
+        <com.fesskiev.mediacenter.widgets.buttons.PlayPauseFAB
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -77,8 +78,7 @@
             android:layout_marginEnd="16dp"
             android:clickable="true"
             android:focusable="true"
-            app:fabSize="normal"
-            app:srcCompat="@android:drawable/ic_dialog_email" />
+            app:fabSize="normal" />
 
     </FrameLayout>
 

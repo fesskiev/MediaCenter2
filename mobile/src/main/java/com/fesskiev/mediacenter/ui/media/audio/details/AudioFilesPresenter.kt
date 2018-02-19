@@ -8,9 +8,13 @@ import io.reactivex.disposables.CompositeDisposable
 class AudioFilesPresenter(private var compositeDisposable: CompositeDisposable,
                           private var dataRepository: DataRepository,
                           private var schedulerProvider: BaseSchedulerProvider,
-                          private var view: AudioFilesContract.View) : AudioFilesContract.Presenter {
+                          private var view: AudioFilesContract.View?) : AudioFilesContract.Presenter {
+
+
 
     override fun detach() {
-
+        if (view != null) {
+            view = null
+        }
     }
 }
