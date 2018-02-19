@@ -18,6 +18,6 @@ interface FilesContract {
 
     interface Presenter : BasePresenter {
 
-        fun fetchMediaFiles(limit: Int, offset: Int)
+        fun fetchMediaFiles(limit: Int)
     }
 }

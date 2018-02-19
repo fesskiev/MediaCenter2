@@ -13,7 +13,7 @@ import io.reactivex.functions.BiFunction
 class MainPresenter(private var compositeDisposable: CompositeDisposable,
                     private var dataRepository: DataRepository,
                     private var schedulerProvider: BaseSchedulerProvider,
-                    private var view: MainContract.View) : MainContract.Presenter {
+                    private var view: MainContract.View?) : MainContract.Presenter {
 
     override fun queryFiles(query: String) {
         if (query.isNotEmpty()) {
@@ -23,7 +23,7 @@ class MainPresenter(private var compositeDisposable: CompositeDisposable,
                     .observeOn(schedulerProvider.ui())
                     .subscribe({ audioFolders -> handleMediaFiles(audioFolders) }, { throwable -> handleError(throwable) }))
         } else {
-            view.queryIsEmpty()
+            view?.queryIsEmpty()
         }
     }
 
@@ -42,7 +42,7 @@ class MainPresenter(private var compositeDisposable: CompositeDisposable,
     }
 
     private fun handleMediaFiles(mediaFiles: List<MediaFile>) {
-        view.showQueryFiles(mediaFiles)
+        view?.showQueryFiles(mediaFiles)
     }
 
     private fun handleError(throwable: Throwable) {
@@ -52,6 +52,9 @@ class MainPresenter(private var compositeDisposable: CompositeDisposable,
     override fun detach() {
         if (!compositeDisposable.isDisposed) {
             compositeDisposable.dispose()
+        }
+        if (view != null) {
+            view = null
         }
     }
 }

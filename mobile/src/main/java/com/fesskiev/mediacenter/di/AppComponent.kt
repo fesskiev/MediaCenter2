@@ -1,11 +1,7 @@
-package com.fesskiev.kotlinsamples.di
+package com.fesskiev.mediacenter.di
 
 import android.app.Application
 import com.fesskiev.App
-import com.fesskiev.mediacenter.di.EnginesModule
-import com.fesskiev.mediacenter.di.NetworkModule
-import com.fesskiev.mediacenter.di.ServiceBuilder
-import com.fesskiev.mediacenter.di.UtilsModule
 
 import javax.inject.Singleton
 

@@ -57,7 +57,9 @@ data class AudioFile(@NotNull
     }
 
     override fun getArtworkPath(): String {
-        return audioFileArtworkPath
+        return if (audioFileArtworkPath.isNotEmpty()) {
+            audioFileArtworkPath
+        } else folderArtworkPath
     }
 
     override fun getDuration(): Long {

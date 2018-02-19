@@ -1,4 +1,4 @@
-package com.fesskiev.kotlinsamples.di
+package com.fesskiev.mediacenter.di
 
 import android.arch.persistence.room.Room
 import android.content.Context

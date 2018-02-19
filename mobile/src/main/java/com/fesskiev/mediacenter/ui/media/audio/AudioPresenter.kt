@@ -12,10 +12,10 @@ class AudioPresenter(private var compositeDisposable: CompositeDisposable,
                      private var dataRepository: DataRepository,
                      private var schedulerProvider: BaseSchedulerProvider,
                      private var bitmapUtils: BitmapUtils,
-                     private var view: AudioContact.View) : AudioContact.Presenter {
+                     private var view: AudioContact.View?) : AudioContact.Presenter {
 
     override fun fetchAudioFolders() {
-        view.showProgressBar()
+        view?.showProgressBar()
         compositeDisposable.add(dataRepository.localDataSource.getAudioFolders()
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
@@ -27,22 +27,25 @@ class AudioPresenter(private var compositeDisposable: CompositeDisposable,
         if (audioFolder.exists()) {
             return true
         }
-        view.showAudioFolderNotExist()
+        view?.showAudioFolderNotExist()
         return false
     }
 
     private fun handleAudioFolders(audioFolders: List<AudioFolder>) {
-        view.hideProgressBar()
-        view.showAudioFolders(audioFolders)
+        view?.hideProgressBar()
+        view?.showAudioFolders(audioFolders)
     }
 
     private fun handleError(throwable: Throwable) {
-        view.hideProgressBar()
+        view?.hideProgressBar()
     }
 
     override fun detach() {
         if (!compositeDisposable.isDisposed) {
             compositeDisposable.dispose()
+        }
+        if (view != null) {
+            view = null
         }
     }
 

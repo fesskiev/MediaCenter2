@@ -28,7 +28,7 @@ class NotificationUtils(private var context: Context) {
         private const val SCAN_CHANNEL = "notification_channel_scan"
         const val ACTION_STOP_SCAN = "action.ACTION_STOP_SCAN"
 
-        private const val NOTIFICATION_SCAN_ID = 411
+        const val NOTIFICATION_SCAN_ID = 411
     }
 
     private var notificationManager: NotificationManager? = null
@@ -57,7 +57,7 @@ class NotificationUtils(private var context: Context) {
         }
     }
 
-    fun createScanNotification() {
+    fun createScanNotification() : Notification? {
         notificationBuilder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationCompat.Builder(context, SCAN_CHANNEL)
         } else {
@@ -87,8 +87,11 @@ class NotificationUtils(private var context: Context) {
         notificationBuilder?.setWhen(System.currentTimeMillis())
         notificationBuilder?.setShowWhen(true)
         notificationBuilder?.setContentIntent(PendingIntent.getActivity(context,
-                        System.currentTimeMillis().toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT))
-        notificationManager?.notify(NOTIFICATION_SCAN_ID, notificationBuilder?.build())
+                System.currentTimeMillis().toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT))
+        val notification = notificationBuilder?.build()
+        notificationManager?.notify(NOTIFICATION_SCAN_ID, notification)
+
+        return notification
     }
 
     @SuppressLint("RestrictedApi")
@@ -96,7 +99,7 @@ class NotificationUtils(private var context: Context) {
 
 //        notificationBuilder?.bigContentView?.setTextViewText(R.id.notificationTitle, mediaFolder?.getFolderName())
 //        notificationBuilder?.bigContentView?.setTextViewText(R.id.notificationText, mediaFile?.getTitle())
-          notificationBuilder?.bigContentView?.setProgressBar(R.id.progressBar, 100, progress, false)
+        notificationBuilder?.bigContentView?.setProgressBar(R.id.progressBar, 100, progress, false)
 //
 //        notificationBuilder?.contentView?.setTextViewText(R.id.notificationTitle, mediaFolder?.getFolderName())
 //        notificationBuilder?.contentView?.setTextViewText(R.id.notificationText, mediaFile?.getTitle())
@@ -104,12 +107,9 @@ class NotificationUtils(private var context: Context) {
         notificationManager?.notify(NOTIFICATION_SCAN_ID, notificationBuilder?.build())
     }
 
-    fun removeScanNotification() {
-        notificationManager?.cancel(NOTIFICATION_SCAN_ID)
-    }
-
     private fun getPendingIntentAction(action: String): PendingIntent {
         val intent = Intent(action)
         return PendingIntent.getBroadcast(context, System.currentTimeMillis().toInt(), intent, 0)
     }
+
 }

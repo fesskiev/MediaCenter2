@@ -3,7 +3,6 @@ package com.fesskiev.mediacenter.ui.media.files
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.LinearLayoutManager.VERTICAL
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,8 +27,7 @@ class FilesFragment : DaggerFragment(), FilesContract.View, MediaFilesAdapter.On
     @JvmField
     var presenter: FilesPresenter? = null
     private lateinit var adapter: MediaFilesAdapter
-    private val limit = 10
-    private var offset = 0
+    private var limit = 10
     private var search: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -62,7 +60,7 @@ class FilesFragment : DaggerFragment(), FilesContract.View, MediaFilesAdapter.On
 
             override fun onPaging(lastPosition: Int) {
                 if (!search) {
-                    offset = lastPosition
+                    limit += 10
                     fetchMediaFiles()
                 }
             }
@@ -95,18 +93,17 @@ class FilesFragment : DaggerFragment(), FilesContract.View, MediaFilesAdapter.On
         progressBar.visibility = View.VISIBLE
     }
 
-    override fun fetchMediaFiles() {
-        Log.wtf("test", "fetch limit $limit offset $offset")
-        search = false
-        presenter?.fetchMediaFiles(limit, offset)
-    }
-
     override fun hideProgressBar() {
         progressBar.visibility = View.GONE
     }
 
+    override fun fetchMediaFiles() {
+        search = false
+        presenter?.fetchMediaFiles(limit)
+    }
+
     override fun showMediaFiles(mediaFiles: List<MediaFile>) {
-        adapter.add(mediaFiles)
+        adapter.refresh(mediaFiles)
     }
 
     override fun showQueryFiles(mediaFiles: List<MediaFile>) {

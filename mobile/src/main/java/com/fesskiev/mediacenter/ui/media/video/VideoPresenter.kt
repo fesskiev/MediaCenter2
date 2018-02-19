@@ -12,10 +12,10 @@ class VideoPresenter(private var compositeDisposable: CompositeDisposable,
                      private var dataRepository: DataRepository,
                      private var schedulerProvider: BaseSchedulerProvider,
                      private var bitmapUtils: BitmapUtils,
-                     private var view: VideoContract.View) : VideoContract.Presenter {
+                     private var view: VideoContract.View?) : VideoContract.Presenter {
 
     override fun fetchVideoFolders() {
-        view.showProgressBar()
+        view?.showProgressBar()
         compositeDisposable.add(dataRepository.localDataSource.getVideoFolders()
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
@@ -26,22 +26,25 @@ class VideoPresenter(private var compositeDisposable: CompositeDisposable,
         if (videoFolder.exists()) {
             return true
         }
-        view.showVideoFolderNotExist()
+        view?.showVideoFolderNotExist()
         return false
     }
 
     private fun handleVideoFolders(videoFolders: List<VideoFolder>) {
-        view.hideProgressBar()
-        view.showVideoFolders(videoFolders)
+        view?.hideProgressBar()
+        view?.showVideoFolders(videoFolders)
     }
 
     private fun handleError(throwable: Throwable) {
-        view.hideProgressBar()
+        view?.hideProgressBar()
     }
 
     override fun detach() {
         if (!compositeDisposable.isDisposed) {
             compositeDisposable.dispose()
+        }
+        if (view != null) {
+            view = null
         }
     }
 

@@ -14,6 +14,7 @@ import com.fesskiev.mediacenter.utils.CacheUtils
 import com.fesskiev.mediacenter.utils.Constants.Companion.EXTERNAL_STORAGE
 import com.fesskiev.mediacenter.utils.NotificationUtils
 import com.fesskiev.mediacenter.utils.NotificationUtils.Companion.ACTION_STOP_SCAN
+import com.fesskiev.mediacenter.utils.NotificationUtils.Companion.NOTIFICATION_SCAN_ID
 import com.fesskiev.mediacenter.utils.StorageUtils
 import com.fesskiev.mediacenter.utils.enums.ScanState
 import com.fesskiev.mediacenter.utils.enums.ScanType
@@ -149,7 +150,7 @@ class ScanSystemService : Service() {
 
     private fun startScan(scanType: ScanType?) {
         scanState = ScanState.PREPARE
-        notificationUtils?.createScanNotification()
+        startForeground(NOTIFICATION_SCAN_ID, notificationUtils?.createScanNotification())
         val storagePaths = StorageUtils.getStorageDirectories(applicationContext)
         if (storagePaths.isNotEmpty()) {
             scanState = ScanState.SCANNING
@@ -157,8 +158,12 @@ class ScanSystemService : Service() {
                 fileWalk(path, scanType)
             }
         }
+        stopScan()
+    }
+
+    private fun stopScan() {
         scanState = ScanState.FINISHED
-        notificationUtils?.removeScanNotification()
+        stopForeground(true)
     }
 
     private fun fileWalk(startPath: String, scanType: ScanType?) {
@@ -247,7 +252,6 @@ class ScanSystemService : Service() {
                     repository?.localDataSource?.insertVideoFile(videoFile)
                 }
             }
-            repository?.localDataSource?.insertVideoFolder(videoFolder)
         }
     }
 
@@ -303,11 +307,6 @@ class ScanSystemService : Service() {
         dropVideoContent()
         scanType = ScanType.BOTH
         startScan(scanType)
-    }
-
-    private fun stopScan() {
-        scanState = ScanState.FINISHED
-        notificationUtils?.removeScanNotification()
     }
 
     private fun dropAudioContent() {

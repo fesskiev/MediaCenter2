@@ -1,4 +1,4 @@
-package com.fesskiev.kotlinsamples.di
+package com.fesskiev.mediacenter.di
 
 import android.app.Application
 import android.content.Context

@@ -1,6 +1,5 @@
-package com.fesskiev.kotlinsamples.di
+package com.fesskiev.mediacenter.di
 
-import com.fesskiev.mediacenter.di.FragmentBuilder
 import com.fesskiev.mediacenter.ui.main.MainActivity
 import com.fesskiev.mediacenter.ui.main.MainActivityModule
 import com.fesskiev.mediacenter.ui.media.audio.details.AudioFilesActivity

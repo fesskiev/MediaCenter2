@@ -1,6 +1,7 @@
 package com.fesskiev.mediacenter.ui.media.files
 
 import android.graphics.Bitmap
+import android.util.Log
 import com.fesskiev.mediacenter.domain.entity.media.AudioFile
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import com.fesskiev.mediacenter.domain.entity.media.VideoFile
@@ -17,23 +18,24 @@ class FilesPresenter(private var compositeDisposable: CompositeDisposable,
                      private var dataRepository: DataRepository,
                      private var schedulerProvider: BaseSchedulerProvider,
                      private var bitmapUtils: BitmapUtils,
-                     private var view: FilesContract.View) : FilesContract.Presenter {
+                     private var view: FilesContract.View?) : FilesContract.Presenter {
 
-    override fun fetchMediaFiles(limit : Int, offset : Int) {
-        view.showProgressBar()
-        compositeDisposable.add(getZipMediaFiles(limit, offset)
+    override fun fetchMediaFiles(limit: Int) {
+        view?.showProgressBar()
+        compositeDisposable.add(getZipMediaFiles(limit)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe({ mediaFiles -> handleMediaFiles(mediaFiles) }, { throwable -> handleError(throwable) }))
     }
 
-    private fun getZipMediaFiles(limit: Int, offset: Int): Flowable<List<MediaFile>> {
+    private fun getZipMediaFiles(limit: Int): Flowable<List<MediaFile>> {
         val localDataSource = dataRepository.localDataSource
-        return Flowable.zip(localDataSource.getAudioFiles(limit, offset), localDataSource.getVideoFiles(limit, offset),
+        return Flowable.zip(localDataSource.getAudioFiles(limit), localDataSource.getVideoFiles(limit),
                 BiFunction { audioFiles, videoFiles -> zipMediaFiles(audioFiles, videoFiles) })
     }
 
     private fun zipMediaFiles(audioFiles: List<AudioFile>, videoFiles: List<VideoFile>): List<MediaFile> {
+        Log.wtf("test", "**size**: audio: ${audioFiles.size} video: ${videoFiles.size}")
         val mediaFiles: MutableList<MediaFile> = ArrayList()
         mediaFiles.addAll(audioFiles)
         mediaFiles.addAll(videoFiles)
@@ -41,17 +43,20 @@ class FilesPresenter(private var compositeDisposable: CompositeDisposable,
     }
 
     private fun handleMediaFiles(mediaFiles: List<MediaFile>) {
-        view.hideProgressBar()
-        view.showMediaFiles(mediaFiles)
+        view?.hideProgressBar()
+        view?.showMediaFiles(mediaFiles)
     }
 
     private fun handleError(throwable: Throwable) {
-        view.hideProgressBar()
+        view?.hideProgressBar()
     }
 
     override fun detach() {
         if (!compositeDisposable.isDisposed) {
             compositeDisposable.dispose()
+        }
+        if (view != null) {
+            view = null
         }
     }
 

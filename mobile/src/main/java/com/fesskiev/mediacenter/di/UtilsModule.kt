@@ -21,7 +21,7 @@ class UtilsModule {
 
     @Provides
     @Singleton
-    fun provideBitmapUrils(context: Context, httpClient: OkHttpClient): BitmapUtils {
+    fun provideBitmapUtils(context: Context, httpClient: OkHttpClient): BitmapUtils {
         return BitmapUtils(context, httpClient)
     }
 
