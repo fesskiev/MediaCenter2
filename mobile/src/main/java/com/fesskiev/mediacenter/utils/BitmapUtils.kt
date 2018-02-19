@@ -19,6 +19,7 @@ import java.io.IOException
 import java.io.InputStream
 import android.graphics.drawable.BitmapDrawable
 import android.support.v4.content.ContextCompat
+import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 
 class BitmapUtils(private var context: Context, private var okHttpClient: OkHttpClient) {
 
@@ -168,8 +169,9 @@ class BitmapUtils(private var context: Context, private var okHttpClient: OkHttp
         }
     }
 
-    fun loadVideoFolderArtwork(path: String?): Single<Bitmap> {
+    fun loadVideoFolderArtwork(videoFolder: VideoFolder): Single<Bitmap> {
         return Single.create { e ->
+            val path = videoFolder.videoFolderImage?.absolutePath
             if (path != null) {
                 val bitmap = getBitmapFromPath(path)
                 e.onSuccess(bitmap)
@@ -182,7 +184,7 @@ class BitmapUtils(private var context: Context, private var okHttpClient: OkHttp
 
     private fun findMediaFileArtworkPath(mediaFile: MediaFile?): String? {
         if (mediaFile != null) {
-           return mediaFile.getArtworkPath()
+            return mediaFile.getArtworkPath()
         }
         return null
     }

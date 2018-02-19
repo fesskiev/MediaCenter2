@@ -41,7 +41,7 @@ class VideoFragment : DaggerFragment(), VideoContract.View, VideoFoldersAdapter.
     private fun setupRecyclerView() {
         val gridLayoutManager = GridLayoutManager(activity, 2)
         recyclerView.layoutManager = gridLayoutManager
-        adapter = VideoFoldersAdapter(this)
+        adapter = VideoFoldersAdapter(presenter)
         adapter.setHasStableIds(true)
         adapter.setOnVideoFolderAdapterListener(this)
         recyclerView.adapter = adapter

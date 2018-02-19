@@ -94,12 +94,12 @@ class NotificationUtils(private var context: Context) {
     @SuppressLint("RestrictedApi")
     fun updateScanNotification(mediaFolder: MediaFolder?, mediaFile: MediaFile?, progress: Int) {
 
-        notificationBuilder?.bigContentView?.setTextViewText(R.id.notificationTitle, mediaFolder?.getFolderName())
-        notificationBuilder?.bigContentView?.setTextViewText(R.id.notificationText, mediaFile?.getTitle())
-        notificationBuilder?.bigContentView?.setProgressBar(R.id.progressBar, 100, progress, false)
-
-        notificationBuilder?.contentView?.setTextViewText(R.id.notificationTitle, mediaFolder?.getFolderName())
-        notificationBuilder?.contentView?.setTextViewText(R.id.notificationText, mediaFile?.getTitle())
+//        notificationBuilder?.bigContentView?.setTextViewText(R.id.notificationTitle, mediaFolder?.getFolderName())
+//        notificationBuilder?.bigContentView?.setTextViewText(R.id.notificationText, mediaFile?.getTitle())
+          notificationBuilder?.bigContentView?.setProgressBar(R.id.progressBar, 100, progress, false)
+//
+//        notificationBuilder?.contentView?.setTextViewText(R.id.notificationTitle, mediaFolder?.getFolderName())
+//        notificationBuilder?.contentView?.setTextViewText(R.id.notificationText, mediaFile?.getTitle())
 
         notificationManager?.notify(NOTIFICATION_SCAN_ID, notificationBuilder?.build())
     }

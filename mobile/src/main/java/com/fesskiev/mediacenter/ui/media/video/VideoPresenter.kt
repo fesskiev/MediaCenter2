@@ -1,13 +1,17 @@
 package com.fesskiev.mediacenter.ui.media.video
 
+import android.graphics.Bitmap
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 import com.fesskiev.mediacenter.domain.source.DataRepository
+import com.fesskiev.mediacenter.utils.BitmapUtils
 import com.fesskiev.mediacenter.utils.schedulers.BaseSchedulerProvider
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 
 class VideoPresenter(private var compositeDisposable: CompositeDisposable,
                      private var dataRepository: DataRepository,
                      private var schedulerProvider: BaseSchedulerProvider,
+                     private var bitmapUtils: BitmapUtils,
                      private var view: VideoContract.View) : VideoContract.Presenter {
 
     override fun fetchVideoFolders() {
@@ -39,5 +43,11 @@ class VideoPresenter(private var compositeDisposable: CompositeDisposable,
         if (!compositeDisposable.isDisposed) {
             compositeDisposable.dispose()
         }
+    }
+
+    fun getVideoFolderArtwork(videoFolder: VideoFolder): Single<Bitmap> {
+        return bitmapUtils.loadVideoFolderArtwork(videoFolder)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
     }
 }
