@@ -41,24 +41,15 @@ class AudioFilesActivity : DaggerAppCompatActivity(), AudioFilesContract.View {
         nestedScrollview.overScrollMode = View.OVER_SCROLL_NEVER
         nestedScrollview.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY,
                                                                                              oldScrollX, oldScrollY ->
-            if (scrollY == 0) {
-                showTopView()
-            }
-            if (scrollY == (v.getChildAt(0).measuredHeight - v.measuredHeight)) {
-                hideTopView()
-            }
+            val height = (v.getChildAt(0).measuredHeight - v.measuredHeight).toFloat()
+            val value = scrollY / height
+            animateTopView(1f - value)
         })
     }
 
-    private fun showTopView() {
-        fab.animate().alpha(1f)
-        cardTitle.animate().alpha(1f)
-        cardSubtitle.animate().alpha(1f)
-    }
-
-    private fun hideTopView() {
-        fab.animate().alpha(0f)
-        cardTitle.animate().alpha(0f)
-        cardSubtitle.animate().alpha(0f)
+    private fun animateTopView(value: Float) {
+        fabPlayPause.animate().alpha(value)
+        cardTitle.animate().alpha(value)
+        cardSubtitle.animate().alpha(value)
     }
 }

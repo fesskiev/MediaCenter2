@@ -48,7 +48,6 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     var permissionsUtils: PermissionsUtils? = null
 
     private lateinit var adapter: ViewPagerAdapter
-    private var isShowingCardHeaderShadow: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -275,7 +274,6 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     private fun setupMainNavView() {
-        val navigationViewMain = findViewById<NavigationView>(R.id.nav_view_main)
         navigationViewMain.setNavigationItemSelectedListener(this)
         navigationViewMain.itemIconTintList = null
         navigationViewMain.inflateHeaderView(R.layout.nav_header_main)
@@ -284,26 +282,18 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     private fun setupPlaybackView() {
         nestedScrollview.overScrollMode = View.OVER_SCROLL_NEVER
         nestedScrollview.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY,
+
                                                                                              oldScrollX, oldScrollY ->
-            if (scrollY == 0) {
-                showTopView()
-            }
-            if (scrollY == (v.getChildAt(0).measuredHeight - v.measuredHeight)) {
-                hideTopView()
-            }
+            val height = (v.getChildAt(0).measuredHeight - v.measuredHeight).toFloat()
+            val value = scrollY / height
+            animateTopView(1f - value)
         })
     }
 
-    private fun showTopView() {
-        fab.animate().alpha(1f)
-        cardTitle.animate().alpha(1f)
-        cardSubtitle.animate().alpha(1f)
-    }
-
-    private fun hideTopView() {
-        fab.animate().alpha(0f)
-        cardTitle.animate().alpha(0f)
-        cardSubtitle.animate().alpha(0f)
+    private fun animateTopView(value: Float) {
+        fabPlayPause.animate().alpha(value)
+        cardTitle.animate().alpha(value)
+        cardSubtitle.animate().alpha(value)
     }
 
     private fun getPagerFragments(): Array<Fragment> {

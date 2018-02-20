@@ -14,11 +14,10 @@ class BottomSheetBehavior(context: Context?, attrs: AttributeSet?) : Coordinator
     override fun onLayoutChild(parent: CoordinatorLayout, child: NestedScrollView, layoutDirection: Int): Boolean {
         parent.onLayoutChild(child, layoutDirection)
 
-        val fabHalfHeight = child.findViewById<View>(R.id.fab).height / 2
+        val fabHalfHeight = child.findViewById<View>(R.id.fabPlayPause).height / 2
         setTopMargin(child.findViewById(R.id.cardview), fabHalfHeight)
 
-        val maxHeight = (child.height - fabHalfHeight
-                - child.findViewById<View>(R.id.cardTitle).height
+        val maxHeight = (child.height - fabHalfHeight - child.findViewById<View>(R.id.cardTitle).height
                 - child.findViewById<View>(R.id.cardSubtitle).height)
 
         val frameLayout = child.findViewById<MaxHeightView>(R.id.contentContainer)
@@ -33,7 +32,7 @@ class BottomSheetBehavior(context: Context?, attrs: AttributeSet?) : Coordinator
         if (ev.actionMasked == MotionEvent.ACTION_DOWN) {
             if (parent.isPointInChildBounds(child.findViewById(R.id.contentContainer), ev.x.toInt(), ev.y.toInt()) ||
                     parent.isPointInChildBounds(child.findViewById(R.id.cardview), ev.x.toInt(), ev.y.toInt()) ||
-                    parent.isPointInChildBounds(child.findViewById(R.id.fab), ev.x.toInt(), ev.y.toInt())) {
+                    parent.isPointInChildBounds(child.findViewById(R.id.fabPlayPause), ev.x.toInt(), ev.y.toInt())) {
                 val nestedScrollView: CustomNestedScrollView2 = child as CustomNestedScrollView2
                 nestedScrollView.enableScrolling = true
             } else {
@@ -57,11 +56,4 @@ class BottomSheetBehavior(context: Context?, attrs: AttributeSet?) : Coordinator
             v.setPadding(v.paddingLeft, top, v.paddingRight, v.paddingBottom)
         }
     }
-
-    private fun setPaddingBottom(v: View, bottom: Int) {
-        if (v.paddingBottom != bottom) {
-            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, bottom)
-        }
-    }
-
 }
