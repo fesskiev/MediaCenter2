@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.fesskiev.mediacenter.widgets.nestedscrolling.CustomNestedScrollView2 xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id='@+id/nestedscrollview'
+    android:id='@+id/nestedScrollview'
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="com.fesskiev.mediacenter.widgets.nestedscrolling.BottomSheetBehavior">
 
     <FrameLayout
-        android:id="@+id/card_container"
+        android:id="@+id/cardContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:descendantFocusability="blocksDescendants">
@@ -24,7 +24,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/card_title"
+                    android:id="@+id/cardTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -37,7 +37,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
                 <TextView
-                    android:id="@+id/card_subtitle"
+                    android:id="@+id/cardSubtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -48,23 +48,13 @@
                     android:text="Subtitle"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
-                <FrameLayout
+                <com.fesskiev.mediacenter.widgets.nestedscrolling.MaxHeightView
+                    android:id="@+id/contentContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
-                    <com.fesskiev.mediacenter.widgets.nestedscrolling.MaxHeightRecyclerView
-                        android:id="@+id/card_recyclerview"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
 
-                    <View
-                        android:id="@+id/card_header_shadow"
-                        android:layout_width="match_parent"
-                        android:layout_height="6dp"
-                        android:alpha="0"
-                        android:background="@drawable/toolbar_shadow" />
-
-                </FrameLayout>
+                </com.fesskiev.mediacenter.widgets.nestedscrolling.MaxHeightView>
 
             </LinearLayout>
 

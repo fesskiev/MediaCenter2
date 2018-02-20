@@ -9,36 +9,29 @@ import android.view.View
 import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 
-
 class BottomSheetBehavior(context: Context?, attrs: AttributeSet?) : CoordinatorLayout.Behavior<NestedScrollView>(context, attrs) {
 
     override fun onLayoutChild(parent: CoordinatorLayout, child: NestedScrollView, layoutDirection: Int): Boolean {
-        // First layout the child as normal.
         parent.onLayoutChild(child, layoutDirection)
 
-        // Center the FAB vertically along the top edge of the card.
         val fabHalfHeight = child.findViewById<View>(R.id.fab).height / 2
         setTopMargin(child.findViewById(R.id.cardview), fabHalfHeight)
 
-        // Give the RecyclerView a maximum height to ensure the card will never
-        // overlap the toolbar as it scrolls.
-        val rvMaxHeight = (child.height - fabHalfHeight
-                - child.findViewById<View>(R.id.card_title).height
-                - child.findViewById<View>(R.id.card_subtitle).height)
-        val rv = child.findViewById<MaxHeightRecyclerView>(R.id.card_recyclerview)
-        rv.setMaxHeight(rvMaxHeight + fabHalfHeight)
+        val maxHeight = (child.height - fabHalfHeight
+                - child.findViewById<View>(R.id.cardTitle).height
+                - child.findViewById<View>(R.id.cardSubtitle).height)
 
-        // Give the card container top padding so that only the top edge of the card
-        // initially appears at the bottom of the screen. The total padding will
-        // be the distance from the top of the screen to the FAB's top edge.
-        val cardContainer = child.findViewById<View>(R.id.card_container)
-        setPaddingTop(cardContainer, rvMaxHeight)
+        val frameLayout = child.findViewById<MaxHeightView>(R.id.contentContainer)
+        frameLayout.setMaxHeight(maxHeight + fabHalfHeight)
+
+        val cardContainer = child.findViewById<View>(R.id.cardContainer)
+        setPaddingTop(cardContainer, maxHeight)
         return true
     }
 
     override fun onInterceptTouchEvent(parent: CoordinatorLayout, child: NestedScrollView, ev: MotionEvent): Boolean {
         if (ev.actionMasked == MotionEvent.ACTION_DOWN) {
-            if (parent.isPointInChildBounds(child.findViewById(R.id.card_recyclerview), ev.x.toInt(), ev.y.toInt()) ||
+            if (parent.isPointInChildBounds(child.findViewById(R.id.contentContainer), ev.x.toInt(), ev.y.toInt()) ||
                     parent.isPointInChildBounds(child.findViewById(R.id.cardview), ev.x.toInt(), ev.y.toInt()) ||
                     parent.isPointInChildBounds(child.findViewById(R.id.fab), ev.x.toInt(), ev.y.toInt())) {
                 val nestedScrollView: CustomNestedScrollView2 = child as CustomNestedScrollView2

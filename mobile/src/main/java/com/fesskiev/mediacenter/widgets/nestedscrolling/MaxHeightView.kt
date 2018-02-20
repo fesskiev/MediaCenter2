@@ -1,12 +1,10 @@
 package com.fesskiev.mediacenter.widgets.nestedscrolling
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 
-
-class MaxHeightRecyclerView(context: Context?, attrs: AttributeSet?) : RecyclerView(context, attrs) {
+class MaxHeightView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
 
     private var maxHeight = -1
 
