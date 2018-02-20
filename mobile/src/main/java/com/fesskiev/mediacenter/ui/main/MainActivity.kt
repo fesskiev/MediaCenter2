@@ -98,7 +98,9 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
             }
 
             override fun onQueryTextChange(text: String): Boolean {
-                presenter?.queryFiles(text)
+                if (searchView.width > 0) {
+                    presenter?.queryFiles(text)
+                }
                 return true
             }
         })

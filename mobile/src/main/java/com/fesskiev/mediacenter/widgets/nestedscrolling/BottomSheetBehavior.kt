@@ -26,7 +26,7 @@ class BottomSheetBehavior(context: Context?, attrs: AttributeSet?) : Coordinator
                 - child.findViewById<View>(R.id.card_title).height
                 - child.findViewById<View>(R.id.card_subtitle).height)
         val rv = child.findViewById<MaxHeightRecyclerView>(R.id.card_recyclerview)
-        rv.setMaxHeight(rvMaxHeight)
+        rv.setMaxHeight(rvMaxHeight + fabHalfHeight)
 
         // Give the card container top padding so that only the top edge of the card
         // initially appears at the bottom of the screen. The total padding will
