@@ -27,7 +27,8 @@ class FilesFragment : DaggerFragment(), FilesContract.View, MediaFilesAdapter.On
     @JvmField
     var presenter: FilesPresenter? = null
     private lateinit var adapter: MediaFilesAdapter
-    private var limit = 10
+    private val limit = 10
+    private var offset = 0
     private var search: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -60,7 +61,7 @@ class FilesFragment : DaggerFragment(), FilesContract.View, MediaFilesAdapter.On
 
             override fun onPaging(lastPosition: Int) {
                 if (!search) {
-                    limit += 10
+                    offset = lastPosition + 1
                     fetchMediaFiles()
                 }
             }
@@ -99,11 +100,11 @@ class FilesFragment : DaggerFragment(), FilesContract.View, MediaFilesAdapter.On
 
     override fun fetchMediaFiles() {
         search = false
-        presenter?.fetchMediaFiles(limit)
+        presenter?.fetchMediaFiles(limit , offset)
     }
 
     override fun showMediaFiles(mediaFiles: List<MediaFile>) {
-        adapter.refresh(mediaFiles)
+        adapter.add(mediaFiles)
     }
 
     override fun showQueryFiles(mediaFiles: List<MediaFile>) {

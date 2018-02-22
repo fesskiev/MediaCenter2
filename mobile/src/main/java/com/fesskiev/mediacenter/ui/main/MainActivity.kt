@@ -65,8 +65,10 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
 
     private fun setupSwipeRefresh() {
         swipeRefreshLayout.setOnRefreshListener(this)
-        swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(applicationContext, R.color.primary_light))
-        swipeRefreshLayout.setProgressViewOffset(false, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 96f,
+        swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(applicationContext, R.color.primary_light),
+                ContextCompat.getColor(applicationContext, R.color.primary),
+                ContextCompat.getColor(applicationContext, R.color.yellow))
+        swipeRefreshLayout.setProgressViewOffset(false, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 128f,
                 resources.displayMetrics).toInt())
 
         viewPager.setOnTouchListener { v, event ->

@@ -24,7 +24,7 @@ class LocalDataSource(db: MediaDB) : LocalSource {
     }
 
     override fun getVideoFolders(): Flowable<List<VideoFolder>> {
-        return return mediaDao.getVideoFolders()
+        return mediaDao.getVideoFolders()
     }
 
     override fun getSelectedAudioFile(): Single<AudioFile> {
@@ -232,12 +232,12 @@ class LocalDataSource(db: MediaDB) : LocalSource {
         }
     }
 
-    override fun getAudioFiles(limit: Int): Flowable<List<AudioFile>> {
-        return mediaDao.getAudioFiles(limit)
+    override fun getAudioFiles(limit: Int, offset: Int): Flowable<List<AudioFile>> {
+        return mediaDao.getAudioFiles(limit, offset)
     }
 
-    override fun getVideoFiles(limit: Int): Flowable<List<VideoFile>> {
-        return mediaDao.getVideoFiles(limit)
+    override fun getVideoFiles(limit: Int, offset: Int): Flowable<List<VideoFile>> {
+        return mediaDao.getVideoFiles(limit, offset)
     }
 
     override fun containAudioTrack(path: String): Boolean {

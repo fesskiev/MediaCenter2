@@ -8,11 +8,11 @@ import io.reactivex.Flowable
 @Dao
 interface MediaDAO {
 
-    @Query("SELECT * FROM VideoFiles LIMIT :limit")
-    fun getVideoFiles(limit: Int): Flowable<List<VideoFile>>
+    @Query("SELECT * FROM VideoFiles LIMIT :limit OFFSET :offset")
+    fun getVideoFiles(limit: Int, offset: Int): Flowable<List<VideoFile>>
 
-    @Query("SELECT * FROM AudioFiles LIMIT :limit")
-    fun getAudioFiles(limit: Int): Flowable<List<AudioFile>>
+    @Query("SELECT * FROM AudioFiles LIMIT :limit OFFSET :offset")
+    fun getAudioFiles(limit: Int, offset: Int): Flowable<List<AudioFile>>
 
     @Query("SELECT * FROM AudioFolders")
     fun getAudioFolders(): Flowable<List<AudioFolder>>

@@ -20,17 +20,18 @@ class FilesPresenter(private var compositeDisposable: CompositeDisposable,
                      private var bitmapUtils: BitmapUtils,
                      private var view: FilesContract.View?) : FilesContract.Presenter {
 
-    override fun fetchMediaFiles(limit: Int) {
+    override fun fetchMediaFiles(limit : Int, offset : Int) {
+        Log.wtf("test", "offser: $offset")
         view?.showProgressBar()
-        compositeDisposable.add(getZipMediaFiles(limit)
+        compositeDisposable.add(getZipMediaFiles(limit, offset)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe({ mediaFiles -> handleMediaFiles(mediaFiles) }, { throwable -> handleError(throwable) }))
     }
 
-    private fun getZipMediaFiles(limit: Int): Flowable<List<MediaFile>> {
+    private fun getZipMediaFiles(limit: Int, offset : Int): Flowable<List<MediaFile>> {
         val localDataSource = dataRepository.localDataSource
-        return Flowable.zip(localDataSource.getAudioFiles(limit), localDataSource.getVideoFiles(limit),
+        return Flowable.zip(localDataSource.getAudioFiles(limit, offset), localDataSource.getVideoFiles(limit, offset),
                 BiFunction { audioFiles, videoFiles -> zipMediaFiles(audioFiles, videoFiles) })
     }
 
