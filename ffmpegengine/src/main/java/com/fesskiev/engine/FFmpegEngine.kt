@@ -10,4 +10,7 @@ class FFmpegEngine {
 
     @Throws(IllegalArgumentException::class)
     external fun extractFileMetadata(path: String)
+
+    @Throws(IllegalArgumentException::class)
+    external fun executeCommand(command: String)
 }

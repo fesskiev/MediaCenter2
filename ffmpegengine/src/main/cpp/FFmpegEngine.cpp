@@ -9,6 +9,7 @@
 
 #include <jni.h>
 #include <android/log.h>
+#include <string.h>
 
 
 extern "C" {
@@ -77,5 +78,16 @@ Java_com_fesskiev_engine_FFmpegEngine_extractFileMetadata(JNIEnv *env, jobject i
 
     avformat_close_input(&pFormatContext);
     avformat_free_context(pFormatContext);
+}
+
+extern "C" JNIEXPORT void
+Java_com_fesskiev_engine_FFmpegEngine_executeCommand(JNIEnv *env, jobject instance,
+                                                     jstring command) {
+    int result = system(jStr2str(env, command));
+    if (result != 0) {
+        char *error = strdup("Command failed");
+        __android_log_print(ANDROID_LOG_VERBOSE, "MediaCenter", "ERROR %d", result);
+        throwOpenFileException(env, error);
+    }
 }
 
