@@ -83,13 +83,14 @@ class MediaFilesAdapter(private var presenter: FilesPresenter?) : RecyclerView.A
     }
 
     fun refresh(mediaFiles: List<MediaFile>) {
-        clear()
+        this.mediaFiles.clear()
         this.mediaFiles.addAll(mediaFiles)
         notifyDataSetChanged()
     }
 
     fun clear() {
         this.mediaFiles.clear()
+        notifyDataSetChanged()
     }
 
     fun hideOpenCards() {

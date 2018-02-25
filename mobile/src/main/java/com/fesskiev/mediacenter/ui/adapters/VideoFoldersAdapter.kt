@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
-import com.fesskiev.mediacenter.ui.media.video.VideoFragment
 import com.fesskiev.mediacenter.ui.media.video.VideoPresenter
 import com.fesskiev.mediacenter.widgets.items.VideoCardView
 import kotlinx.android.synthetic.main.item_video.view.*
