@@ -1,14 +1,13 @@
 package com.fesskiev.mediacenter.ui.media.files
 
 import android.graphics.Bitmap
-import android.util.Log
 import com.fesskiev.mediacenter.domain.entity.media.AudioFile
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import com.fesskiev.mediacenter.domain.entity.media.VideoFile
 import com.fesskiev.mediacenter.domain.source.DataRepository
 import com.fesskiev.mediacenter.utils.BitmapUtils
 import com.fesskiev.mediacenter.utils.schedulers.BaseSchedulerProvider
-import io.reactivex.Flowable
+
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
@@ -20,23 +19,29 @@ class FilesPresenter(private var compositeDisposable: CompositeDisposable,
                      private var bitmapUtils: BitmapUtils,
                      private var view: FilesContract.View?) : FilesContract.Presenter {
 
-    override fun fetchMediaFiles(limit : Int, offset : Int) {
-        Log.wtf("test", "offser: $offset")
-        view?.showProgressBar()
-        compositeDisposable.add(getZipMediaFiles(limit, offset)
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .subscribe({ mediaFiles -> handleMediaFiles(mediaFiles) }, { throwable -> handleError(throwable) }))
+
+    override fun queryFiles(query: String) {
+        if (query.isNotEmpty()) {
+            view?.showProgressBar()
+            compositeDisposable.add(getZipMediaFiles(query)
+                    .toObservable()
+                    .subscribeOn(schedulerProvider.io())
+                    .observeOn(schedulerProvider.ui())
+                    .subscribe({ audioFolders -> handleMediaFiles(audioFolders) },
+                            { throwable -> handleError(throwable) }))
+        } else {
+            view?.showEmptyQuery()
+        }
     }
 
-    private fun getZipMediaFiles(limit: Int, offset : Int): Flowable<List<MediaFile>> {
+    private fun getZipMediaFiles(query: String): Single<List<MediaFile>> {
         val localDataSource = dataRepository.localDataSource
-        return Flowable.zip(localDataSource.getAudioFiles(limit, offset), localDataSource.getVideoFiles(limit, offset),
+        return Single.zip(localDataSource.getSearchAudioFiles(query),
+                localDataSource.getSearchVideoFiles(query),
                 BiFunction { audioFiles, videoFiles -> zipMediaFiles(audioFiles, videoFiles) })
     }
 
     private fun zipMediaFiles(audioFiles: List<AudioFile>, videoFiles: List<VideoFile>): List<MediaFile> {
-        Log.wtf("test", "**size**: audio: ${audioFiles.size} video: ${videoFiles.size}")
         val mediaFiles: MutableList<MediaFile> = ArrayList()
         mediaFiles.addAll(audioFiles)
         mediaFiles.addAll(videoFiles)
@@ -45,7 +50,7 @@ class FilesPresenter(private var compositeDisposable: CompositeDisposable,
 
     private fun handleMediaFiles(mediaFiles: List<MediaFile>) {
         view?.hideProgressBar()
-        view?.showMediaFiles(mediaFiles)
+        view?.showQueryFiles(mediaFiles)
     }
 
     private fun handleError(throwable: Throwable) {

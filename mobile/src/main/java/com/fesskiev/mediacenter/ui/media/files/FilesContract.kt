@@ -9,15 +9,13 @@ interface FilesContract {
 
     interface View : BaseView {
 
-        fun showMediaFiles(mediaFiles: List<MediaFile>)
-
         fun showQueryFiles(mediaFiles: List<MediaFile>)
 
-        fun fetchMediaFiles()
+        fun showEmptyQuery()
     }
 
     interface Presenter : BasePresenter {
 
-        fun fetchMediaFiles(limit: Int, offset: Int)
+        fun queryFiles(query: String)
     }
 }

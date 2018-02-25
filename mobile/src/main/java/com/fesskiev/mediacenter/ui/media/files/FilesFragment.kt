@@ -27,11 +27,9 @@ class FilesFragment : DaggerFragment(), FilesContract.View, MediaFilesAdapter.On
     @JvmField
     var presenter: FilesPresenter? = null
     private lateinit var adapter: MediaFilesAdapter
-    private val limit = 10
-    private var offset = 0
-    private var search: Boolean = false
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_files, container, false)
     }
 
@@ -60,10 +58,7 @@ class FilesFragment : DaggerFragment(), FilesContract.View, MediaFilesAdapter.On
             }
 
             override fun onPaging(lastPosition: Int) {
-                if (!search) {
-                    offset = lastPosition + 1
-                    fetchMediaFiles()
-                }
+
             }
         })
         adapter.setOnMediaFilesAdapterListener(this)
@@ -85,31 +80,24 @@ class FilesFragment : DaggerFragment(), FilesContract.View, MediaFilesAdapter.On
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        fetchMediaFiles()
-    }
-
     override fun showProgressBar() {
         progressBar.visibility = View.VISIBLE
     }
 
     override fun hideProgressBar() {
-        progressBar.visibility = View.GONE
+        progressBar.visibility = View.INVISIBLE
     }
 
-    override fun fetchMediaFiles() {
-        search = false
-        presenter?.fetchMediaFiles(limit , offset)
-    }
-
-    override fun showMediaFiles(mediaFiles: List<MediaFile>) {
-        adapter.add(mediaFiles)
+    fun queryFiles(query : String) {
+        presenter?.queryFiles(query)
     }
 
     override fun showQueryFiles(mediaFiles: List<MediaFile>) {
-        search = true
         adapter.refresh(mediaFiles)
+    }
+
+    override fun showEmptyQuery() {
+        adapter.clear()
     }
 
     override fun onDestroy() {

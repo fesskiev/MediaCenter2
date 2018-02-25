@@ -3,7 +3,6 @@ package com.fesskiev.mediacenter.ui.main
 import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Context
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
@@ -22,7 +21,6 @@ import android.view.View.VISIBLE
 import android.view.inputmethod.EditorInfo
 
 import com.fesskiev.mediacenter.R
-import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import com.fesskiev.mediacenter.services.ScanSystemService
 import com.fesskiev.mediacenter.ui.adapters.ViewPagerAdapter
 import com.fesskiev.mediacenter.ui.media.audio.AudioFragment
@@ -96,7 +94,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
 
             override fun onQueryTextChange(text: String): Boolean {
                 if (searchView.width > 0) {
-                    presenter?.queryFiles(text)
+                    queryFiles(text)
                 }
                 return true
             }
@@ -190,25 +188,20 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
 
     }
 
-    override fun showQueryFiles(mediaFiles: List<MediaFile>) {
+    fun queryFiles(query: String) {
         val fragments = adapter.getRegisteredFragments()
-        fragments.filterIsInstance<FilesFragment>().single().showQueryFiles(mediaFiles)
-    }
-
-    override fun queryIsEmpty() {
-        val fragments = adapter.getRegisteredFragments()
-        fragments.filterIsInstance<FilesFragment>().single().fetchMediaFiles()
+        fragments.filterIsInstance<FilesFragment>().single().queryFiles(query)
     }
 
     private fun searchTracks() {
-        viewPager.setCurrentItem(2, true)
-        searchView.isFocusable = true
-        searchView.isIconified = false
+        viewPager.setCurrentItem(3, true)
         visibleSearchView()
     }
 
     private fun visibleSearchView() {
         searchView.visibility = VISIBLE
+        searchView.isFocusable = true
+        searchView.isIconified = false
     }
 
     private fun invisibleSearchView() {
@@ -220,10 +213,10 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
             val tab = tabLayout.getTabAt(i)
             if (tab != null) {
                 if (i == 0) {
-                    tab.customView = adapter.getTabView(getImagesIds()[i], getTitles()[i],
+                    tab.customView = adapter.getTabView(getTitles()[i],
                             ContextCompat.getColor(applicationContext, R.color.yellow))
                 } else {
-                    tab.customView = adapter.getTabView(getImagesIds()[i], getTitles()[i],
+                    tab.customView = adapter.getTabView(getTitles()[i],
                             ContextCompat.getColor(applicationContext, R.color.white))
                 }
             }
@@ -250,7 +243,9 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
 
             override fun onPageSelected(position: Int) {
                 currentPosition = position
-                if (position != 2) {
+                if (position == 3) {
+                    visibleSearchView()
+                } else {
                     invisibleSearchView()
                 }
             }
@@ -259,16 +254,12 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
             override fun onPageScrollStateChanged(state: Int) {
                 if (ViewPager.SCROLL_STATE_IDLE == state) {
                     val titleTexts = adapter.getTitleTextViews()
-                    val titleImages = adapter.getTitleImageViews()
                     for (i in titleTexts.indices) {
                         val textView = titleTexts[i]
-                        val imageView = titleImages[i]
                         if (currentPosition == i) {
                             textView.setTextColor(ContextCompat.getColor(applicationContext, R.color.yellow))
-                            imageView.supportBackgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.yellow))
                         } else {
                             textView.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
-                            imageView.supportBackgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.white))
                         }
                     }
                 }
@@ -301,18 +292,14 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
 
     private fun getPagerFragments(): Array<Fragment> {
         return arrayOf(AudioFragment.newInstance(), VideoFragment.newInstance(),
-                FilesFragment.newInstance(), FoldersFragment.newInstance())
+                FoldersFragment.newInstance(), FilesFragment.newInstance())
     }
 
     private fun getTitles(): Array<String> {
         return arrayOf(getString(R.string.tab_audio), getString(R.string.tab_video),
-                getString(R.string.tab_files), getString(R.string.tab_folders))
+                getString(R.string.tab_folders), getString(R.string.tab_files))
     }
 
-    private fun getImagesIds(): Array<Int> {
-        return arrayOf(R.drawable.ic_audio, R.drawable.ic_video,
-                R.drawable.ic_files, R.drawable.ic_files)
-    }
 
     private fun createExplanationPermissionDialog() {
 

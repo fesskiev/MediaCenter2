@@ -19,7 +19,6 @@ import java.util.ArrayList
     private val fragmentList = ArrayList<Fragment>()
     private val registeredFragments = ArrayList<Fragment>()
     private val titleTextViews = ArrayList<TextView>()
-    private val titleImageViews = ArrayList<AppCompatImageView>()
 
     override fun getItem(position: Int): Fragment {
         return fragmentList[position]
@@ -52,22 +51,13 @@ import java.util.ArrayList
         return titleTextViews
     }
 
-    fun getTitleImageViews(): List<AppCompatImageView> {
-        return titleImageViews
-    }
-
     @SuppressLint("RestrictedApi")
-    fun getTabView(imageResId: Int, textTitle: String, tabTextColor: Int): View {
+    fun getTabView(textTitle: String, tabTextColor: Int): View {
         val v = LayoutInflater.from(context).inflate(R.layout.custom_tab, null)
         val tv = v.findViewById<TextView>(R.id.titleTab)
         tv.text = textTitle
         tv.setTextColor(tabTextColor)
         titleTextViews.add(tv)
-
-        val img = v.findViewById<AppCompatImageView>(R.id.imageTab)
-        img.setBackgroundResource(imageResId)
-        img.supportBackgroundTintList = ColorStateList.valueOf(tabTextColor)
-        titleImageViews.add(img)
         return v
     }
 }

@@ -63,7 +63,8 @@ class MediaFilesAdapter(private var presenter: FilesPresenter?) : RecyclerView.A
                 itemView.cardFile.itemSize.text = StringUtils.humanReadableByteCount(getSize(), false)
                 itemView.cardFile.itemDuration.text = StringUtils.getDurationString(getDuration())
                 presenter?.getAudioFolderArtwork(mediaFile)?.subscribe({ bitmap ->
-                    itemView.itemCover.setImageBitmap(bitmap) })
+                    itemView.itemCover.setImageBitmap(bitmap)
+                })
             }
         }
     }
@@ -81,15 +82,14 @@ class MediaFilesAdapter(private var presenter: FilesPresenter?) : RecyclerView.A
         holder.bindMediaFile(mediaFiles[position])
     }
 
-    fun add(mediaFiles: List<MediaFile>) {
+    fun refresh(mediaFiles: List<MediaFile>) {
+        clear()
         this.mediaFiles.addAll(mediaFiles)
         notifyDataSetChanged()
     }
 
-    fun refresh(mediaFiles: List<MediaFile>) {
+    fun clear() {
         this.mediaFiles.clear()
-        this.mediaFiles.addAll(mediaFiles)
-        notifyDataSetChanged()
     }
 
     fun hideOpenCards() {
