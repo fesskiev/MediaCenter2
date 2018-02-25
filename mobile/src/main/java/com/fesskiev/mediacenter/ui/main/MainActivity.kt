@@ -27,6 +27,7 @@ import com.fesskiev.mediacenter.services.ScanSystemService
 import com.fesskiev.mediacenter.ui.adapters.ViewPagerAdapter
 import com.fesskiev.mediacenter.ui.media.audio.AudioFragment
 import com.fesskiev.mediacenter.ui.media.files.FilesFragment
+import com.fesskiev.mediacenter.ui.media.folders.FoldersFragment
 import com.fesskiev.mediacenter.ui.media.video.VideoFragment
 import com.fesskiev.mediacenter.utils.PermissionsUtils
 import com.fesskiev.mediacenter.utils.PermissionsUtils.Companion.PERMISSION_STORAGE
@@ -233,7 +234,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         adapter = ViewPagerAdapter(applicationContext, supportFragmentManager)
         val fragments = getPagerFragments()
 
-        viewPager.offscreenPageLimit = 3
+        viewPager.offscreenPageLimit = 4
         for (fragment in fragments) {
             adapter.addFragment(fragment)
         }
@@ -299,15 +300,18 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     private fun getPagerFragments(): Array<Fragment> {
-        return arrayOf(AudioFragment.newInstance(), VideoFragment.newInstance(), FilesFragment.newInstance())
+        return arrayOf(AudioFragment.newInstance(), VideoFragment.newInstance(),
+                FilesFragment.newInstance(), FoldersFragment.newInstance())
     }
 
     private fun getTitles(): Array<String> {
-        return arrayOf(getString(R.string.tab_audio), getString(R.string.tab_video), getString(R.string.tab_files))
+        return arrayOf(getString(R.string.tab_audio), getString(R.string.tab_video),
+                getString(R.string.tab_files), getString(R.string.tab_folders))
     }
 
     private fun getImagesIds(): Array<Int> {
-        return arrayOf(R.drawable.ic_audio, R.drawable.ic_video, R.drawable.ic_files)
+        return arrayOf(R.drawable.ic_audio, R.drawable.ic_video,
+                R.drawable.ic_files, R.drawable.ic_files)
     }
 
     private fun createExplanationPermissionDialog() {

@@ -4,6 +4,8 @@ import com.fesskiev.mediacenter.ui.media.audio.AudioFragment
 import com.fesskiev.mediacenter.ui.media.audio.AudioFragmentModule
 import com.fesskiev.mediacenter.ui.media.files.FilesFragment
 import com.fesskiev.mediacenter.ui.media.files.FilesFragmentModule
+import com.fesskiev.mediacenter.ui.media.folders.FoldersFragment
+import com.fesskiev.mediacenter.ui.media.folders.FoldersFragmentModule
 import com.fesskiev.mediacenter.ui.media.video.VideoFragment
 import com.fesskiev.mediacenter.ui.media.video.VideoFragmentModule
 import dagger.Module
@@ -20,4 +22,7 @@ abstract class FragmentBuilder {
 
     @ContributesAndroidInjector(modules = [FilesFragmentModule::class])
     internal abstract fun provideFilesFragmentFactory(): FilesFragment
+
+    @ContributesAndroidInjector(modules = [FoldersFragmentModule::class])
+    internal abstract fun provideFoldersFragmentFactory(): FoldersFragment
 }
