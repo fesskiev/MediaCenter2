@@ -18,7 +18,7 @@ import com.fesskiev.mediacenter.utils.NotificationUtils.Companion.NOTIFICATION_S
 import com.fesskiev.mediacenter.utils.StorageUtils
 import com.fesskiev.mediacenter.utils.enums.ScanState
 import com.fesskiev.mediacenter.utils.enums.ScanType
-import dagger.android.AndroidInjection
+import dagger.android.DaggerService
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.filefilter.IOFileFilter
 import org.apache.commons.io.filefilter.TrueFileFilter
@@ -28,7 +28,7 @@ import java.io.IOException
 import java.util.*
 import javax.inject.Inject
 
-class ScanSystemService : Service() {
+class ScanSystemService : DaggerService() {
 
     companion object {
 
@@ -82,7 +82,6 @@ class ScanSystemService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        AndroidInjection.inject(this)
         fetchContentThread = FetchContentThread()
         fetchContentThread?.start()
         registerNotificationReceiver()
