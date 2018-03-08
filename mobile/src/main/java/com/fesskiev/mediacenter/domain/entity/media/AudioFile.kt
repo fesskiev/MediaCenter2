@@ -34,7 +34,7 @@ data class AudioFile(@NotNull
                 var audioFileTimestamp: Long = 0,
                 var audioFileInPlayList: Boolean = false,
                 var audioFileIsSelected: Boolean = false,
-                var audioFileIsHidden: Boolean = false) : MediaFile, Parcelable {
+                var audioFileIsHidden: Boolean = false) : MediaFile, Parcelable, Comparable<AudioFile> {
 
     override fun getId(): String {
         return audioFileId
@@ -92,5 +92,14 @@ data class AudioFile(@NotNull
 
     override fun setToPlayList(inPlaylist: Boolean) {
         this.audioFileInPlayList = inPlaylist
+    }
+
+    override fun compareTo(other: AudioFile): Int {
+        if(this.audioFileTrackNumber > other.audioFileTrackNumber){
+            return 1
+        } else if (this.audioFileTrackNumber < other.audioFileTrackNumber){
+            return -1
+        }
+        return 0
     }
 }

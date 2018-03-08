@@ -17,7 +17,6 @@ class FoldersAdapter(private var presenter: FoldersPresenter?): RecyclerView.Ada
         fun onClickFile(file: File)
     }
 
-
     private val files: MutableList<File> = ArrayList()
     private var listener: OnFoldersAdapterListener? = null
 

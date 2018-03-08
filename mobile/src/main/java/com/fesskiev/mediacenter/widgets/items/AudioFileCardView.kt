@@ -9,10 +9,10 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import com.fesskiev.mediacenter.R
-import kotlinx.android.synthetic.main.layout_file_card_view.view.*
+import kotlinx.android.synthetic.main.layout_media_file_card_view.view.*
 
 
-class FileCardView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+class AudioFileCardView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
     interface OnFileCardListener {
 
@@ -24,7 +24,7 @@ class FileCardView(context: Context, attrs: AttributeSet) : FrameLayout(context,
 
         fun onClick()
 
-        fun onAnimateChanged(view: FileCardView, open: Boolean)
+        fun onAnimateChanged(view: AudioFileCardView, open: Boolean)
     }
 
     companion object {
@@ -44,7 +44,7 @@ class FileCardView(context: Context, attrs: AttributeSet) : FrameLayout(context,
 
     private fun init(context: Context) {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        inflater.inflate(R.layout.layout_file_card_view, this, true)
+        inflater.inflate(R.layout.layout_audio_file_card_view, this, true)
 
         detector = GestureDetector(context, GestureListener())
     }
@@ -57,7 +57,7 @@ class FileCardView(context: Context, attrs: AttributeSet) : FrameLayout(context,
                 val deltaX = x2 - x1
                 if (Math.abs(deltaX) > MIN_DISTANCE) {
                     if (x2 > x1) {
-  //                    animateSlidingContainer(false)
+                        animateSlidingContainer(false)
                     } else {
                         animateSlidingContainer(true)
                     }
@@ -75,7 +75,7 @@ class FileCardView(context: Context, attrs: AttributeSet) : FrameLayout(context,
 
         override fun onSingleTapUp(e: MotionEvent): Boolean {
             if (isOpen) {
-                if(isPointInsideView(e.rawX, e.rawY, slidingContainer)){
+                if (isPointInsideView(e.rawX, e.rawY, slidingContainer)) {
                     animateSlidingContainer(false)
                     return true
                 }
@@ -109,7 +109,7 @@ class FileCardView(context: Context, attrs: AttributeSet) : FrameLayout(context,
                 .setListener(object : Animator.AnimatorListener {
                     override fun onAnimationStart(animation: Animator) {
                         if (listener != null) {
-                            listener?.onAnimateChanged(this@FileCardView, isOpen)
+                            listener?.onAnimateChanged(this@AudioFileCardView, isOpen)
                         }
                     }
 
@@ -139,7 +139,7 @@ class FileCardView(context: Context, attrs: AttributeSet) : FrameLayout(context,
         this.listener = l
     }
 
-    fun isOpen() : Boolean {
+    fun isOpen(): Boolean {
         return isOpen
     }
 

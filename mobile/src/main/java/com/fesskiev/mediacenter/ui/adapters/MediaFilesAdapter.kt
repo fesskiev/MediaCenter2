@@ -8,9 +8,9 @@ import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import com.fesskiev.mediacenter.ui.media.files.FilesPresenter
 import com.fesskiev.mediacenter.utils.StringUtils
-import com.fesskiev.mediacenter.widgets.items.FileCardView
-import kotlinx.android.synthetic.main.item_file.view.*
-import kotlinx.android.synthetic.main.layout_file_card_view.view.*
+import com.fesskiev.mediacenter.widgets.items.MediaFileCardView
+import kotlinx.android.synthetic.main.item_media_file.view.*
+import kotlinx.android.synthetic.main.layout_media_file_card_view.view.*
 
 
 class MediaFilesAdapter(private var presenter: FilesPresenter?) : RecyclerView.Adapter<MediaFilesAdapter.ViewHolder>() {
@@ -28,12 +28,12 @@ class MediaFilesAdapter(private var presenter: FilesPresenter?) : RecyclerView.A
 
     private var listener: OnMediaFilesAdapterListener? = null
     private var mediaFiles: MutableList<MediaFile> = ArrayList()
-    private var cards: MutableList<FileCardView> = ArrayList()
+    private var cards: MutableList<MediaFileCardView> = ArrayList()
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindMediaFile(mediaFile: MediaFile) {
             with(mediaFile) {
-                itemView.cardFile.setOnFileCardListener(object : FileCardView.OnFileCardListener {
+                itemView.cardFile.setOnFileCardListener(object : MediaFileCardView.OnFileCardListener {
                     override fun onDeleteClick() {
                         listener?.onDeleteFile(mediaFiles[adapterPosition])
                     }
@@ -50,7 +50,7 @@ class MediaFilesAdapter(private var presenter: FilesPresenter?) : RecyclerView.A
                         listener?.onClickFile(mediaFiles[adapterPosition])
                     }
 
-                    override fun onAnimateChanged(view: FileCardView, open: Boolean) {
+                    override fun onAnimateChanged(view: MediaFileCardView, open: Boolean) {
                         if (open) {
                             cards.add(view)
                         } else {
@@ -70,7 +70,7 @@ class MediaFilesAdapter(private var presenter: FilesPresenter?) : RecyclerView.A
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_file, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_media_file, parent, false)
         return ViewHolder(v)
     }
 

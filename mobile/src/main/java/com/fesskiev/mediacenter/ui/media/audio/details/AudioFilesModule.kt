@@ -1,6 +1,7 @@
 package com.fesskiev.mediacenter.ui.media.audio.details
 
 import com.fesskiev.mediacenter.domain.source.DataRepository
+import com.fesskiev.mediacenter.utils.BitmapUtils
 import com.fesskiev.mediacenter.utils.schedulers.BaseSchedulerProvider
 import dagger.Binds
 import dagger.Module
@@ -16,10 +17,12 @@ abstract class AudioFilesModule {
         @JvmStatic
         @Provides
         fun provideAudioFilesPresenter(compositeDisposable: CompositeDisposable,
-                                  dataRepository: DataRepository,
-                                  schedulerProvider: BaseSchedulerProvider,
-                                  view: AudioFilesContract.View): AudioFilesPresenter {
-            return AudioFilesPresenter(compositeDisposable, dataRepository, schedulerProvider, view)
+                                       dataRepository: DataRepository,
+                                       schedulerProvider: BaseSchedulerProvider,
+                                       bitmapUtils: BitmapUtils,
+                                       view: AudioFilesContract.View): AudioFilesPresenter {
+            return AudioFilesPresenter(compositeDisposable, dataRepository, schedulerProvider,
+                    bitmapUtils, view)
         }
 
         @JvmStatic
