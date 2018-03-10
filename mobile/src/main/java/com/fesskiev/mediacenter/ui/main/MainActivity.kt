@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -14,6 +15,7 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.SearchView
 import android.text.InputType
+import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.view.View.GONE
@@ -33,6 +35,7 @@ import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_playback.*
 import javax.inject.Inject
+import android.view.LayoutInflater
 
 
 class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
@@ -282,6 +285,13 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
             val value = scrollY / height
             animateTopView(1f - value)
         })
+
+        Handler().postDelayed({
+            val inflater = LayoutInflater.from(this)
+            val view = inflater.inflate(R.layout.layout_audio_control, null,
+                    false)
+            contentContainer.addView(view)
+        }, 2000)
     }
 
     private fun animateTopView(value: Float) {

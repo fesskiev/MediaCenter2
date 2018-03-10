@@ -3,9 +3,9 @@ package com.fesskiev.mediacenter.widgets.nestedscrolling
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup
+import android.widget.FrameLayout
 
-class MaxHeightView(context: Context?, attrs: AttributeSet?) : ViewGroup(context, attrs) {
+class MaxHeightView(context: Context?, attrs: AttributeSet?) : FrameLayout(context, attrs) {
 
     private var maxHeight = -1
 
@@ -18,10 +18,6 @@ class MaxHeightView(context: Context?, attrs: AttributeSet?) : ViewGroup(context
             newHeight = View.MeasureSpec.makeMeasureSpec(maxHeight, View.MeasureSpec.AT_MOST)
         }
         super.onMeasure(widthSpec, newHeight)
-    }
-
-    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-
     }
 
     fun setMaxHeight(maxHeight: Int) {

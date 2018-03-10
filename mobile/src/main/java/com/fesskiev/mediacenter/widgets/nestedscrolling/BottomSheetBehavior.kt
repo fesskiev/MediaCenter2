@@ -8,8 +8,11 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
+import com.fesskiev.mediacenter.widgets.controls.AudioControlView
 
 class BottomSheetBehavior(context: Context?, attrs: AttributeSet?) : CoordinatorLayout.Behavior<NestedScrollView>(context, attrs) {
+
+    private var audioControlView: AudioControlView? = null
 
     override fun onLayoutChild(parent: CoordinatorLayout, child: NestedScrollView, layoutDirection: Int): Boolean {
         parent.onLayoutChild(child, layoutDirection)
@@ -25,14 +28,20 @@ class BottomSheetBehavior(context: Context?, attrs: AttributeSet?) : Coordinator
 
         val cardContainer = child.findViewById<View>(R.id.cardContainer)
         setPaddingTop(cardContainer, maxHeight)
+
+        audioControlView = child.findViewById(R.id.audioControlView)
+
         return true
     }
 
     override fun onInterceptTouchEvent(parent: CoordinatorLayout, child: NestedScrollView, ev: MotionEvent): Boolean {
         if (ev.actionMasked == MotionEvent.ACTION_DOWN) {
-            if (parent.isPointInChildBounds(child.findViewById(R.id.contentContainer), ev.x.toInt(), ev.y.toInt()) ||
-                    parent.isPointInChildBounds(child.findViewById(R.id.cardview), ev.x.toInt(), ev.y.toInt()) ||
-                    parent.isPointInChildBounds(child.findViewById(R.id.fabPlayPause), ev.x.toInt(), ev.y.toInt())) {
+            var isSlidersTouch = false
+            if (audioControlView != null) {
+                isSlidersTouch = parent.isPointInChildBounds(audioControlView, ev.x.toInt(), ev.y.toInt())
+            }
+            if (!isSlidersTouch && (parent.isPointInChildBounds(child.findViewById(R.id.cardview), ev.x.toInt(), ev.y.toInt()) ||
+                            parent.isPointInChildBounds(child.findViewById(R.id.fabPlayPause), ev.x.toInt(), ev.y.toInt()))) {
                 val nestedScrollView: CustomNestedScrollView2 = child as CustomNestedScrollView2
                 nestedScrollView.enableScrolling = true
             } else {

@@ -19,4 +19,7 @@
 
     <color name="grid_state_pressed">#1affffff</color>
     <color name="grid_state_focused">#80000000</color>
+
+    <color name="audio_control">#455A64</color>
+
 </resources>

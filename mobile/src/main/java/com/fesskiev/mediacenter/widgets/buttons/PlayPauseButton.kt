@@ -5,14 +5,14 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
-import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.AppCompatImageView
 import android.util.AttributeSet
 import android.view.animation.DecelerateInterpolator
 import com.fesskiev.mediacenter.R
 
 
-class PlayPauseFAB : FloatingActionButton {
+class PlayPauseButton : AppCompatImageView {
 
     interface OnClickListener {
         fun onPlay(play: Boolean)
@@ -35,9 +35,14 @@ class PlayPauseFAB : FloatingActionButton {
     }
 
     private fun init(attrs: AttributeSet?, defStyleAttr: Int) {
+        val res = context.resources
         timerDrawable = ContextCompat.getDrawable(context, R.drawable.avd_clock_timer)
         drawable = PlayPauseDrawable(context)
         drawable.callback = this
+        drawable.setColor(ContextCompat.getColor(context, R.color.audio_control))
+        drawable.setPauseBarWidth(res.getDimensionPixelSize(R.dimen.pause_bar_big_width).toFloat())
+        drawable.setPauseBarHeight(res.getDimensionPixelSize(R.dimen.pause_bar_big_height).toFloat())
+        drawable.setPauseBarDistance(res.getDimensionPixelSize(R.dimen.pause_bar_big_distance).toFloat())
         setOnClickListener({ togglePlay() })
         setPlay(false)
     }
