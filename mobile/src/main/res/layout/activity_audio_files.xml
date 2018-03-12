@@ -10,6 +10,7 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
+        android:background="@android:color/transparent"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -29,7 +30,8 @@
                 app:expandedTitleGravity="bottom"
                 app:expandedTitleMarginBottom="10dp"
                 app:expandedTitleMarginStart="5dp"
-                app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+                tools:src="@drawable/ic_no_folder" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"

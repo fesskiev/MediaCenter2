@@ -15,7 +15,6 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.SearchView
 import android.text.InputType
-import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.view.View.GONE
@@ -36,7 +35,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_playback.*
 import javax.inject.Inject
 import android.view.LayoutInflater
-
 
 class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
         SwipeRefreshLayout.OnRefreshListener, MainContract.View {
@@ -296,8 +294,6 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
 
     private fun animateTopView(value: Float) {
         fabPlayPause.animate().alpha(value)
-        cardTitle.animate().alpha(value)
-        cardSubtitle.animate().alpha(value)
     }
 
     private fun getPagerFragments(): Array<Fragment> {
@@ -309,7 +305,6 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         return arrayOf(getString(R.string.tab_audio), getString(R.string.tab_video),
                 getString(R.string.tab_folders), getString(R.string.tab_files))
     }
-
 
     private fun createExplanationPermissionDialog() {
 
