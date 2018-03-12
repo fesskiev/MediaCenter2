@@ -54,7 +54,7 @@ class TagsEngine(private val context: Context, private val bitmapUtils: BitmapUt
                 }
             }
             val frame = retriever.getFrameAtTime((ThreadLocalRandom.current().nextInt(0, (videoFile.videoFileDuration * 1000000).toInt()).toLong()))
-            saveFrame(frame, videoFolder, videoFile)
+            saveFrame(frame, videoFile)
             retriever.release()
         }catch (e : Exception){
             e.printStackTrace()
@@ -190,7 +190,7 @@ class TagsEngine(private val context: Context, private val bitmapUtils: BitmapUt
         }
     }
 
-    private fun saveFrame(bitmap: Bitmap, videoFolder: VideoFolder, videoFile: VideoFile) {
+    private fun saveFrame(bitmap: Bitmap, videoFile: VideoFile) {
         try {
             val dir = File(IMAGES_VIDEO_CACHE_PATH)
             if (!dir.exists()) {
@@ -201,7 +201,6 @@ class TagsEngine(private val context: Context, private val bitmapUtils: BitmapUt
             bitmapUtils.saveBitmap(bitmap, path)
 
             videoFile.videoFileFramePath = path.absolutePath
-            videoFolder.videoFolderImage = path
         } catch (e: IOException) {
             e.printStackTrace()
         }

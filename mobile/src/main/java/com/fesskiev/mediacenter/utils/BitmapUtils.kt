@@ -85,13 +85,13 @@ class BitmapUtils(private var context: Context, private var okHttpClient: OkHttp
         return bitmap
     }
 
-    fun addBitmapToMemoryCache(key: String?, bitmap: Bitmap) {
+    private fun addBitmapToMemoryCache(key: String?, bitmap: Bitmap) {
         if (getBitmapFromMemCache(key) == null) {
             bitmapLruCache.put(key, bitmap)
         }
     }
 
-    fun getBitmapFromMemCache(key: String?): Bitmap? {
+    private fun getBitmapFromMemCache(key: String?): Bitmap? {
         return bitmapLruCache.get(key)
     }
 

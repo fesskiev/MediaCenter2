@@ -237,6 +237,12 @@ class ScanSystemService : DaggerService() {
         val videoPaths = directoryFile.listFiles(videoFilter())
         if (videoPaths.isNotEmpty()) {
             val videoFolder = VideoFolder()
+
+            val filterImages = directoryFile.listFiles(folderImageFilter())
+            if (filterImages.isNotEmpty()) {
+                videoFolder.videoFolderImage = filterImages[0]
+            }
+
             videoFolder.videoFolderPath = directoryFile
             videoFolder.videoFolderName = directoryFile.name
             videoFolder.videoFolderId = UUID.randomUUID().toString()
