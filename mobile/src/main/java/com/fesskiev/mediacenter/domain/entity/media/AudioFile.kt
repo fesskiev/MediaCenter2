@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.arch.persistence.room.*
 import android.arch.persistence.room.ForeignKey.CASCADE
 import android.os.Parcelable
+import com.fesskiev.mediacenter.utils.enums.MediaType
 import kotlinx.android.parcel.Parcelize
 import org.jetbrains.annotations.NotNull
 import java.io.File

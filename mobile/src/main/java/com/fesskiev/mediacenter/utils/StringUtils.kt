@@ -32,7 +32,7 @@ class StringUtils {
             }
 
             return if (number / 10 == 0L) {
-                "0" + number
+                "0$number"
             } else number.toString()
 
         }

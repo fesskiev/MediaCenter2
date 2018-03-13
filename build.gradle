@@ -54,4 +54,5 @@ ext {
     archComponents = "1.0.0"
     commons = '2.5'
     leakCanary = '1.5.4'
+    loggingInterceptor = '3.9.0'
 }

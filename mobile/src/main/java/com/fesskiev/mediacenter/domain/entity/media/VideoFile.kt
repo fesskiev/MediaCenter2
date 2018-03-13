@@ -7,6 +7,7 @@ import android.arch.persistence.room.ForeignKey.CASCADE
 import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
 import android.os.Parcelable
+import com.fesskiev.mediacenter.utils.enums.MediaType
 import kotlinx.android.parcel.Parcelize
 import org.jetbrains.annotations.NotNull
 import java.io.File

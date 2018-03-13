@@ -1,5 +1,7 @@
 package com.fesskiev.mediacenter.domain.entity.media
 
+import com.fesskiev.mediacenter.utils.enums.MediaType
+
 
 interface MediaFile {
 

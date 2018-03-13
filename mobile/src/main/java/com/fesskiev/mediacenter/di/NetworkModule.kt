@@ -1,9 +1,9 @@
 package com.fesskiev.mediacenter.di
 
-import com.fesskiev.mediacenter.domain.source.remote.reteofit.LoggingInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -15,7 +15,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(interceptor: LoggingInterceptor): OkHttpClient {
+    fun provideOkHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
                 .connectTimeout(20, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)
@@ -37,8 +37,9 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideLoggingInterceptor(): LoggingInterceptor {
-        return LoggingInterceptor()
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BASIC
+        return interceptor
     }
-
 }

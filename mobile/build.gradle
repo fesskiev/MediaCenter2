@@ -61,6 +61,7 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$retrofit"
     compile "com.squareup.retrofit2:converter-gson:$gson"
     compile "com.squareup.retrofit2:adapter-rxjava2:$rxjavaAdapter"
+    implementation "com.squareup.okhttp3:logging-interceptor:$loggingInterceptor"
 
     compile "io.reactivex.rxjava2:rxandroid:$rxandroid"
     compile "io.reactivex.rxjava2:rxjava:$rxjava"
