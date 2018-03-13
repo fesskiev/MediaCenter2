@@ -11,6 +11,8 @@ import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import com.fesskiev.mediacenter.ui.adapters.AudioFilesAdapter
 import com.fesskiev.mediacenter.utils.Constants.Companion.EXTRA_AUDIO_FOLDER
+import com.fesskiev.mediacenter.utils.invisible
+import com.fesskiev.mediacenter.utils.visible
 import com.fesskiev.mediacenter.widgets.recycler.HidingScrollListener
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_audio_files.*
@@ -81,11 +83,11 @@ class AudioFilesActivity : DaggerAppCompatActivity(), AudioFilesContract.View,
     }
 
     override fun showProgressBar() {
-        progressBar.visibility = View.VISIBLE
+        progressBar.visible()
     }
 
     override fun hideProgressBar() {
-        progressBar.visibility = View.GONE
+        progressBar.invisible()
     }
 
     override fun onSupportNavigateUp(): Boolean {

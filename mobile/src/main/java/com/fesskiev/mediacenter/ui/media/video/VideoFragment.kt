@@ -11,6 +11,8 @@ import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 import com.fesskiev.mediacenter.ui.adapters.VideoFoldersAdapter
 import com.fesskiev.mediacenter.ui.media.video.details.VideoFilesActivity
 import com.fesskiev.mediacenter.utils.Constants.Companion.EXTRA_VIDEO_FOLDER
+import com.fesskiev.mediacenter.utils.invisible
+import com.fesskiev.mediacenter.utils.visible
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_audio.*
 import javax.inject.Inject
@@ -53,12 +55,13 @@ class VideoFragment : DaggerFragment(), VideoContract.View, VideoFoldersAdapter.
     }
 
     override fun showProgressBar() {
-        progressBar.visibility = View.VISIBLE
+        progressBar.visible()
     }
 
     override fun hideProgressBar() {
-        progressBar.visibility = View.GONE
+        progressBar.invisible()
     }
+
 
     override fun showVideoFolders(videoFolders: List<VideoFolder>) {
         adapter.refresh(videoFolders)

@@ -13,6 +13,8 @@ import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.ui.adapters.AudioFoldersAdapter
 import com.fesskiev.mediacenter.ui.media.audio.details.AudioFilesActivity
 import com.fesskiev.mediacenter.utils.Constants.Companion.EXTRA_AUDIO_FOLDER
+import com.fesskiev.mediacenter.utils.invisible
+import com.fesskiev.mediacenter.utils.visible
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_audio.*
 import javax.inject.Inject
@@ -56,11 +58,11 @@ class AudioFragment : DaggerFragment(), AudioContact.View, AudioFoldersAdapter.O
     }
 
     override fun showProgressBar() {
-        progressBar.visibility = VISIBLE
+        progressBar.visible()
     }
 
     override fun hideProgressBar() {
-        progressBar.visibility = GONE
+        progressBar.invisible()
     }
 
     override fun showAudioFolders(audioFolders: List<AudioFolder>) {

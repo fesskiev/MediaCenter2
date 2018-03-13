@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import com.fesskiev.mediacenter.ui.adapters.MediaFilesAdapter
+import com.fesskiev.mediacenter.utils.invisible
+import com.fesskiev.mediacenter.utils.visible
 import com.fesskiev.mediacenter.widgets.recycler.HidingScrollListener
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_audio.*
@@ -81,12 +83,13 @@ class FilesFragment : DaggerFragment(), FilesContract.View, MediaFilesAdapter.On
     }
 
     override fun showProgressBar() {
-        progressBar.visibility = View.VISIBLE
+        progressBar.visible()
     }
 
     override fun hideProgressBar() {
-        progressBar.visibility = View.INVISIBLE
+        progressBar.invisible()
     }
+
 
     fun queryFiles(query : String) {
         presenter?.queryFiles(query)
