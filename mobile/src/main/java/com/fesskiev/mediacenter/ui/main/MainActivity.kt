@@ -3,6 +3,7 @@ package com.fesskiev.mediacenter.ui.main
 import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.NavigationView
@@ -35,6 +36,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_playback.*
 import javax.inject.Inject
 import android.view.LayoutInflater
+import com.fesskiev.mediacenter.ui.playlist.PlaylistActivity
 
 class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
         SwipeRefreshLayout.OnRefreshListener, MainContract.View {
@@ -123,11 +125,13 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
             R.id.about -> {
 
             }
-            R.id.playlist -> {
-
-            }
+            R.id.playlist -> startPlaylistActivity()
         }
-        return true
+        return false
+    }
+
+    private fun startPlaylistActivity() {
+        startActivity(Intent(this, PlaylistActivity::class.java))
     }
 
     override fun onBackPressed() {
@@ -277,7 +281,6 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     private fun setupPlaybackView() {
         nestedScrollview.overScrollMode = View.OVER_SCROLL_NEVER
         nestedScrollview.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY,
-
                                                                                              oldScrollX, oldScrollY ->
             val height = (v.getChildAt(0).measuredHeight - v.measuredHeight).toFloat()
             val value = scrollY / height

@@ -1,7 +1,5 @@
 package com.fesskiev.engine
 
-import android.util.Log
-
 class SuperpoweredEngine {
 
     private var duration: Int = 0
