@@ -1,13 +1,13 @@
 package com.fesskiev.mediacenter.ui.adapters
 
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.AudioFile
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import com.fesskiev.mediacenter.utils.StringUtils
+import com.fesskiev.mediacenter.utils.inflate
 import com.fesskiev.mediacenter.widgets.items.AudioFileCardView
 import kotlinx.android.synthetic.main.item_audio_file.view.*
 import kotlinx.android.synthetic.main.layout_audio_file_card_view.view.*
@@ -28,7 +28,6 @@ class AudioFilesAdapter : RecyclerView.Adapter<AudioFilesAdapter.ViewHolder>() {
     private var listener: OnAudioFilesAdapterListener? = null
     private var audioFiles: MutableList<AudioFile> = ArrayList()
     private var cards: MutableList<AudioFileCardView> = ArrayList()
-
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindAudioFile(audioFile: AudioFile) {
@@ -68,7 +67,7 @@ class AudioFilesAdapter : RecyclerView.Adapter<AudioFilesAdapter.ViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_audio_file, parent, false)
+        val v = parent.inflate(R.layout.item_audio_file)
         return ViewHolder(v)
     }
 

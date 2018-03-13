@@ -1,11 +1,11 @@
 package com.fesskiev.mediacenter.ui.adapters
 
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.ui.media.folders.FoldersPresenter
+import com.fesskiev.mediacenter.utils.inflate
 import java.io.File
 import java.util.ArrayList
 import kotlinx.android.synthetic.main.item_folder_content.view.*
@@ -35,8 +35,7 @@ class FoldersAdapter(private var presenter: FoldersPresenter?): RecyclerView.Ada
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_folder_content, parent, false)
+        val v = parent.inflate(R.layout.item_folder_content)
         return ViewHolder(v)
     }
 

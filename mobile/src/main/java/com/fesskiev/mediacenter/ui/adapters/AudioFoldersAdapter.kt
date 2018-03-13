@@ -1,12 +1,12 @@
 package com.fesskiev.mediacenter.ui.adapters
 
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.ui.media.audio.AudioPresenter
+import com.fesskiev.mediacenter.utils.inflate
 import com.fesskiev.mediacenter.widgets.items.AudioCardView
 import kotlinx.android.synthetic.main.layout_audio_card_view.view.*
 import kotlinx.android.synthetic.main.item_audio.view.*
@@ -45,7 +45,7 @@ class AudioFoldersAdapter(private var presenter: AudioPresenter?) : RecyclerView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_audio, parent, false)
+        val v = parent.inflate(R.layout.item_audio)
         return ViewHolder(v)
     }
 
