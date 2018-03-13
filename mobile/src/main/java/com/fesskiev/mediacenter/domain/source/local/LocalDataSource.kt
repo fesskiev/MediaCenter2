@@ -20,7 +20,7 @@ class LocalDataSource(db: MediaDB) : LocalSource {
     }
 
     override fun getSelectedAudioFolder(): Single<AudioFolder> {
-        return Single.fromCallable { mediaDao.getSelectedAudioFolder() }
+        return mediaDao.getSelectedAudioFolder()
     }
 
     override fun getVideoFolders(): Flowable<List<VideoFolder>> {
@@ -28,31 +28,31 @@ class LocalDataSource(db: MediaDB) : LocalSource {
     }
 
     override fun getSelectedAudioFile(): Single<AudioFile> {
-        return Single.fromCallable { mediaDao.getSelectedAudioFile() }
+        return mediaDao.getSelectedAudioFile()
     }
 
     override fun getAudioFilePlaylist(): Single<List<AudioFile>> {
-        return Single.fromCallable { mediaDao.getAudioFilePlaylist() }
+        return mediaDao.getAudioFilePlaylist()
     }
 
     override fun getVideoFilePlaylist(): Single<List<VideoFile>> {
-        return Single.fromCallable { mediaDao.getVideoFilePlaylist() }
+        return mediaDao.getVideoFilePlaylist()
     }
 
     override fun getArtistsList(): Single<List<String>> {
-        return Single.fromCallable { mediaDao.getArtistsList() }
+        return mediaDao.getArtistsList()
     }
 
     override fun getGenresList(): Single<List<String>> {
-        return Single.fromCallable { mediaDao.getGenresList() }
+        return mediaDao.getGenresList()
     }
 
     override fun getSelectedVideoFolder(): Single<VideoFolder> {
-        return Single.fromCallable { mediaDao.getSelectedVideoFolder() }
+        return mediaDao.getSelectedVideoFolder()
     }
 
     override fun getSelectedVideoFile(): Single<VideoFile> {
-        return Single.fromCallable { mediaDao.getSelectedVideoFile() }
+        return mediaDao.getSelectedVideoFile()
     }
 
     override fun insertAudioFolder(audioFolder: AudioFolder) {
@@ -71,11 +71,11 @@ class LocalDataSource(db: MediaDB) : LocalSource {
     }
 
     override fun getAudioFolderByPath(path: String): Single<AudioFolder> {
-        return Single.fromCallable { mediaDao.getAudioFolderByPath(path) }
+        return mediaDao.getAudioFolderByPath(path)
     }
 
     override fun getSelectedAudioFiles(audioFolder: AudioFolder): Single<List<AudioFile>> {
-        return Single.fromCallable { mediaDao.getSelectedAudioFiles(audioFolder.audioFolderId) }
+        return mediaDao.getSelectedAudioFiles(audioFolder.audioFolderId)
     }
 
     override fun updateSelectedAudioFolder(audioFolder: AudioFolder): Single<Any> {
@@ -112,7 +112,7 @@ class LocalDataSource(db: MediaDB) : LocalSource {
     }
 
     override fun getVideoFolderByPath(path: String): Single<VideoFolder> {
-        return Single.fromCallable { mediaDao.getVideoFolderByPath(path) }
+        return mediaDao.getVideoFolderByPath(path)
     }
 
     override fun updateVideoFoldersIndex(videoFolders: List<VideoFolder>): Single<Int> {
@@ -145,27 +145,27 @@ class LocalDataSource(db: MediaDB) : LocalSource {
     }
 
     override fun getAudioFileByPath(path: String): Single<AudioFile> {
-        return Single.fromCallable { mediaDao.getAudioFileByPath(path) }
+        return mediaDao.getAudioFileByPath(path)
     }
 
     override fun getSearchAudioFiles(query: String): Single<List<AudioFile>> {
-        return Single.fromCallable { mediaDao.getSearchAudioFiles(query) }
+        return mediaDao.getSearchAudioFiles(query)
     }
 
     override fun getSearchVideoFiles(query: String): Single<List<VideoFile>> {
-        return Single.fromCallable { mediaDao.getSearchVideoFiles(query) }
+        return mediaDao.getSearchVideoFiles(query)
     }
 
     override fun getGenreTracks(contentValue: String): Single<List<AudioFile>> {
-        return Single.fromCallable { mediaDao.getGenreTracks(contentValue) }
+        return mediaDao.getGenreTracks(contentValue)
     }
 
     override fun getArtistTracks(contentValue: String): Single<List<AudioFile>> {
-        return Single.fromCallable { mediaDao.getArtistTracks(contentValue) }
+        return mediaDao.getArtistTracks(contentValue)
     }
 
     override fun getAudioTracks(id: String): Single<List<AudioFile>> {
-        return Single.fromCallable { mediaDao.getAudioTracks(id) }
+        return mediaDao.getAudioTracks(id)
     }
 
     override fun deleteAudioFile(audioFile: AudioFile): Single<Int> {
@@ -184,11 +184,11 @@ class LocalDataSource(db: MediaDB) : LocalSource {
     }
 
     override fun getVideoFiles(id: String): Single<List<VideoFile>> {
-        return Single.fromCallable { mediaDao.getVideoFiles(id) }
+        return mediaDao.getVideoFiles(id)
     }
 
     override fun getVideoFilesFrame(id: String): Single<List<String>> {
-        return Single.fromCallable { mediaDao.getVideoFilesFrame(id) }
+        return mediaDao.getVideoFilesFrame(id)
     }
 
     override fun deleteVideoFile(videoFile: VideoFile): Single<Int> {
@@ -211,11 +211,11 @@ class LocalDataSource(db: MediaDB) : LocalSource {
     }
 
     override fun getFolderFilePaths(name: String): Single<List<String>> {
-        return Single.fromCallable { mediaDao.getFolderFilePaths(name) }
+        return mediaDao.getFolderFilePaths(name)
     }
 
     override fun getSelectedVideoFiles(videoFolder: VideoFolder): Single<List<VideoFile>> {
-        return Single.fromCallable { mediaDao.getSelectedVideoFiles(videoFolder.videoFolderId) }
+        return mediaDao.getSelectedVideoFiles(videoFolder.videoFolderId)
     }
 
     override fun updateSelectedVideoFolder(videoFolder: VideoFolder): Single<Any> {
