@@ -49,7 +49,7 @@ class VideoPresenter(private var compositeDisposable: CompositeDisposable,
     }
 
     fun getVideoFolderArtwork(videoFolder: VideoFolder): Single<Bitmap> {
-        return bitmapUtils.loadVideoFolderArtwork(videoFolder)
+        return bitmapUtils.getVideoFolderArtwork(videoFolder)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
     }

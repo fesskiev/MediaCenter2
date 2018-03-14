@@ -13,13 +13,11 @@ import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import io.reactivex.Single
 import okhttp3.OkHttpClient
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
 import android.graphics.drawable.BitmapDrawable
 import android.support.v4.content.ContextCompat
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
+import okhttp3.Request
+import java.io.*
 
 class BitmapUtils(private var context: Context, private var okHttpClient: OkHttpClient) {
 
@@ -95,121 +93,102 @@ class BitmapUtils(private var context: Context, private var okHttpClient: OkHttp
         return bitmapLruCache.get(key)
     }
 
-//    fun getCoverBitmapFromURL(url: String?): Single<Bitmap> {
-//            if (url != null) {
-//                val request = Request.Builder().url(url).build()
-//                val response = okHttpClient.newCall(request).execute()
-//                return Single.fromCallable(decodeBitmapFromInputStream(response.body()!!.byteStream()))
-//            } else {
-//                return getNoCoverTrackBitmap()
-//            }
-//    }
+    fun fetchArtworkBitmap(url: String?): Single<Bitmap> {
+        return Single.create { e ->
+            try {
+                if (url != null) {
+                    val request = Request.Builder().url(url).build()
+                    val response = okHttpClient.newCall(request).execute()
+                    val inputStream = response.body()?.byteStream()
+                    if (inputStream != null) {
+                        e.onSuccess(decodeBitmapFromInputStream(inputStream))
+                    } else {
+                        e.onSuccess(getNoCoverTrackBitmap())
+                    }
+                } else {
+                    e.onSuccess(getNoCoverTrackBitmap())
+                }
+            } catch (ex: Exception) {
+                e.onError(ex)
+            }
+        }
+    }
 
-    fun loadBitmap(mediaFile: MediaFile): Single<Bitmap> {
-        val path = findPath(mediaFile)
+    fun getVideoFileFrame(path: String?): Single<Bitmap> {
         return Single.create { e ->
             if (path != null) {
                 val bitmap = getBitmapFromPath(path)
                 e.onSuccess(bitmap)
             } else {
                 val bitmap = getNoCoverTrackBitmap()
-                e.onSuccess(bitmap)
-            }
-        }
-    }
-
-    fun loadAudioPlayerArtwork(audioFile: AudioFile): Single<Bitmap> {
-        val mediaArtworkPath = findMediaFileArtworkPath(audioFile)
-        return Single.create { e ->
-            if (mediaArtworkPath != null) {
-                val bitmap = getBitmapFromPath(mediaArtworkPath)
-                e.onSuccess(bitmap)
-            } else {
-                val bitmap = getNoCoverAudioPlayer()
                 e.onSuccess(bitmap)
             }
         }
     }
 
     fun getMediaFileArtwork(mediaFile: MediaFile): Single<Bitmap> {
-        val mediaArtworkPath = findMediaFileArtworkPath(mediaFile)
+        val path = mediaFile.getArtworkPath()
         return Single.create { e ->
-            if (mediaArtworkPath != null && mediaArtworkPath.isNotEmpty()) {
-                val bitmap = getCircularBitmap(getBitmapFromPath(mediaArtworkPath))
-                e.onSuccess(bitmap)
-            } else {
+            try {
+                if (path.isNotEmpty()) {
+                    val bitmap = getCircularBitmap(getBitmapFromPath(path))
+                    e.onSuccess(bitmap)
+                } else {
+                    val bitmap = getCircularBitmap(getNoCoverTrackBitmap())
+                    e.onSuccess(bitmap)
+                }
+            } catch (ex: Exception) {
                 val bitmap = getCircularBitmap(getNoCoverTrackBitmap())
                 e.onSuccess(bitmap)
+                e.onError(ex)
             }
         }
     }
 
     fun getAudioFolderArtwork(audioFolder: AudioFolder): Single<Bitmap> {
         return Single.create { e ->
-            val coverFile = findAudioFolderArtworkPath(audioFolder)
-            if (coverFile != null && coverFile.isNotEmpty()) {
-                val bitmap = getBitmapFromPath(coverFile)
-                e.onSuccess(bitmap)
-            } else {
+            try {
+                val path = audioFolder.audioFolderImage
+                if (path != null && path.exists()) {
+                    val bitmap = getBitmapFromPath(path.absolutePath)
+                    e.onSuccess(bitmap)
+                } else {
+                    val bitmap = getNoCoverFolderBitmap()
+                    e.onSuccess(bitmap)
+                }
+            } catch (ex: Exception) {
                 val bitmap = getNoCoverFolderBitmap()
                 e.onSuccess(bitmap)
+                e.onError(ex)
             }
         }
     }
 
-    fun loadVideoFileFrame(path: String?): Single<Bitmap> {
+    fun getVideoFolderArtwork(videoFolder: VideoFolder): Single<Bitmap> {
         return Single.create { e ->
-            if (path != null) {
-                val bitmap = getBitmapFromPath(path)
-                e.onSuccess(bitmap)
-            } else {
-                val bitmap = getNoCoverTrackBitmap()
-                e.onSuccess(bitmap)
-            }
-        }
-    }
-
-    fun loadVideoFolderArtwork(videoFolder: VideoFolder): Single<Bitmap> {
-        return Single.create { e ->
-            val path = videoFolder.videoFolderImage?.absolutePath
-            if (path != null) {
-                val bitmap = getBitmapFromPath(path)
-                e.onSuccess(bitmap)
-            } else {
+            try {
+                val path = videoFolder.videoFolderImage
+                if (path != null && path.exists()) {
+                    val bitmap = getBitmapFromPath(path.absolutePath)
+                    e.onSuccess(bitmap)
+                } else {
+                    val bitmap = getNoCoverFolderBitmap()
+                    e.onSuccess(bitmap)
+                }
+            } catch (ex: Exception) {
                 val bitmap = getNoCoverFolderBitmap()
                 e.onSuccess(bitmap)
+                e.onError(ex)
             }
         }
-    }
-
-    private fun findMediaFileArtworkPath(mediaFile: MediaFile?): String? {
-        if (mediaFile != null) {
-            return mediaFile.getArtworkPath()
-        }
-        return null
-    }
-
-    private fun findAudioFolderArtworkPath(audioFolder: AudioFolder): String? {
-        val artworkFile = audioFolder.audioFolderImage
-        return artworkFile?.absolutePath
-    }
-
-    private fun findPath(mediaFile: MediaFile?): String? {
-        if (mediaFile != null) {
-            val mediaArtworkPath = findMediaFileArtworkPath(mediaFile)
-            if (mediaArtworkPath != null) {
-                return mediaArtworkPath
-            }
-        }
-        return null
     }
 
     fun getAudioFilePalette(audioFile: AudioFile): Single<PaletteColor> {
         return Single.create { e ->
-            val coverPath = findMediaFileArtworkPath(audioFile)
-            if (coverPath != null) {
+            val path = audioFile.getArtworkPath()
+            if (path.isNotEmpty()) {
                 e.onSuccess(PaletteColor(context, Palette
-                        .from(decodeBitmapFromFile(coverPath))
+                        .from(decodeBitmapFromFile(path))
                         .generate()))
             } else {
                 val bitmap = getNoCoverAudioPlayer()
@@ -222,10 +201,10 @@ class BitmapUtils(private var context: Context, private var okHttpClient: OkHttp
 
     fun getAudioFolderPalette(audioFolder: AudioFolder): Single<PaletteColor> {
         return Single.create { e ->
-            val coverPath = findAudioFolderArtworkPath(audioFolder)
-            if (coverPath != null) {
+            val path = audioFolder.audioFolderPath
+            if (path != null && path.exists()) {
                 e.onSuccess(PaletteColor(context, Palette
-                        .from(decodeBitmapFromFile(coverPath))
+                        .from(decodeBitmapFromFile(path.absolutePath))
                         .generate()))
             } else {
                 val bitmap = getNoCoverFolderBitmap()
@@ -236,12 +215,10 @@ class BitmapUtils(private var context: Context, private var okHttpClient: OkHttp
         }
     }
 
-    fun decodeBitmapFromInputStream(inputStream: InputStream): Bitmap {
+    private fun decodeBitmapFromInputStream(inputStream: InputStream): Bitmap {
         val options = BitmapFactory.Options()
-
         options.inMutable = true
         options.inJustDecodeBounds = false
-
         return BitmapFactory.decodeStream(inputStream, null, options)
     }
 
@@ -265,7 +242,7 @@ class BitmapUtils(private var context: Context, private var okHttpClient: OkHttp
         return bitmap
     }
 
-    fun decodeBitmapFromFile(path: String?): Bitmap {
+    private fun decodeBitmapFromFile(path: String?): Bitmap {
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
         BitmapFactory.decodeFile(path, options)
@@ -275,7 +252,7 @@ class BitmapUtils(private var context: Context, private var okHttpClient: OkHttp
         return BitmapFactory.decodeFile(path, options)
     }
 
-    fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+    private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
         val height = options.outHeight
         val width = options.outWidth
         var inSampleSize = 1
@@ -308,7 +285,6 @@ class BitmapUtils(private var context: Context, private var okHttpClient: OkHttp
         return inSampleSize
     }
 
-
     inner class PaletteColor(context: Context, palette: Palette) {
 
         val vibrant: Int
@@ -336,11 +312,11 @@ class BitmapUtils(private var context: Context, private var okHttpClient: OkHttp
                     ", muted=" + muted +
                     ", mutedLight=" + mutedLight +
                     ", mutedDark=" + mutedDark +
-                    '}'.toString()
+                    '}'
         }
     }
 
-    fun getCircularBitmap(bitmap: Bitmap): Bitmap {
+    private fun getCircularBitmap(bitmap: Bitmap): Bitmap {
         val width = bitmap.width
         val height = bitmap.height
         val outputBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
@@ -357,7 +333,6 @@ class BitmapUtils(private var context: Context, private var okHttpClient: OkHttp
     fun clearCache() {
         bitmapLruCache.evictAll()
     }
-
 
     fun saveBitmap(bitmap: Bitmap, path: File) {
         var out: FileOutputStream? = null
