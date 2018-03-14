@@ -44,7 +44,8 @@ class AudioFragment : DaggerFragment(), AudioContact.View, AudioFoldersAdapter.O
     }
 
     private fun setupRecyclerView() {
-        val gridLayoutManager = GridLayoutManager(activity, 2)
+        val columns = resources.getInteger(R.integer.folder_columns)
+        val gridLayoutManager = GridLayoutManager(activity, columns)
         recyclerView.layoutManager = gridLayoutManager
         adapter = AudioFoldersAdapter(presenter)
         adapter.setHasStableIds(true)
