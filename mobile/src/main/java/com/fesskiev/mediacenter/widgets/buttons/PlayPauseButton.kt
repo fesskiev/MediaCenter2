@@ -43,7 +43,7 @@ class PlayPauseButton : AppCompatImageView {
         drawable.setPauseBarWidth(res.getDimensionPixelSize(R.dimen.pause_bar_big_width).toFloat())
         drawable.setPauseBarHeight(res.getDimensionPixelSize(R.dimen.pause_bar_big_height).toFloat())
         drawable.setPauseBarDistance(res.getDimensionPixelSize(R.dimen.pause_bar_big_distance).toFloat())
-        setOnClickListener({ togglePlay() })
+        setOnClickListener { togglePlay() }
         setPlay(false)
     }
 

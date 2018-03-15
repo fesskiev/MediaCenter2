@@ -30,7 +30,7 @@ class FoldersAdapter(private var presenter: FoldersPresenter?): RecyclerView.Ada
                 file.isFile -> itemView.itemIcon.setImageResource(R.drawable.ic_file)
                 else -> itemView.itemIcon.setImageResource(0)
             }
-            itemView.setOnClickListener({ listener?.onClickFile(files[adapterPosition])})
+            itemView.setOnClickListener { listener?.onClickFile(files[adapterPosition]) }
         }
     }
 

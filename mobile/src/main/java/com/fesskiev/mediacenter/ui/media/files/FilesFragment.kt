@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import com.fesskiev.mediacenter.ui.adapters.MediaFilesAdapter
+import com.fesskiev.mediacenter.utils.Constants.Companion.EXTRA_SEARCH_FILES
 import com.fesskiev.mediacenter.utils.invisible
 import com.fesskiev.mediacenter.utils.visible
 import com.fesskiev.mediacenter.widgets.recycler.HidingScrollListener
@@ -29,6 +30,12 @@ class FilesFragment : DaggerFragment(), FilesContract.View, MediaFilesAdapter.On
     @JvmField
     var presenter: FilesPresenter? = null
     private lateinit var adapter: MediaFilesAdapter
+    private var query: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        query = savedInstanceState?.getString(EXTRA_SEARCH_FILES)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -38,6 +45,19 @@ class FilesFragment : DaggerFragment(), FilesContract.View, MediaFilesAdapter.On
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString(EXTRA_SEARCH_FILES, query)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val query = this.query
+        if (query != null) {
+            presenter?.queryFiles(query)
+        }
     }
 
     private fun setupRecyclerView() {
@@ -91,7 +111,8 @@ class FilesFragment : DaggerFragment(), FilesContract.View, MediaFilesAdapter.On
     }
 
 
-    fun queryFiles(query : String) {
+    fun queryFiles(query: String) {
+        this.query = query
         presenter?.queryFiles(query)
     }
 

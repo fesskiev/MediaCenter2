@@ -42,7 +42,7 @@ class FoldersFragment : DaggerFragment(), FoldersContract.View {
     }
 
     private fun setupButtonUp() {
-        buttonUp.setOnClickListener({ processUpClick() })
+        buttonUp.setOnClickListener { processUpClick() }
     }
 
     private fun processUpClick() {

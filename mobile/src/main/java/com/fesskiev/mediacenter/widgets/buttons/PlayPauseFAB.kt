@@ -38,7 +38,7 @@ class PlayPauseFAB : FloatingActionButton {
         timerDrawable = ContextCompat.getDrawable(context, R.drawable.avd_clock_timer)
         drawable = PlayPauseDrawable(context)
         drawable.callback = this
-        setOnClickListener({ togglePlay() })
+        setOnClickListener { togglePlay() }
         setPlay(false)
     }
 
