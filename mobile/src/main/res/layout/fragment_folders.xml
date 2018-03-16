@@ -23,7 +23,7 @@
 
         <TextView
             android:id="@+id/textSelectedPath"
-            style="@style/FileTitleTextAppearance"
+            style="@style/FolderPathTextAppearance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
