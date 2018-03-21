@@ -5,14 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
-import com.fesskiev.mediacenter.ui.media.audio.AudioPresenter
+import com.fesskiev.mediacenter.ui.media.audio.AudioFoldersPresenter
 import com.fesskiev.mediacenter.utils.inflate
 import com.fesskiev.mediacenter.widgets.items.AudioCardView
 import kotlinx.android.synthetic.main.layout_audio_card_view.view.*
 import kotlinx.android.synthetic.main.item_audio.view.*
 
 
-class AudioFoldersAdapter(private var presenter: AudioPresenter?) : RecyclerView.Adapter<AudioFoldersAdapter.ViewHolder>() {
+class AudioFoldersAdapter(private var foldersPresenter: AudioFoldersPresenter?) : RecyclerView.Adapter<AudioFoldersAdapter.ViewHolder>() {
 
     interface OnAudioFolderAdapterListener {
 
@@ -38,7 +38,7 @@ class AudioFoldersAdapter(private var presenter: AudioPresenter?) : RecyclerView
                 })
                 itemView.audioFolderCardView.selectedFolderVisibility(audioFolderSelected)
                 itemView.albumName.text = audioFolderName
-                presenter?.getAudioFolderArtwork(audioFolder)?.subscribe({ bitmap ->
+                foldersPresenter?.getAudioFolderArtwork(audioFolder)?.subscribe({ bitmap ->
                     itemView.albumCover.setImageBitmap(bitmap) })
             }
         }

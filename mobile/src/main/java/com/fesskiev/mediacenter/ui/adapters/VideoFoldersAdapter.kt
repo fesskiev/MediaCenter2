@@ -5,14 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
-import com.fesskiev.mediacenter.ui.media.video.VideoPresenter
+import com.fesskiev.mediacenter.ui.media.video.VideoFoldersPresenter
 import com.fesskiev.mediacenter.utils.inflate
 import com.fesskiev.mediacenter.widgets.items.VideoCardView
 import kotlinx.android.synthetic.main.item_video.view.*
 import kotlinx.android.synthetic.main.layout_video_card_view.view.*
 
 
-class VideoFoldersAdapter(private var presenter: VideoPresenter?) : RecyclerView.Adapter<VideoFoldersAdapter.ViewHolder>() {
+class VideoFoldersAdapter(private var foldersPresenter: VideoFoldersPresenter?) : RecyclerView.Adapter<VideoFoldersAdapter.ViewHolder>() {
 
     interface OnVideoFolderAdapterListener {
 
@@ -38,7 +38,7 @@ class VideoFoldersAdapter(private var presenter: VideoPresenter?) : RecyclerView
                 })
                 itemView.videoFolderCardView.selectedFolderVisibility(videoFolderSelected)
                 itemView.videoFolderName.text = videoFolderName
-                presenter?.getVideoFolderArtwork(videoFolder)?.subscribe({ bitmap ->
+                foldersPresenter?.getVideoFolderArtwork(videoFolder)?.subscribe({ bitmap ->
                     itemView.videoFrame.setImageBitmap(bitmap) })
             }
         }

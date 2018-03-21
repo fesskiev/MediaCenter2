@@ -9,7 +9,7 @@ import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
 
 @Module
-abstract class VideoFragmentModule {
+abstract class VideoFoldersFragmentModule {
 
     @Module
     companion object {
@@ -19,12 +19,12 @@ abstract class VideoFragmentModule {
                                   dataRepository: DataRepository,
                                   schedulerProvider: BaseSchedulerProvider,
                                   bitmapUtils: BitmapUtils,
-                                  view: VideoContract.View): VideoPresenter {
-            return VideoPresenter(compositeDisposable, dataRepository,
+                                  view: VideoFoldersContract.View): VideoFoldersPresenter {
+            return VideoFoldersPresenter(compositeDisposable, dataRepository,
                     schedulerProvider, bitmapUtils,  view)
         }
     }
 
     @Binds
-    abstract fun provideVideoView(filesFragment: VideoFragment): VideoContract.View
+    abstract fun provideVideoView(filesFoldersFragment: VideoFoldersFragment): VideoFoldersContract.View
 }

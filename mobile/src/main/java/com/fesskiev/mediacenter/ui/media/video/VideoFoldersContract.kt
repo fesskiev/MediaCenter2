@@ -5,7 +5,7 @@ import com.fesskiev.mediacenter.ui.BasePresenter
 import com.fesskiev.mediacenter.ui.BaseView
 
 
-interface VideoContract {
+interface VideoFoldersContract {
 
     interface View : BaseView {
 

@@ -8,11 +8,11 @@ import com.fesskiev.mediacenter.utils.schedulers.BaseSchedulerProvider
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 
-class AudioPresenter(private var compositeDisposable: CompositeDisposable,
-                     private var dataRepository: DataRepository,
-                     private var schedulerProvider: BaseSchedulerProvider,
-                     private var bitmapUtils: BitmapUtils,
-                     private var view: AudioContact.View?) : AudioContact.Presenter {
+class AudioFoldersPresenter(private var compositeDisposable: CompositeDisposable,
+                            private var dataRepository: DataRepository,
+                            private var schedulerProvider: BaseSchedulerProvider,
+                            private var bitmapUtils: BitmapUtils,
+                            private var view: AudioFoldersContact.View?) : AudioFoldersContact.Presenter {
 
     override fun fetchAudioFolders() {
         view?.showProgressBar()
@@ -37,6 +37,7 @@ class AudioPresenter(private var compositeDisposable: CompositeDisposable,
     }
 
     private fun handleError(throwable: Throwable) {
+        throwable.printStackTrace()
         view?.hideProgressBar()
     }
 

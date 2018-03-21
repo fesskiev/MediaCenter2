@@ -9,7 +9,7 @@ import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
 
 @Module
-abstract class AudioFragmentModule {
+abstract class AudioFoldersFragmentModule {
 
     @Module
     companion object {
@@ -19,13 +19,13 @@ abstract class AudioFragmentModule {
                                   dataRepository: DataRepository,
                                   schedulerProvider: BaseSchedulerProvider,
                                   bitmapUtils: BitmapUtils,
-                                  view: AudioContact.View): AudioPresenter {
-            return AudioPresenter(compositeDisposable, dataRepository,
+                                  view: AudioFoldersContact.View): AudioFoldersPresenter {
+            return AudioFoldersPresenter(compositeDisposable, dataRepository,
                     schedulerProvider, bitmapUtils, view)
         }
     }
 
     @Binds
-    abstract fun provideAudioView(audioFragment: AudioFragment): AudioContact.View
+    abstract fun provideAudioView(audioFoldersFragment: AudioFoldersFragment): AudioFoldersContact.View
 
 }

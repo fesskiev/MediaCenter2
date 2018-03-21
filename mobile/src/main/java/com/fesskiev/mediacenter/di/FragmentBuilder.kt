@@ -1,24 +1,24 @@
 package com.fesskiev.mediacenter.di
 
-import com.fesskiev.mediacenter.ui.media.audio.AudioFragment
-import com.fesskiev.mediacenter.ui.media.audio.AudioFragmentModule
+import com.fesskiev.mediacenter.ui.media.audio.AudioFoldersFragment
+import com.fesskiev.mediacenter.ui.media.audio.AudioFoldersFragmentModule
 import com.fesskiev.mediacenter.ui.media.files.FilesFragment
 import com.fesskiev.mediacenter.ui.media.files.FilesFragmentModule
 import com.fesskiev.mediacenter.ui.media.folders.FoldersFragment
 import com.fesskiev.mediacenter.ui.media.folders.FoldersFragmentModule
-import com.fesskiev.mediacenter.ui.media.video.VideoFragment
-import com.fesskiev.mediacenter.ui.media.video.VideoFragmentModule
+import com.fesskiev.mediacenter.ui.media.video.VideoFoldersFragment
+import com.fesskiev.mediacenter.ui.media.video.VideoFoldersFragmentModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class FragmentBuilder {
 
-    @ContributesAndroidInjector(modules = [AudioFragmentModule::class])
-    internal abstract fun provideAudioFragmentFactory(): AudioFragment
+    @ContributesAndroidInjector(modules = [AudioFoldersFragmentModule::class])
+    internal abstract fun provideAudioFragmentFactory(): AudioFoldersFragment
 
-    @ContributesAndroidInjector(modules = [VideoFragmentModule::class])
-    internal abstract fun provideVideoFragmentFactory(): VideoFragment
+    @ContributesAndroidInjector(modules = [VideoFoldersFragmentModule::class])
+    internal abstract fun provideVideoFragmentFactory(): VideoFoldersFragment
 
     @ContributesAndroidInjector(modules = [FilesFragmentModule::class])
     internal abstract fun provideFilesFragmentFactory(): FilesFragment

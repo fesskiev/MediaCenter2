@@ -25,10 +25,10 @@ import android.view.inputmethod.EditorInfo
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.services.ScanSystemService
 import com.fesskiev.mediacenter.ui.adapters.ViewPagerAdapter
-import com.fesskiev.mediacenter.ui.media.audio.AudioFragment
+import com.fesskiev.mediacenter.ui.media.audio.AudioFoldersFragment
 import com.fesskiev.mediacenter.ui.media.files.FilesFragment
 import com.fesskiev.mediacenter.ui.media.folders.FoldersFragment
-import com.fesskiev.mediacenter.ui.media.video.VideoFragment
+import com.fesskiev.mediacenter.ui.media.video.VideoFoldersFragment
 import com.fesskiev.mediacenter.utils.PermissionsUtils
 import com.fesskiev.mediacenter.utils.PermissionsUtils.Companion.PERMISSION_STORAGE
 import dagger.android.support.DaggerAppCompatActivity
@@ -300,7 +300,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     private fun getPagerFragments(): Array<Fragment> {
-        return arrayOf(AudioFragment.newInstance(), VideoFragment.newInstance(),
+        return arrayOf(AudioFoldersFragment.newInstance(), VideoFoldersFragment.newInstance(),
                 FoldersFragment.newInstance(), FilesFragment.newInstance())
     }
 

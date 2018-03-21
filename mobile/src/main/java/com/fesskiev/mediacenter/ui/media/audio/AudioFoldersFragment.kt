@@ -1,4 +1,4 @@
-package com.fesskiev.mediacenter.ui.media.video
+package com.fesskiev.mediacenter.ui.media.audio
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,32 +7,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
-import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
-import com.fesskiev.mediacenter.ui.adapters.VideoFoldersAdapter
-import com.fesskiev.mediacenter.ui.media.video.details.VideoFilesActivity
-import com.fesskiev.mediacenter.utils.Constants.Companion.EXTRA_VIDEO_FOLDER
+import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
+import com.fesskiev.mediacenter.ui.adapters.AudioFoldersAdapter
+import com.fesskiev.mediacenter.ui.media.audio.details.AudioFilesActivity
+import com.fesskiev.mediacenter.utils.Constants.Companion.EXTRA_AUDIO_FOLDER
 import com.fesskiev.mediacenter.utils.invisible
 import com.fesskiev.mediacenter.utils.visible
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_audio.*
 import javax.inject.Inject
 
-class VideoFragment : DaggerFragment(), VideoContract.View, VideoFoldersAdapter.OnVideoFolderAdapterListener {
+
+class AudioFoldersFragment : DaggerFragment(), AudioFoldersContact.View, AudioFoldersAdapter.OnAudioFolderAdapterListener {
 
     companion object {
-        fun newInstance(): VideoFragment {
-            return VideoFragment()
+        fun newInstance(): AudioFoldersFragment {
+            return AudioFoldersFragment()
         }
     }
 
     @Inject
     @JvmField
-    var presenter: VideoPresenter? = null
+    var foldersPresenter: AudioFoldersPresenter? = null
 
-    private lateinit var adapter: VideoFoldersAdapter
+    private lateinit var adapter: AudioFoldersAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_video, container, false)
+        return inflater.inflate(R.layout.fragment_audio, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,15 +45,15 @@ class VideoFragment : DaggerFragment(), VideoContract.View, VideoFoldersAdapter.
         val columns = resources.getInteger(R.integer.folder_columns)
         val gridLayoutManager = GridLayoutManager(activity, columns)
         recyclerView.layoutManager = gridLayoutManager
-        adapter = VideoFoldersAdapter(presenter)
+        adapter = AudioFoldersAdapter(foldersPresenter)
         adapter.setHasStableIds(true)
-        adapter.setOnVideoFolderAdapterListener(this)
+        adapter.setOnAudioFolderAdapterListener(this)
         recyclerView.adapter = adapter
     }
 
     override fun onResume() {
         super.onResume()
-        presenter?.fetchVideoFolders()
+        foldersPresenter?.fetchAudioFolders()
     }
 
     override fun showProgressBar() {
@@ -63,26 +64,25 @@ class VideoFragment : DaggerFragment(), VideoContract.View, VideoFoldersAdapter.
         progressBar.invisible()
     }
 
-
-    override fun showVideoFolders(videoFolders: List<VideoFolder>) {
-        adapter.refresh(videoFolders)
+    override fun showAudioFolders(audioFolders: List<AudioFolder>) {
+        adapter.refresh(audioFolders)
     }
 
-    override fun showVideoFolderNotExist() {
+    override fun showAudioFolderNotExist() {
 
     }
 
-    override fun onVideoFolderClick(videoFolder: VideoFolder) {
-        val exist = presenter?.checkVideoFolderExist(videoFolder) ?: false
+    override fun onAudioFolderClick(audioFolder: AudioFolder) {
+        val exist = foldersPresenter?.checkAudioFolderExist(audioFolder) ?: false
         if (exist) {
-            val i = Intent(context, VideoFilesActivity::class.java)
-            i.putExtra(EXTRA_VIDEO_FOLDER, videoFolder)
+            val i = Intent(context, AudioFilesActivity::class.java)
+            i.putExtra(EXTRA_AUDIO_FOLDER, audioFolder)
             startActivity(i)
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter?.detach()
+        foldersPresenter?.detach()
     }
 }

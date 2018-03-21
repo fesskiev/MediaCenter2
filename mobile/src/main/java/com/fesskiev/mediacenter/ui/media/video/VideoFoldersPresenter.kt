@@ -8,11 +8,11 @@ import com.fesskiev.mediacenter.utils.schedulers.BaseSchedulerProvider
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 
-class VideoPresenter(private var compositeDisposable: CompositeDisposable,
-                     private var dataRepository: DataRepository,
-                     private var schedulerProvider: BaseSchedulerProvider,
-                     private var bitmapUtils: BitmapUtils,
-                     private var view: VideoContract.View?) : VideoContract.Presenter {
+class VideoFoldersPresenter(private var compositeDisposable: CompositeDisposable,
+                            private var dataRepository: DataRepository,
+                            private var schedulerProvider: BaseSchedulerProvider,
+                            private var bitmapUtils: BitmapUtils,
+                            private var view: VideoFoldersContract.View?) : VideoFoldersContract.Presenter {
 
     override fun fetchVideoFolders() {
         view?.showProgressBar()

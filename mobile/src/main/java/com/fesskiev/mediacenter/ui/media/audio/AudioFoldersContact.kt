@@ -5,7 +5,7 @@ import com.fesskiev.mediacenter.ui.BasePresenter
 import com.fesskiev.mediacenter.ui.BaseView
 
 
-interface AudioContact {
+interface AudioFoldersContact {
 
     interface View : BaseView {
 
