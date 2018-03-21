@@ -10,7 +10,7 @@ interface VideoFilesContract {
 
     interface View : BaseView {
 
-        fun showVideoFiles(videoFile: List<VideoFile>)
+        fun showVideoFiles(videoFiles: List<VideoFile>)
 
     }
 
