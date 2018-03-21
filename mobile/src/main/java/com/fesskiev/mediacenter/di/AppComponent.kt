@@ -13,8 +13,8 @@ import dagger.android.support.AndroidSupportInjectionModule
 
 @Singleton
 @Component(modules = [AndroidSupportInjectionModule::class, AppModule::class, NetworkModule::class,
-    DataSourceModule::class, EnginesModule::class, UtilsModule::class, ActivityBuilder::class,
-    ServiceBuilder:: class])
+    DataSourceModule::class, EnginesModule::class, UtilsModule::class, BroadcastReceiversModule::class,
+    ActivityBuilder::class, ServiceBuilder:: class])
 interface AppComponent : AndroidInjector<DaggerApplication> {
 
     fun inject(app: App)
