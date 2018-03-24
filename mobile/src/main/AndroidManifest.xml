@@ -28,8 +28,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.media.video.details.VideoFilesActivity"/>
-        <activity android:name=".ui.media.audio.details.AudioFilesActivity"/>
+        <activity android:name=".ui.media.video.details.VideoFilesActivity" android:theme="@style/TransparentStatusBarTheme"/>
+        <activity android:name=".ui.media.audio.details.AudioFilesActivity" android:theme="@style/TransparentStatusBarTheme"/>
         <activity android:name=".ui.playlist.PlaylistActivity"/>
 
         <service

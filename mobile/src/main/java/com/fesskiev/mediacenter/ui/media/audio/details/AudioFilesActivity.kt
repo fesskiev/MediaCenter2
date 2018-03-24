@@ -10,6 +10,7 @@ import com.fesskiev.mediacenter.domain.entity.media.AudioFile
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import com.fesskiev.mediacenter.ui.adapters.AudioFilesAdapter
+import com.fesskiev.mediacenter.utils.BitmapUtils
 import com.fesskiev.mediacenter.utils.Constants.Companion.EXTRA_AUDIO_FOLDER
 import com.fesskiev.mediacenter.utils.invisible
 import com.fesskiev.mediacenter.utils.visible
@@ -18,6 +19,8 @@ import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_audio_files.*
 import kotlinx.android.synthetic.main.layout_playback.*
 import javax.inject.Inject
+import android.support.design.widget.CoordinatorLayout
+import android.support.design.widget.AppBarLayout
 
 
 class AudioFilesActivity : DaggerAppCompatActivity(), AudioFilesContract.View,
@@ -80,6 +83,11 @@ class AudioFilesActivity : DaggerAppCompatActivity(), AudioFilesContract.View,
 
     override fun showBackdropBitmap(bitmap: Bitmap) {
         backdrop.setImageBitmap(bitmap)
+        collapseToolbar()
+    }
+
+    override fun showPaletteColors(paletteColors: BitmapUtils.PaletteColors) {
+        setupPalette(paletteColors)
     }
 
     override fun showProgressBar() {
@@ -138,9 +146,22 @@ class AudioFilesActivity : DaggerAppCompatActivity(), AudioFilesContract.View,
         })
     }
 
+    private fun collapseToolbar() {
+        val params = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
+        val behavior = params.behavior as AppBarLayout.Behavior?
+        behavior?.onNestedPreScroll(coordinatorLayout, appBarLayout,
+                appBarLayout, 0, backdrop.height / 2, intArrayOf(0, 0), 0)
+    }
+
     private fun animateTopView(value: Float) {
         fabPlayPause.animate().alpha(value)
         cardTitle.animate().alpha(value)
         cardSubtitle.animate().alpha(value)
+    }
+
+    private fun setupPalette(paletteColors: BitmapUtils.PaletteColors) {
+        toolbarLayout.setContentScrimColor(paletteColors.muted)
+        toolbarLayout.setStatusBarScrimColor(paletteColors.vibrantDark)
+        toolbarLayout.setBackgroundColor(paletteColors.vibrantDark)
     }
 }

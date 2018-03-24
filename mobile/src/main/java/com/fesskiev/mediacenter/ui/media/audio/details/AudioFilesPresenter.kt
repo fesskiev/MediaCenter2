@@ -27,8 +27,20 @@ class AudioFilesPresenter(private var compositeDisposable: CompositeDisposable,
     override fun fetchBackdropBitmap(audioFolder: AudioFolder) {
         compositeDisposable.add(bitmapUtils.getAudioFolderArtwork(audioFolder)
                 .subscribeOn(schedulerProvider.io())
+                .doOnSuccess { bitmap: Bitmap -> fetchPaletteColors(bitmap) }
                 .observeOn(schedulerProvider.ui())
                 .subscribe({ bitmap -> handleBackdropBitmap(bitmap) }, { throwable -> handleError(throwable) }))
+    }
+
+    private fun fetchPaletteColors(bitmap: Bitmap) {
+        bitmapUtils.getPaletteColorsFromBitmap(bitmap)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe({ paletteColors -> handlePaletteColors(paletteColors) }, { throwable -> handleError(throwable) })
+    }
+
+    private fun handlePaletteColors(paletteColors: BitmapUtils.PaletteColors) {
+        view?.showPaletteColors(paletteColors)
     }
 
     private fun handleBackdropBitmap(bitmap: Bitmap) {

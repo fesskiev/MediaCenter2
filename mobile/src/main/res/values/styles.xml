@@ -12,6 +12,12 @@
         <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
 
+    <style name="TransparentStatusBarTheme" parent="AppTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:colorControlHighlight">@color/color_background</item> 
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="CustomTabLayout" parent="Widget.Design.TabLayout">

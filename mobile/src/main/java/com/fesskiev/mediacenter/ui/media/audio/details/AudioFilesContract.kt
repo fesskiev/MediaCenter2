@@ -5,6 +5,7 @@ import com.fesskiev.mediacenter.domain.entity.media.AudioFile
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.ui.BasePresenter
 import com.fesskiev.mediacenter.ui.BaseView
+import com.fesskiev.mediacenter.utils.BitmapUtils
 
 interface AudioFilesContract {
 
@@ -13,6 +14,8 @@ interface AudioFilesContract {
         fun showAudioFiles(audioFiles: List<AudioFile>)
 
         fun showBackdropBitmap(bitmap: Bitmap)
+
+        fun showPaletteColors(paletteColors: BitmapUtils.PaletteColors)
     }
 
     interface Presenter : BasePresenter {

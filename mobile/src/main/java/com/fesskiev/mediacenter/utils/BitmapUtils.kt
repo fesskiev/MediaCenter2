@@ -8,7 +8,6 @@ import android.graphics.Path
 import android.util.LruCache
 import android.support.v7.graphics.Palette
 import com.fesskiev.mediacenter.R
-import com.fesskiev.mediacenter.domain.entity.media.AudioFile
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import io.reactivex.Single
@@ -183,35 +182,9 @@ class BitmapUtils(private var context: Context, private var okHttpClient: OkHttp
         }
     }
 
-    fun getAudioFilePalette(audioFile: AudioFile): Single<PaletteColor> {
+    fun getPaletteColorsFromBitmap(bitmap: Bitmap): Single<PaletteColors> {
         return Single.create { e ->
-            val path = audioFile.getArtworkPath()
-            if (path.isNotEmpty()) {
-                e.onSuccess(PaletteColor(context, Palette
-                        .from(decodeBitmapFromFile(path))
-                        .generate()))
-            } else {
-                val bitmap = getNoCoverAudioPlayer()
-                e.onSuccess(PaletteColor(context, Palette
-                        .from(bitmap)
-                        .generate()))
-            }
-        }
-    }
-
-    fun getAudioFolderPalette(audioFolder: AudioFolder): Single<PaletteColor> {
-        return Single.create { e ->
-            val path = audioFolder.audioFolderPath
-            if (path != null && path.exists()) {
-                e.onSuccess(PaletteColor(context, Palette
-                        .from(decodeBitmapFromFile(path.absolutePath))
-                        .generate()))
-            } else {
-                val bitmap = getNoCoverFolderBitmap()
-                e.onSuccess(PaletteColor(context, Palette
-                        .from(bitmap)
-                        .generate()))
-            }
+                e.onSuccess(PaletteColors(context, Palette.from(bitmap).generate()))
         }
     }
 
@@ -285,7 +258,7 @@ class BitmapUtils(private var context: Context, private var okHttpClient: OkHttp
         return inSampleSize
     }
 
-    inner class PaletteColor(context: Context, palette: Palette) {
+    class PaletteColors(context: Context, palette: Palette) {
 
         val vibrant: Int
         val vibrantLight: Int
@@ -305,7 +278,7 @@ class BitmapUtils(private var context: Context, private var okHttpClient: OkHttp
         }
 
         override fun toString(): String {
-            return "PaletteColor{" +
+            return "PaletteColors{" +
                     "vibrant=" + vibrant +
                     ", vibrantLight=" + vibrantLight +
                     ", vibrantDark=" + vibrantDark +
