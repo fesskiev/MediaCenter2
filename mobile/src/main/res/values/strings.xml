@@ -27,4 +27,16 @@
     <string name="drawer_item_playlist">Playlist</string>
     <string name="drawer_item_wear">Wear</string>
 
+    <string name="infinity_symbol">∞</string>
+
+    <string name="dialog_ok">Yes</string>
+    <string name="dialog_cancel">No</string>
+
+    <string name="dialog_search_title">Search</string>
+    <string name="dialog_search_message">Do you want to start searching for files?</string>
+
+    <string name="dialog_permission_title">Permissions are required</string>
+    <string name="dialog_permission_message">Please turn on this permissions for using the application</string>
+
+    <string name="toast_permissions_denied_message">Please turn on storage permission in the application settings for using this app!</string>
 </resources>

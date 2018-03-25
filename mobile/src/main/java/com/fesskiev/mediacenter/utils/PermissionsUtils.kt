@@ -31,13 +31,13 @@ class PermissionsUtils {
         }
     }
 
-    private fun requestPermissionsRecords(activity: Activity) {
+    fun requestPermissionsRecords(activity: Activity) {
         ActivityCompat.requestPermissions(activity,
                 arrayOf(Manifest.permission.MODIFY_AUDIO_SETTINGS, Manifest.permission.RECORD_AUDIO),
                 PERMISSION_RECORD)
     }
 
-    private fun requestPermissionsStorage(activity: Activity) {
+    fun requestPermissionsStorage(activity: Activity) {
         ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
                 PERMISSION_STORAGE)
     }

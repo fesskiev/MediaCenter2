@@ -12,7 +12,7 @@ import android.view.animation.DecelerateInterpolator
 import com.fesskiev.mediacenter.R
 
 
-class PlayPauseButton : AppCompatImageView {
+class PlayPauseButton(c: Context?, attrs: AttributeSet?) : AppCompatImageView(c, attrs) {
 
     interface OnClickListener {
         fun onPlay(play: Boolean)
@@ -23,18 +23,12 @@ class PlayPauseButton : AppCompatImageView {
     }
 
     private var listener: OnClickListener? = null
-    private lateinit var drawable: PlayPauseDrawable
+    private var drawable: PlayPauseDrawable
     private var animatorSet: AnimatorSet? = null
     private var timerDrawable: Drawable? = null
     private var showTimer: Boolean = false
 
-    constructor(context: Context) : this(context, null)
-    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        init(attrs, defStyleAttr)
-    }
-
-    private fun init(attrs: AttributeSet?, defStyleAttr: Int) {
+    init {
         val res = context.resources
         timerDrawable = ContextCompat.getDrawable(context, R.drawable.avd_clock_timer)
         drawable = PlayPauseDrawable(context)

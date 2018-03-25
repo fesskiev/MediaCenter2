@@ -36,7 +36,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_playback.*
 import javax.inject.Inject
 import android.view.LayoutInflater
+import android.widget.Toast
 import com.fesskiev.mediacenter.ui.playlist.PlaylistActivity
+import com.fesskiev.mediacenter.widgets.dialogs.SimpleDialog
 
 class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
         SwipeRefreshLayout.OnRefreshListener, MainContract.View {
@@ -50,11 +52,20 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     var permissionsUtils: PermissionsUtils? = null
 
     private lateinit var adapter: ViewPagerAdapter
+    private var setupViews = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme)
         setContentView(R.layout.activity_main)
+        val checkPermission = permissionsUtils?.checkPermissionsStorage(this)
+        if (checkPermission != null && checkPermission) {
+            setupViews()
+            setupViews = true
+        }
+    }
+
+    private fun setupViews() {
         setSupportActionBar(toolbar)
         setupPlaybackView()
         setupDrawer()
@@ -165,13 +176,17 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         if (grantResults.isNotEmpty()) {
             val checkPermission = permissionsUtils?.checkPermissionsResultGranted(grantResults)
             if (checkPermission != null && checkPermission) {
-                ScanSystemService.startFetchMedia(applicationContext)
+                if (!setupViews) {
+                    setupViews()
+                } else {
+                    ScanSystemService.startFetchMedia(applicationContext)
+                }
             } else {
                 val showRationale = permissionsUtils?.shouldShowRequestStoragePermissionRationale(this)
                 if (showRationale != null && showRationale) {
-                    permissionsDenied()
-                } else {
                     createExplanationPermissionDialog()
+                } else {
+                    permissionsDenied()
                 }
             }
         }
@@ -180,7 +195,15 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     override fun onRefresh() {
         val checkPermission = permissionsUtils?.checkPermissionsStorage(this)
         if (checkPermission != null && checkPermission) {
-            ScanSystemService.startFetchMedia(applicationContext)
+            val transaction = supportFragmentManager.beginTransaction()
+            val dialog = SimpleDialog.newInstance(getString(R.string.dialog_search_title),
+                    getString(R.string.dialog_search_message), R.drawable.ic_launch_splash)
+            dialog.setPositiveListener(object : SimpleDialog.OnPositiveListener {
+                override fun onClick() {
+                    ScanSystemService.startFetchMedia(applicationContext)
+                }
+            })
+            dialog.show(transaction, SimpleDialog::class.java.name)
         }
         swipeRefreshLayout.isRefreshing = false
     }
@@ -310,10 +333,24 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     private fun createExplanationPermissionDialog() {
-
+        val transaction = supportFragmentManager.beginTransaction()
+        val dialog = SimpleDialog.newInstance(getString(R.string.dialog_permission_title),
+                getString(R.string.dialog_permission_message), R.drawable.ic_launch_splash)
+        dialog.setPositiveListener(object : SimpleDialog.OnPositiveListener {
+            override fun onClick() {
+                permissionsUtils?.requestPermissionsStorage(this@MainActivity)
+            }
+        })
+        dialog.setNegativeListener(object : SimpleDialog.OnNegativeListener {
+            override fun onClick() {
+                finish()
+            }
+        })
+        dialog.show(transaction, SimpleDialog::class.java.name)
     }
 
     private fun permissionsDenied() {
-
+        Toast.makeText(this, R.string.toast_permissions_denied_message, Toast.LENGTH_LONG).show()
+        finish()
     }
 }

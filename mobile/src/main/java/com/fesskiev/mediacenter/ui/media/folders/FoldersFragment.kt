@@ -37,7 +37,10 @@ class FoldersFragment : DaggerFragment(), FoldersContract.View {
         super.onViewCreated(view, savedInstanceState)
         setupButtonUp()
         setupRecyclerView()
+        getRootDir()
+    }
 
+    private fun getRootDir() {
         changeDirectory(File(EXTERNAL_STORAGE))
     }
 
