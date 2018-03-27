@@ -15,17 +15,13 @@ abstract class FilesFragmentModule {
     companion object {
         @JvmStatic
         @Provides
-        fun provideFilesPresenter(compositeDisposable: CompositeDisposable,
-                                  dataRepository: DataRepository,
-                                  schedulerProvider: BaseSchedulerProvider,
-                                  bitmapUtils: BitmapUtils,
-                                  view: FilesContract.View): FilesPresenter {
-            return FilesPresenter(compositeDisposable,
-                    dataRepository, schedulerProvider, bitmapUtils, view)
-        }
+        fun provideFilesPresenter(compositeDisposable: CompositeDisposable, dataRepository: DataRepository,
+                                  schedulerProvider: BaseSchedulerProvider, bitmapUtils: BitmapUtils,
+                                  view: FilesContract.View): FilesPresenter = FilesPresenter(compositeDisposable, dataRepository, schedulerProvider, bitmapUtils, view)
+
     }
 
     @Binds
-    abstract fun provideFilesView(filesFragment: FilesFragment):FilesContract.View
+    abstract fun provideFilesView(filesFragment: FilesFragment): FilesContract.View
 
 }

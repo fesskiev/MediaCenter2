@@ -15,25 +15,20 @@ class EnginesModule {
 
     @Provides
     @Singleton
-    fun provideFFmpegEngine(): FFmpegEngine {
-        return FFmpegEngine()
-    }
+    fun provideFFmpegEngine(): FFmpegEngine = FFmpegEngine()
+
 
     @Provides
     @Singleton
-    fun provideSuperpoweredSDKEngine(): SuperpoweredEngine {
-        return SuperpoweredEngine()
-    }
+    fun provideSuperpoweredSDKEngine(): SuperpoweredEngine = SuperpoweredEngine()
+
 
     @Provides
     @Singleton
-    fun provideExoPlayerEngine(): ExoPlayerEngine {
-        return ExoPlayerEngine()
-    }
+    fun provideExoPlayerEngine(): ExoPlayerEngine = ExoPlayerEngine()
+
 
     @Provides
     @Singleton
-    fun provideTagsEngine(context: Context, bitmapUtils: BitmapUtils): TagsEngine {
-        return TagsEngine(context, bitmapUtils)
-    }
+    fun provideTagsEngine(context: Context, bitmapUtils: BitmapUtils): TagsEngine = TagsEngine(context, bitmapUtils)
 }

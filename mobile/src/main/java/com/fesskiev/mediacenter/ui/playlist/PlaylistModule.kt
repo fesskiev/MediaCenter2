@@ -15,18 +15,14 @@ abstract class PlaylistModule {
 
         @JvmStatic
         @Provides
-        fun providePlaylistPresenter(compositeDisposable: CompositeDisposable,
-                                 dataRepository: DataRepository,
-                                 schedulerProvider: BaseSchedulerProvider,
-                                 view: PlaylistContract.View): PlaylistPresenter {
-            return PlaylistPresenter(compositeDisposable, dataRepository, schedulerProvider, view)
-        }
+        fun providePlaylistPresenter(compositeDisposable: CompositeDisposable, dataRepository: DataRepository,
+                                     schedulerProvider: BaseSchedulerProvider,
+                                     view: PlaylistContract.View): PlaylistPresenter = PlaylistPresenter(compositeDisposable, dataRepository, schedulerProvider, view)
 
         @JvmStatic
         @Provides
-        fun provideCompositeDisposable(): CompositeDisposable {
-            return CompositeDisposable()
-        }
+        fun provideCompositeDisposable(): CompositeDisposable = CompositeDisposable()
+
     }
 
     @Binds

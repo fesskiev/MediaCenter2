@@ -16,25 +16,21 @@ class DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideRemoteDataSource(context: Context, retrofit: Retrofit): RemoteDataSource {
-        return RemoteDataSource(context, retrofit)
-    }
+    fun provideRemoteDataSource(context: Context, retrofit: Retrofit): RemoteDataSource = RemoteDataSource(context, retrofit)
+
 
     @Provides
     @Singleton
-    fun provideRoomDatabase(context: Context): MediaDB {
-        return Room.databaseBuilder(context, MediaDB::class.java, "mediaCenterDb").build()
-    }
+    fun provideRoomDatabase(context: Context): MediaDB = Room.databaseBuilder(context, MediaDB::class.java, "mediaCenterDb").build()
+
 
     @Provides
     @Singleton
-    fun provideLocalDataSource(mediaDB: MediaDB): LocalDataSource {
-        return LocalDataSource(mediaDB)
-    }
+    fun provideLocalDataSource(mediaDB: MediaDB): LocalDataSource = LocalDataSource(mediaDB)
+
 
     @Provides
     @Singleton
-    fun provideRepository(remoteDataSource: RemoteDataSource, localDataSource: LocalDataSource): DataRepository {
-        return DataRepository(remoteDataSource, localDataSource)
-    }
+    fun provideRepository(remoteDataSource: RemoteDataSource, localDataSource: LocalDataSource): DataRepository = DataRepository(remoteDataSource, localDataSource)
+
 }

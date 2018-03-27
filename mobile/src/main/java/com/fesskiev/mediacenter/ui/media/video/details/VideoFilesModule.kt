@@ -15,18 +15,14 @@ abstract class VideoFilesModule {
 
         @JvmStatic
         @Provides
-        fun provideVideoFilesPresenter(compositeDisposable: CompositeDisposable,
-                                       dataRepository: DataRepository,
+        fun provideVideoFilesPresenter(compositeDisposable: CompositeDisposable, dataRepository: DataRepository,
                                        schedulerProvider: BaseSchedulerProvider,
-                                       view: VideoFilesContract.View): VideoFilesPresenter {
-            return VideoFilesPresenter(compositeDisposable, dataRepository, schedulerProvider, view)
-        }
+                                       view: VideoFilesContract.View): VideoFilesPresenter = VideoFilesPresenter(compositeDisposable, dataRepository, schedulerProvider, view)
 
         @JvmStatic
         @Provides
-        fun provideCompositeDisposable(): CompositeDisposable {
-            return CompositeDisposable()
-        }
+        fun provideCompositeDisposable(): CompositeDisposable = CompositeDisposable()
+
     }
 
     @Binds
