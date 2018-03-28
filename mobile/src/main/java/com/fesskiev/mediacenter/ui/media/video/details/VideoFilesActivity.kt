@@ -8,6 +8,7 @@ import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 import com.fesskiev.mediacenter.ui.adapters.VideoFilesAdapter
 import com.fesskiev.mediacenter.utils.Constants.Companion.EXTRA_VIDEO_FOLDER
 import com.fesskiev.mediacenter.utils.invisible
+import com.fesskiev.mediacenter.utils.setupToolbar
 import com.fesskiev.mediacenter.utils.visible
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_video_files.*
@@ -24,7 +25,7 @@ class VideoFilesActivity : DaggerAppCompatActivity(), VideoFilesContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_files)
-        setupToolbar()
+        setupToolbar(toolbar)
         setupRecyclerView()
         setupPlaybackView()
         videoFolder = if (savedInstanceState == null) {
@@ -60,12 +61,6 @@ class VideoFilesActivity : DaggerAppCompatActivity(), VideoFilesContract.View {
     override fun onDestroy() {
         super.onDestroy()
         presenter?.detach()
-    }
-
-    private fun setupToolbar() {
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
     override fun showVideoFiles(videoFiles: List<VideoFile>) {

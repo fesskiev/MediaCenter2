@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.layout_playback.*
 import javax.inject.Inject
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.AppBarLayout
+import com.fesskiev.mediacenter.utils.setupToolbar
 
 
 class AudioFilesActivity : DaggerAppCompatActivity(), AudioFilesContract.View,
@@ -35,7 +36,7 @@ class AudioFilesActivity : DaggerAppCompatActivity(), AudioFilesContract.View,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_audio_files)
-        setupToolbar()
+        setupToolbar(toolbar)
         setupRecyclerView()
         setupPlaybackView()
         audioFolder = if (savedInstanceState == null) {
@@ -128,12 +129,6 @@ class AudioFilesActivity : DaggerAppCompatActivity(), AudioFilesContract.View,
             }
         })
         adapter.setOnAudioFilesAdapterListener(this)
-    }
-
-    private fun setupToolbar() {
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
     private fun setupPlaybackView() {
