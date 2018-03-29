@@ -66,7 +66,7 @@ class FilesPresenter(private var compositeDisposable: CompositeDisposable,
         }
     }
 
-    fun getAudioFolderArtwork(mediaFile: MediaFile): Single<Bitmap> {
+    fun getMediaFileArtwork(mediaFile: MediaFile): Single<Bitmap> {
         return bitmapUtils.getMediaFileArtwork(mediaFile)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
