@@ -17,10 +17,11 @@ import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import com.fesskiev.mediacenter.domain.entity.media.MediaFolder
 import com.fesskiev.mediacenter.ui.main.MainActivity
+import com.fesskiev.mediacenter.utils.player.MediaPlayer
 
 
 @TargetApi(Build.VERSION_CODES.O)
-class NotificationUtils(private var context: Context) {
+class NotificationUtils(private var context: Context, mediaPlayer: MediaPlayer) {
 
     companion object {
 
@@ -57,7 +58,11 @@ class NotificationUtils(private var context: Context) {
         }
     }
 
-    fun createScanNotification() : Notification? {
+    fun createPlaybackNotification(): Notification? {
+        return null
+    }
+
+    fun createScanNotification(): Notification? {
         notificationBuilder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationCompat.Builder(context, SCAN_CHANNEL)
         } else {

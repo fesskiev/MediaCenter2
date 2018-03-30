@@ -29,7 +29,7 @@ class UtilsModule {
 
     @Provides
     @Singleton
-    fun provideNotificationUtils(context: Context): NotificationUtils = NotificationUtils(context)
+    fun provideNotificationUtils(context: Context, mediaPlayer: MediaPlayer): NotificationUtils = NotificationUtils(context, mediaPlayer)
 
     @Provides
     @Singleton
