@@ -37,6 +37,10 @@ import kotlinx.android.synthetic.main.layout_playback.*
 import javax.inject.Inject
 import android.view.LayoutInflater
 import android.widget.Toast
+import com.fesskiev.mediacenter.domain.entity.media.AudioFile
+import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
+import com.fesskiev.mediacenter.domain.entity.media.VideoFile
+import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 import com.fesskiev.mediacenter.ui.playlist.PlaylistActivity
 import com.fesskiev.mediacenter.widgets.dialogs.SimpleDialog
 
@@ -65,6 +69,16 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        presenter?.fetchSelectedMedia()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter?.detach()
+    }
+
     private fun setupViews() {
         setSupportActionBar(toolbar)
         setupPlaybackView()
@@ -74,6 +88,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         setupTabs()
         setupSearchView()
         setupSwipeRefresh()
+        presenter?.fetchMediaControl()
     }
 
     private fun setupSwipeRefresh() {
@@ -208,6 +223,34 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         swipeRefreshLayout.isRefreshing = false
     }
 
+    override fun showAudioControl() {
+        val inflater = LayoutInflater.from(this)
+        val view = inflater.inflate(R.layout.layout_audio_control, null,
+                false)
+        contentContainer.removeAllViews()
+        contentContainer.addView(view)
+    }
+
+    override fun showVideoControl() {
+
+    }
+
+    override fun updateSelectedAudioFile(audioFile: AudioFile) {
+
+    }
+
+    override fun updateSelectedVideoFile(videoFile: VideoFile) {
+
+    }
+
+    override fun updateSelectedAudioFolder(audioFolder: AudioFolder) {
+
+    }
+
+    override fun updateSelectedVideoFolder(videoFolder: VideoFolder) {
+
+    }
+
     override fun showProgressBar() {
 
     }
@@ -309,13 +352,6 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
             val value = scrollY / height
             animateTopView(1f - value)
         })
-
-        Handler().postDelayed({
-            val inflater = LayoutInflater.from(this)
-            val view = inflater.inflate(R.layout.layout_audio_control, null,
-                    false)
-            contentContainer.addView(view)
-        }, 2000)
     }
 
     private fun animateTopView(value: Float) {

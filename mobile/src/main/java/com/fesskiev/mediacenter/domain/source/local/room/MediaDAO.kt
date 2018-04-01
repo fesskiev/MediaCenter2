@@ -19,19 +19,19 @@ interface MediaDAO {
     fun getAudioFolders(): Flowable<List<AudioFolder>>
 
     @Query("SELECT AudioFolders.*, SelectedAudioFolder.isSelected FROM AudioFolders INNER JOIN SelectedAudioFolder ON AudioFolders.audioFolderId = SelectedAudioFolder.audioFolderId")
-    fun getSelectedAudioFolder(): Single<AudioFolder>
+    fun getSelectedAudioFolder(): Flowable<AudioFolder>
 
     @Query("SELECT * FROM VideoFolders")
     fun getVideoFolders(): Flowable<List<VideoFolder>>
 
     @Query("SELECT VideoFolders.*, SelectedVideoFolder.isSelected FROM VideoFolders INNER JOIN SelectedVideoFolder ON VideoFolders.videoFolderId = SelectedVideoFolder.videoFolderId")
-    fun getSelectedVideoFolder(): Single<VideoFolder>
+    fun getSelectedVideoFolder(): Flowable<VideoFolder>
 
     @Query("SELECT AudioFiles.*, SelectedAudioFile.isSelected FROM AudioFiles INNER JOIN SelectedAudioFile ON AudioFiles.audioFileId = SelectedAudioFile.audioFileId")
-    fun getSelectedAudioFile(): Single<AudioFile>
+    fun getSelectedAudioFile(): Flowable<AudioFile>
 
     @Query("SELECT VideoFiles.*, SelectedVideoFile.isSelected FROM VideoFiles INNER JOIN SelectedVideoFile ON VideoFiles.videoFileId = SelectedVideoFile.videoFileId")
-    fun getSelectedVideoFile(): Single<VideoFile>
+    fun getSelectedVideoFile(): Flowable<VideoFile>
 
     @Query("SELECT * FROM AudioFiles WHERE audioFileInPlayList LIKE 1")
     fun getAudioFilePlaylist(): Single<List<AudioFile>>
