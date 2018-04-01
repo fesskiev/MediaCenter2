@@ -113,13 +113,13 @@ class BitmapUtils(private var context: Context, private var okHttpClient: OkHttp
         }
     }
 
-    fun getVideoFileFrame(path: String?): Single<Bitmap> {
+    fun getVideoFileArtwork(path: String): Single<Bitmap> {
         return Single.create { e ->
-            if (path != null) {
-                val bitmap = getBitmapFromPath(path)
+            if (path.isNotEmpty()) {
+                val bitmap = getCircularBitmap(getBitmapFromPath(path))
                 e.onSuccess(bitmap)
             } else {
-                val bitmap = getNoCoverTrackBitmap()
+                val bitmap = getCircularBitmap(getNoCoverTrackBitmap())
                 e.onSuccess(bitmap)
             }
         }

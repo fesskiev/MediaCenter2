@@ -14,15 +14,12 @@ abstract class FoldersFragmentModule {
     companion object {
         @JvmStatic
         @Provides
-        fun provideFoldersPresenter(compositeDisposable: CompositeDisposable,
-                                  dataRepository: DataRepository,
-                                  schedulerProvider: BaseSchedulerProvider,
-                                  view: FoldersContract.View): FoldersPresenter {
+        fun provideFoldersPresenter(compositeDisposable: CompositeDisposable, dataRepository: DataRepository,
+                                    schedulerProvider: BaseSchedulerProvider,
+                                    view: FoldersContract.View): FoldersPresenter = FoldersPresenter(compositeDisposable, dataRepository, schedulerProvider, view)
 
-            return FoldersPresenter(compositeDisposable, dataRepository, schedulerProvider, view)
-        }
     }
 
     @Binds
-    abstract fun provideFoldersView(foldersFragment: FoldersFragment):FoldersContract.View
+    abstract fun provideFoldersView(foldersFragment: FoldersFragment): FoldersContract.View
 }

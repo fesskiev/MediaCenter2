@@ -1,6 +1,7 @@
 package com.fesskiev.mediacenter.ui.media.video.details
 
 import com.fesskiev.mediacenter.domain.source.DataRepository
+import com.fesskiev.mediacenter.utils.BitmapUtils
 import com.fesskiev.mediacenter.utils.schedulers.BaseSchedulerProvider
 import dagger.Binds
 import dagger.Module
@@ -15,18 +16,15 @@ abstract class VideoFilesModule {
 
         @JvmStatic
         @Provides
-        fun provideVideoFilesPresenter(compositeDisposable: CompositeDisposable,
-                                       dataRepository: DataRepository,
-                                       schedulerProvider: BaseSchedulerProvider,
-                                       view: VideoFilesContract.View): VideoFilesPresenter {
-            return VideoFilesPresenter(compositeDisposable, dataRepository, schedulerProvider, view)
-        }
+        fun provideVideoFilesPresenter(compositeDisposable: CompositeDisposable, dataRepository: DataRepository,
+                                       schedulerProvider: BaseSchedulerProvider, bitmapUtils: BitmapUtils,
+                                       view: VideoFilesContract.View):
+                VideoFilesPresenter = VideoFilesPresenter(compositeDisposable, dataRepository, schedulerProvider, bitmapUtils,  view)
 
         @JvmStatic
         @Provides
-        fun provideCompositeDisposable(): CompositeDisposable {
-            return CompositeDisposable()
-        }
+        fun provideCompositeDisposable(): CompositeDisposable = CompositeDisposable()
+
     }
 
     @Binds

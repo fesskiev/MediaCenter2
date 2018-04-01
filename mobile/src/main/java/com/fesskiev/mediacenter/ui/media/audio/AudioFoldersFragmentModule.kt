@@ -15,14 +15,10 @@ abstract class AudioFoldersFragmentModule {
     companion object {
         @JvmStatic
         @Provides
-        fun provideAudioPresenter(compositeDisposable: CompositeDisposable,
-                                  dataRepository: DataRepository,
-                                  schedulerProvider: BaseSchedulerProvider,
-                                  bitmapUtils: BitmapUtils,
-                                  view: AudioFoldersContact.View): AudioFoldersPresenter {
-            return AudioFoldersPresenter(compositeDisposable, dataRepository,
-                    schedulerProvider, bitmapUtils, view)
-        }
+        fun provideAudioPresenter(compositeDisposable: CompositeDisposable, dataRepository: DataRepository,
+                                  schedulerProvider: BaseSchedulerProvider, bitmapUtils: BitmapUtils,
+                                  view: AudioFoldersContact.View): AudioFoldersPresenter = AudioFoldersPresenter(compositeDisposable, dataRepository, schedulerProvider, bitmapUtils, view)
+
     }
 
     @Binds

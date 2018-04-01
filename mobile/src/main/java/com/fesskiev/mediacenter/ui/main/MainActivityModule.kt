@@ -16,17 +16,15 @@ abstract class MainActivityModule {
         @JvmStatic
         @Provides
         fun provideMainPresenter(compositeDisposable: CompositeDisposable,
-                                  dataRepository: DataRepository,
-                                  schedulerProvider: BaseSchedulerProvider,
-                                  view: MainContract.View): MainPresenter {
-            return MainPresenter(compositeDisposable, dataRepository, schedulerProvider, view)
-        }
+                                 dataRepository: DataRepository,
+                                 schedulerProvider: BaseSchedulerProvider,
+                                 view: MainContract.View): MainPresenter
+                = MainPresenter(compositeDisposable, dataRepository, schedulerProvider, view)
+
 
         @JvmStatic
         @Provides
-        fun provideCompositeDisposable(): CompositeDisposable {
-            return CompositeDisposable()
-        }
+        fun provideCompositeDisposable(): CompositeDisposable = CompositeDisposable()
     }
 
     @Binds

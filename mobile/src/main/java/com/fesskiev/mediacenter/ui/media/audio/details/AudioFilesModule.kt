@@ -16,20 +16,14 @@ abstract class AudioFilesModule {
 
         @JvmStatic
         @Provides
-        fun provideAudioFilesPresenter(compositeDisposable: CompositeDisposable,
-                                       dataRepository: DataRepository,
-                                       schedulerProvider: BaseSchedulerProvider,
-                                       bitmapUtils: BitmapUtils,
-                                       view: AudioFilesContract.View): AudioFilesPresenter {
-            return AudioFilesPresenter(compositeDisposable, dataRepository, schedulerProvider,
-                    bitmapUtils, view)
-        }
+        fun provideAudioFilesPresenter(compositeDisposable: CompositeDisposable, dataRepository: DataRepository,
+                                       schedulerProvider: BaseSchedulerProvider, bitmapUtils: BitmapUtils,
+                                       view: AudioFilesContract.View): AudioFilesPresenter = AudioFilesPresenter(compositeDisposable, dataRepository, schedulerProvider, bitmapUtils, view)
+
 
         @JvmStatic
         @Provides
-        fun provideCompositeDisposable(): CompositeDisposable {
-            return CompositeDisposable()
-        }
+        fun provideCompositeDisposable(): CompositeDisposable = CompositeDisposable()
     }
 
     @Binds

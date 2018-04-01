@@ -15,14 +15,10 @@ abstract class VideoFoldersFragmentModule {
     companion object {
         @JvmStatic
         @Provides
-        fun provideVideoPresenter(compositeDisposable: CompositeDisposable,
-                                  dataRepository: DataRepository,
-                                  schedulerProvider: BaseSchedulerProvider,
-                                  bitmapUtils: BitmapUtils,
-                                  view: VideoFoldersContract.View): VideoFoldersPresenter {
-            return VideoFoldersPresenter(compositeDisposable, dataRepository,
-                    schedulerProvider, bitmapUtils,  view)
-        }
+        fun provideVideoPresenter(compositeDisposable: CompositeDisposable, dataRepository: DataRepository,
+                                  schedulerProvider: BaseSchedulerProvider, bitmapUtils: BitmapUtils,
+                                  view: VideoFoldersContract.View): VideoFoldersPresenter = VideoFoldersPresenter(compositeDisposable, dataRepository,
+                schedulerProvider, bitmapUtils, view)
     }
 
     @Binds

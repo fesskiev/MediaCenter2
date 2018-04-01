@@ -1,5 +1,7 @@
 package com.fesskiev.mediacenter.utils
 
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,4 +16,13 @@ fun View.visible() {
 
 fun View.invisible() {
     visibility = View.INVISIBLE
+}
+
+
+fun AppCompatActivity.setupToolbar(toolbar: Toolbar) {
+    setSupportActionBar(toolbar)
+    supportActionBar?.apply {
+        setDisplayHomeAsUpEnabled(true)
+        setDisplayShowTitleEnabled(false)
+    }
 }

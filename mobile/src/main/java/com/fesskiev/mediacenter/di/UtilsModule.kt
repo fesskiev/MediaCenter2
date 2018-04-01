@@ -21,32 +21,22 @@ class UtilsModule {
 
     @Provides
     @Singleton
-    fun provideBitmapUtils(context: Context, httpClient: OkHttpClient): BitmapUtils {
-        return BitmapUtils(context, httpClient)
-    }
+    fun provideBitmapUtils(context: Context, httpClient: OkHttpClient): BitmapUtils = BitmapUtils(context, httpClient)
 
     @Provides
     @Singleton
-    fun providePermissionsUtils(): PermissionsUtils {
-        return PermissionsUtils()
-    }
+    fun providePermissionsUtils(): PermissionsUtils = PermissionsUtils()
 
     @Provides
     @Singleton
-    fun provideNotificationUtils(context: Context): NotificationUtils {
-        return NotificationUtils(context)
-    }
+    fun provideNotificationUtils(context: Context, mediaPlayer: MediaPlayer): NotificationUtils = NotificationUtils(context, mediaPlayer)
 
     @Provides
     @Singleton
     fun provideMediaPlayer(fFmpegEngine: FFmpegEngine, superpoweredEngine: SuperpoweredEngine,
-                           exoPlayerEngine: ExoPlayerEngine): MediaPlayer {
-        return MediaPlayer(fFmpegEngine, superpoweredEngine, exoPlayerEngine)
-    }
+                           exoPlayerEngine: ExoPlayerEngine): MediaPlayer = MediaPlayer(fFmpegEngine, superpoweredEngine, exoPlayerEngine)
 
     @Provides
     @Singleton
-    fun provideSchedulerProvider(): BaseSchedulerProvider {
-        return SchedulerProvider()
-    }
+    fun provideSchedulerProvider(): BaseSchedulerProvider = SchedulerProvider()
 }

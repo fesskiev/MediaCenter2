@@ -62,7 +62,7 @@ class MediaFilesAdapter(private var presenter: FilesPresenter?) : RecyclerView.A
                 itemView.cardFile.filePath.text = getFilePath()
                 itemView.cardFile.itemSize.text = StringUtils.humanReadableByteCount(getSize(), false)
                 itemView.cardFile.itemDuration.text = StringUtils.getDurationString(getDuration())
-                presenter?.getAudioFolderArtwork(mediaFile)?.subscribe({ bitmap ->
+                presenter?.getMediaFileArtwork(mediaFile)?.subscribe({ bitmap ->
                     itemView.itemCover.setImageBitmap(bitmap)
                 })
             }

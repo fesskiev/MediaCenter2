@@ -26,11 +26,9 @@ class StringUtils {
         }
 
         private fun twoDigitString(number: Long): String {
-
             if (number == 0L) {
                 return "00"
             }
-
             return if (number / 10 == 0L) {
                 "0$number"
             } else number.toString()
