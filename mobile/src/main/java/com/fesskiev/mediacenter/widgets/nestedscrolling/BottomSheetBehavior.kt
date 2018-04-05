@@ -18,7 +18,7 @@ class BottomSheetBehavior(context: Context?, attrs: AttributeSet?) : Coordinator
         parent.onLayoutChild(child, layoutDirection)
 
         val fabHalfHeight = child.findViewById<View>(R.id.fabPlayPause).height / 2
-        setTopMargin(child.findViewById(R.id.cardview), fabHalfHeight)
+        setTopMargin(child.findViewById(R.id.cardView), fabHalfHeight)
 
         val maxHeight = (child.height - fabHalfHeight - child.findViewById<View>(R.id.cardTitle).height
                 - child.findViewById<View>(R.id.cardSubtitle).height)
@@ -40,7 +40,7 @@ class BottomSheetBehavior(context: Context?, attrs: AttributeSet?) : Coordinator
             if (audioControlView != null) {
                 isSlidersTouch = parent.isPointInChildBounds(audioControlView, ev.x.toInt(), ev.y.toInt())
             }
-            if (!isSlidersTouch && (parent.isPointInChildBounds(child.findViewById(R.id.cardview), ev.x.toInt(), ev.y.toInt()) ||
+            if (!isSlidersTouch && (parent.isPointInChildBounds(child.findViewById(R.id.cardView), ev.x.toInt(), ev.y.toInt()) ||
                             parent.isPointInChildBounds(child.findViewById(R.id.fabPlayPause), ev.x.toInt(), ev.y.toInt()))) {
                 val nestedScrollView: CustomNestedScrollView2 = child as CustomNestedScrollView2
                 nestedScrollView.enableScrolling = true

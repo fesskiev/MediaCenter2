@@ -19,7 +19,7 @@ class LocalDataSource(db: MediaDB) : LocalSource {
         return mediaDao.getAudioFolders()
     }
 
-    override fun getSelectedAudioFolder(): Single<AudioFolder> {
+    override fun getSelectedAudioFolder(): Flowable<AudioFolder> {
         return mediaDao.getSelectedAudioFolder()
     }
 
@@ -27,7 +27,7 @@ class LocalDataSource(db: MediaDB) : LocalSource {
         return mediaDao.getVideoFolders()
     }
 
-    override fun getSelectedAudioFile(): Single<AudioFile> {
+    override fun getSelectedAudioFile(): Flowable<AudioFile> {
         return mediaDao.getSelectedAudioFile()
     }
 
@@ -47,11 +47,11 @@ class LocalDataSource(db: MediaDB) : LocalSource {
         return mediaDao.getGenresList()
     }
 
-    override fun getSelectedVideoFolder(): Single<VideoFolder> {
+    override fun getSelectedVideoFolder(): Flowable<VideoFolder> {
         return mediaDao.getSelectedVideoFolder()
     }
 
-    override fun getSelectedVideoFile(): Single<VideoFile> {
+    override fun getSelectedVideoFile(): Flowable<VideoFile> {
         return mediaDao.getSelectedVideoFile()
     }
 

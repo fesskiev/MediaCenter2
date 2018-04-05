@@ -14,18 +14,18 @@ interface LocalSource {
      */
     fun getAudioFolders(): Flowable<List<AudioFolder>>
 
-    fun getSelectedAudioFolder(): Single<AudioFolder>
+    fun getSelectedAudioFolder(): Flowable<AudioFolder>
 
     /**
      * Video folders methods
      */
     fun getVideoFolders(): Flowable<List<VideoFolder>>
 
-    fun getSelectedVideoFolder(): Single<VideoFolder>
+    fun getSelectedVideoFolder(): Flowable<VideoFolder>
 
-    fun getSelectedAudioFile(): Single<AudioFile>
+    fun getSelectedAudioFile(): Flowable<AudioFile>
 
-    fun getSelectedVideoFile(): Single<VideoFile>
+    fun getSelectedVideoFile(): Flowable<VideoFile>
 
     fun getAudioFilePlaylist(): Single<List<AudioFile>>
 
