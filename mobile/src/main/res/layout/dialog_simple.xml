@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:minHeight="90dp"
-    android:minWidth="380dp"
+    android:minHeight="@dimen/simple_dialog_height"
+    android:minWidth="@dimen/simple_dialog_width"
     android:orientation="vertical"
     android:padding="@dimen/activity_horizontal_margin">
 
@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/dialogIcon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_centerVertical="true"
             android:contentDescription="@string/app_name"
             tools:src="@mipmap/ic_launcher" />

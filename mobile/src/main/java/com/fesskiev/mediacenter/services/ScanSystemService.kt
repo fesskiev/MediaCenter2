@@ -10,7 +10,7 @@ import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 import com.fesskiev.mediacenter.domain.source.DataRepository
 import com.fesskiev.mediacenter.engines.TagsEngine
-import com.fesskiev.mediacenter.utils.CacheUtils
+import com.fesskiev.mediacenter.utils.FileSystemUtils
 import com.fesskiev.mediacenter.utils.Constants.Companion.EXTERNAL_STORAGE
 import com.fesskiev.mediacenter.utils.NotificationUtils
 import com.fesskiev.mediacenter.utils.NotificationUtils.Companion.ACTION_STOP_SCAN
@@ -73,6 +73,9 @@ class ScanSystemService : DaggerService() {
     @Inject
     @JvmField
     var notificationUtils: NotificationUtils? = null
+    @Inject
+    @JvmField
+    var fileSystemUtils: FileSystemUtils? = null
 
     private var scanType: ScanType? = null
     private var scanState: ScanState? = null
@@ -316,12 +319,12 @@ class ScanSystemService : DaggerService() {
 
     private fun dropAudioContent() {
         repository?.localDataSource?.resetAudioContentDatabase()
-        CacheUtils.clearAudioImagesCache()
+        fileSystemUtils?.clearAudioImagesCache()
     }
 
     private fun dropVideoContent() {
         repository?.localDataSource?.resetVideoContentDatabase()
-        CacheUtils.clearVideoImagesCache()
+        fileSystemUtils?.clearVideoImagesCache()
     }
 
     private fun isSymbolicLink(file: File?): Boolean {

@@ -17,6 +17,8 @@ class AudioFoldersAdapter(private var foldersPresenter: AudioFoldersPresenter?) 
     interface OnAudioFolderAdapterListener {
 
         fun onAudioFolderClick(audioFolder: AudioFolder)
+
+        fun onPopupMenuClick(view: View, audioFolder: AudioFolder)
     }
 
     private var audioFolders: MutableList<AudioFolder> = ArrayList()
@@ -29,7 +31,7 @@ class AudioFoldersAdapter(private var foldersPresenter: AudioFoldersPresenter?) 
                         AudioCardView.OnAudioCardViewListener {
 
                     override fun onPopupMenuClick(view: View) {
-
+                        listener?.onPopupMenuClick(view, audioFolders[adapterPosition])
                     }
 
                     override fun onAudioFolderClick() {

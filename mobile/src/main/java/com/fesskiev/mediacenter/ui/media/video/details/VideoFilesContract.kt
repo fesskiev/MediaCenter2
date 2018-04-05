@@ -12,10 +12,29 @@ interface VideoFilesContract {
 
         fun showVideoFiles(videoFiles: List<VideoFile>)
 
+        fun fileNotExists()
+
+        fun showFileDeleted()
+
+        fun removeFileAdapter(position: Int)
+
+        fun showFileNotDeleted()
+
+        fun showFileAddedPlaylist()
+
+        fun showEditFileView()
     }
 
     interface Presenter : BasePresenter {
 
         fun fetchVideoFiles(videoFolder: VideoFolder)
+
+        fun deleteFile(videoFile: VideoFile, position: Int)
+
+        fun editFile(videoFile: VideoFile)
+
+        fun toPlaylistFile(videoFile: VideoFile)
+
+        fun playFile(videoFile: VideoFile)
     }
 }

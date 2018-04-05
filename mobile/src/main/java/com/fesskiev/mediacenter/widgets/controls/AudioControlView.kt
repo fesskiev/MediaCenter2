@@ -70,7 +70,7 @@ class AudioControlView : View {
         radiusSeek = resources.getDimensionPixelSize(R.dimen.seek_radius)
 
         lineRadius = resources.getDimensionPixelSize(R.dimen.line_radius)
-        val circleStrokeWidth = resources.getDimensionPixelSize(R.dimen.circle_stroke_with).toFloat()
+        val circleStrokeWidth = resources.getDimensionPixelSize(R.dimen.circle_stroke_width).toFloat()
 
         padding = resources.getDimensionPixelSize(R.dimen.audio_control_padding)
 

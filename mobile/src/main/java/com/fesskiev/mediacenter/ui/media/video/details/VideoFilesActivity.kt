@@ -3,13 +3,12 @@ package com.fesskiev.mediacenter.ui.media.video.details
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.fesskiev.mediacenter.R
-import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import com.fesskiev.mediacenter.domain.entity.media.VideoFile
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 import com.fesskiev.mediacenter.ui.adapters.VideoFilesAdapter
 import com.fesskiev.mediacenter.utils.Constants.Companion.EXTRA_VIDEO_FOLDER
 import com.fesskiev.mediacenter.utils.invisible
-import com.fesskiev.mediacenter.utils.setupToolbar
+import com.fesskiev.mediacenter.utils.showToast
 import com.fesskiev.mediacenter.utils.visible
 import com.fesskiev.mediacenter.widgets.recycler.HidingScrollListener
 import dagger.android.support.DaggerAppCompatActivity
@@ -83,20 +82,44 @@ class VideoFilesActivity : DaggerAppCompatActivity(), VideoFilesContract.View, V
         presenter?.detach()
     }
 
-    override fun onDeleteFile(mediaFile: MediaFile) {
+    override fun onDeleteFile(videoFile: VideoFile, position: Int) {
+        presenter?.deleteFile(videoFile, position)
+    }
+
+    override fun onEditFile(videoFile: VideoFile) {
+        presenter?.editFile(videoFile)
+    }
+
+    override fun onPlaylistFile(videoFile: VideoFile) {
+        presenter?.toPlaylistFile(videoFile)
+    }
+
+    override fun onClickFile(videoFile: VideoFile) {
+        presenter?.playFile(videoFile)
+    }
+
+    override fun fileNotExists() {
+        showToast(R.string.toast_video_file_not_exists)
+    }
+
+    override fun showFileDeleted() {
+        showToast(R.string.toast_video_file_deleted)
+    }
+
+    override fun showFileNotDeleted() {
+        showToast(R.string.toast_video_file_not_deleted)
+    }
+
+    override fun showFileAddedPlaylist() {
+        showToast(R.string.toast_video_file_added_playlist)
+    }
+
+    override fun showEditFileView() {
 
     }
 
-    override fun onEditFile(mediaFile: MediaFile) {
-
-    }
-
-    override fun onPlayListFile(mediaFile: MediaFile) {
-
-    }
-
-    override fun onClickFile(mediaFile: MediaFile) {
-
+    override fun removeFileAdapter(position: Int) {
+        adapter.remove(position)
     }
 
     override fun showVideoFiles(videoFiles: List<VideoFile>) {

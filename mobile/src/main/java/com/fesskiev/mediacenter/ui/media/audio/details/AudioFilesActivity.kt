@@ -10,10 +10,7 @@ import com.fesskiev.mediacenter.domain.entity.media.AudioFile
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import com.fesskiev.mediacenter.ui.adapters.AudioFilesAdapter
-import com.fesskiev.mediacenter.utils.BitmapUtils
 import com.fesskiev.mediacenter.utils.Constants.Companion.EXTRA_AUDIO_FOLDER
-import com.fesskiev.mediacenter.utils.invisible
-import com.fesskiev.mediacenter.utils.visible
 import com.fesskiev.mediacenter.widgets.recycler.HidingScrollListener
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_audio_files.*
@@ -21,7 +18,7 @@ import kotlinx.android.synthetic.main.layout_playback.*
 import javax.inject.Inject
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.AppBarLayout
-import com.fesskiev.mediacenter.utils.setupToolbar
+import com.fesskiev.mediacenter.utils.*
 
 
 class AudioFilesActivity : DaggerAppCompatActivity(), AudioFilesContract.View,
@@ -80,6 +77,10 @@ class AudioFilesActivity : DaggerAppCompatActivity(), AudioFilesContract.View,
 
     override fun onClickFile(mediaFile: MediaFile) {
 
+    }
+
+    override fun audioFileNotExist() {
+        showToast(R.string.toast_audio_file_not_exists)
     }
 
     override fun showBackdropBitmap(bitmap: Bitmap) {

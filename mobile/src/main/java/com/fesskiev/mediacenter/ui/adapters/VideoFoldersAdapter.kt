@@ -17,6 +17,8 @@ class VideoFoldersAdapter(private var foldersPresenter: VideoFoldersPresenter?) 
     interface OnVideoFolderAdapterListener {
 
         fun onVideoFolderClick(videoFolder: VideoFolder)
+
+        fun onPopupMenuClick(view: View, videoFolder: VideoFolder)
     }
 
     private var videoFolders: MutableList<VideoFolder> = ArrayList()
@@ -29,7 +31,7 @@ class VideoFoldersAdapter(private var foldersPresenter: VideoFoldersPresenter?) 
                         VideoCardView.OnVideoCardViewListener {
 
                     override fun onPopupMenuClick(view: View) {
-
+                        listener?.onPopupMenuClick(view, videoFolders[adapterPosition])
                     }
 
                     override fun onVideoFolderClick() {

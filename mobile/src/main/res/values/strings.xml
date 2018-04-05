@@ -38,5 +38,16 @@
     <string name="dialog_permission_title">Permissions are required</string>
     <string name="dialog_permission_message">Please turn on this permissions for using the application</string>
 
+    <string name="toast_audio_folder_not_exists">Audio folder not exists</string>
+    <string name="toast_video_folder_not_exists">Video folder not exists</string>
+    <string name="toast_audio_file_not_exists">Audio file not exists</string>
+    <string name="toast_video_file_not_exists">Video file not exists</string>
+    <string name="toast_video_file_deleted">Video file has been deleted</string>
+    <string name="toast_audio_file_deleted">Audio file has been deleted</string>
+    <string name="toast_video_file_not_deleted">Video file is not deleted</string>
+    <string name="toast_audio_file_not_deleted">Audio file is not deleted</string>
+    <string name="toast_audio_file_added_playlist">Audio file has been added to playlist</string>
+    <string name="toast_video_file_added_playlist">Video file has been added to playlist</string>
+
     <string name="toast_permissions_denied_message">Please turn on storage permission in the application settings for using this app!</string>
 </resources>

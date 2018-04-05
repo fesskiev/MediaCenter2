@@ -12,6 +12,7 @@ import com.fesskiev.mediacenter.ui.adapters.AudioFoldersAdapter
 import com.fesskiev.mediacenter.ui.media.audio.details.AudioFilesActivity
 import com.fesskiev.mediacenter.utils.Constants.Companion.EXTRA_AUDIO_FOLDER
 import com.fesskiev.mediacenter.utils.invisible
+import com.fesskiev.mediacenter.utils.showToast
 import com.fesskiev.mediacenter.utils.visible
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_audio.*
@@ -69,7 +70,7 @@ class AudioFoldersFragment : DaggerFragment(), AudioFoldersContact.View, AudioFo
     }
 
     override fun showAudioFolderNotExist() {
-
+        showToast(R.string.toast_audio_folder_not_exists)
     }
 
     override fun onAudioFolderClick(audioFolder: AudioFolder) {
@@ -79,6 +80,10 @@ class AudioFoldersFragment : DaggerFragment(), AudioFoldersContact.View, AudioFo
             i.putExtra(EXTRA_AUDIO_FOLDER, audioFolder)
             startActivity(i)
         }
+    }
+
+    override fun onPopupMenuClick(view: View, audioFolder: AudioFolder) {
+
     }
 
     override fun onDestroy() {
