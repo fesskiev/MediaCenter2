@@ -16,6 +16,8 @@ interface AudioFilesContract {
         fun showBackdropBitmap(bitmap: Bitmap)
 
         fun showPaletteColors(paletteColors: BitmapUtils.PaletteColors)
+
+        fun audioFileNotExist()
     }
 
     interface Presenter : BasePresenter {

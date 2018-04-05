@@ -5,6 +5,7 @@ import com.fesskiev.engine.FFmpegEngine
 import com.fesskiev.engine.SuperpoweredEngine
 import com.fesskiev.mediacenter.engines.ExoPlayerEngine
 import com.fesskiev.mediacenter.utils.BitmapUtils
+import com.fesskiev.mediacenter.utils.FileSystemUtils
 
 import com.fesskiev.mediacenter.utils.NotificationUtils
 import com.fesskiev.mediacenter.utils.PermissionsUtils
@@ -39,4 +40,8 @@ class UtilsModule {
     @Provides
     @Singleton
     fun provideSchedulerProvider(): BaseSchedulerProvider = SchedulerProvider()
+
+    @Provides
+    @Singleton
+    fun provideFileSystemUtils(): FileSystemUtils = FileSystemUtils()
 }

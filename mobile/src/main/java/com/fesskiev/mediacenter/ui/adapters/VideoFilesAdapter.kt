@@ -18,13 +18,13 @@ class VideoFilesAdapter(private var presenter: VideoFilesPresenter?) : RecyclerV
 
     interface OnVideoFilesAdapterListener {
 
-        fun onDeleteFile(mediaFile: MediaFile)
+        fun onDeleteFile(videoFile: VideoFile, position: Int)
 
-        fun onEditFile(mediaFile: MediaFile)
+        fun onEditFile(videoFile: VideoFile)
 
-        fun onPlayListFile(mediaFile: MediaFile)
+        fun onPlaylistFile(videoFile: VideoFile)
 
-        fun onClickFile(mediaFile: MediaFile)
+        fun onClickFile(videoFile: VideoFile)
     }
 
     private var listener: OnVideoFilesAdapterListener? = null
@@ -36,15 +36,15 @@ class VideoFilesAdapter(private var presenter: VideoFilesPresenter?) : RecyclerV
             with(videoFile) {
                 itemView.cardVideoFile.setOnFileCardListener(object : VideoFileCardView.OnFileCardListener {
                     override fun onDeleteClick() {
-                        listener?.onDeleteFile(videoFiles[adapterPosition])
+                        listener?.onDeleteFile(videoFiles[adapterPosition], adapterPosition)
                     }
 
                     override fun onEditClick() {
                         listener?.onEditFile(videoFiles[adapterPosition])
                     }
 
-                    override fun onPlayListClick() {
-                        listener?.onPlayListFile(videoFiles[adapterPosition])
+                    override fun onPlaylistClick() {
+                        listener?.onPlaylistFile(videoFiles[adapterPosition])
                     }
 
                     override fun onClick() {
@@ -88,6 +88,12 @@ class VideoFilesAdapter(private var presenter: VideoFilesPresenter?) : RecyclerV
         this.videoFiles.clear()
         this.videoFiles.addAll(videoFiles)
         notifyDataSetChanged()
+    }
+
+    fun remove(position: Int) {
+        videoFiles.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, itemCount)
     }
 
     fun hideOpenCards() {
