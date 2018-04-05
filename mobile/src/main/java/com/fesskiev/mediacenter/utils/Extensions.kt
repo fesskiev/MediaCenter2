@@ -1,5 +1,6 @@
 package com.fesskiev.mediacenter.utils
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
@@ -25,4 +26,7 @@ fun AppCompatActivity.setupToolbar(toolbar: Toolbar) {
         setDisplayHomeAsUpEnabled(true)
         setDisplayShowTitleEnabled(false)
     }
+}
+fun AppCompatActivity.openActivity(clazz: Class<*>) {
+    startActivity(Intent(this, clazz))
 }

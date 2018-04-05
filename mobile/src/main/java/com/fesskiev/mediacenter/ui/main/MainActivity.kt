@@ -3,9 +3,7 @@ package com.fesskiev.mediacenter.ui.main
 import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -42,6 +40,7 @@ import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.entity.media.VideoFile
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 import com.fesskiev.mediacenter.ui.playlist.PlaylistActivity
+import com.fesskiev.mediacenter.utils.openActivity
 import com.fesskiev.mediacenter.widgets.dialogs.SimpleDialog
 
 class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
@@ -151,13 +150,9 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
             R.id.about -> {
 
             }
-            R.id.playlist -> startPlaylistActivity()
+            R.id.playlist -> openActivity(PlaylistActivity::class.java)
         }
         return false
-    }
-
-    private fun startPlaylistActivity() {
-        startActivity(Intent(this, PlaylistActivity::class.java))
     }
 
     override fun onBackPressed() {

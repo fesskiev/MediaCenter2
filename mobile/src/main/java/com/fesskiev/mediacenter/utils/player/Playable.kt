@@ -22,4 +22,6 @@ interface Playable {
     fun volume(volume : Float)
 
     fun shuffle()
+
+    fun isPlaying(): Boolean
 }

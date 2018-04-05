@@ -9,6 +9,8 @@ class MediaPlayer(var ffmpegEngine: FFmpegEngine,
                   var superpoweredEngine: SuperpoweredEngine,
                   var exoPlayerEngine: ExoPlayerEngine) : Playable {
 
+    private var isPlaying: Boolean = false
+
 
     override fun open(mediaFile: MediaFile) {
 
@@ -23,11 +25,11 @@ class MediaPlayer(var ffmpegEngine: FFmpegEngine,
     }
 
     override fun play() {
-
+        isPlaying = true
     }
 
     override fun pause() {
-
+        isPlaying = false
     }
 
     override fun seek(seek: Int) {
@@ -44,5 +46,9 @@ class MediaPlayer(var ffmpegEngine: FFmpegEngine,
 
     override fun shuffle() {
 
+    }
+
+    override fun isPlaying(): Boolean {
+        return isPlaying
     }
 }
