@@ -20,7 +20,7 @@ class AudioFileCardView(context: Context, attrs: AttributeSet) : FrameLayout(con
 
         fun onEditClick()
 
-        fun onPlayListClick()
+        fun onPlaylistClick()
 
         fun onClick()
 
@@ -80,7 +80,7 @@ class AudioFileCardView(context: Context, attrs: AttributeSet) : FrameLayout(con
                     return true
                 }
                 if (isPointInsideView(e.rawX, e.rawY, addPlaylistButton)) {
-                    listener?.onPlayListClick()
+                    listener?.onPlaylistClick()
                     return true
                 }
                 if (isPointInsideView(e.rawX, e.rawY, editButton)) {

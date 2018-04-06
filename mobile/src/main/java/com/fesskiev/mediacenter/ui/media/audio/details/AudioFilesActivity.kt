@@ -8,7 +8,6 @@ import android.view.View
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.AudioFile
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
-import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import com.fesskiev.mediacenter.ui.adapters.AudioFilesAdapter
 import com.fesskiev.mediacenter.utils.Constants.Companion.EXTRA_AUDIO_FOLDER
 import com.fesskiev.mediacenter.widgets.recycler.HidingScrollListener
@@ -63,23 +62,43 @@ class AudioFilesActivity : DaggerAppCompatActivity(), AudioFilesContract.View,
         adapter.refresh(audioFiles)
     }
 
-    override fun onDeleteFile(mediaFile: MediaFile) {
+    override fun onDeleteFile(audioFile: AudioFile, position: Int) {
+        presenter?.deleteFile(audioFile, position)
+    }
+
+    override fun onEditFile(audioFile: AudioFile) {
+        presenter?.editFile(audioFile)
+    }
+
+    override fun onPlaylistFile(audioFile: AudioFile) {
+        presenter?.toPlaylistFile(audioFile)
+    }
+
+    override fun onClickFile(audioFile: AudioFile) {
+        presenter?.playFile(audioFile)
+    }
+
+    override fun showFileDeleted() {
+        showToast(R.string.toast_audio_file_deleted)
+    }
+
+    override fun removeFileAdapter(position: Int) {
+        adapter.remove(position)
+    }
+
+    override fun showFileNotDeleted() {
+        showToast(R.string.toast_audio_file_not_deleted)
+    }
+
+    override fun showFileAddedPlaylist() {
+        showToast(R.string.toast_audio_file_added_playlist)
+    }
+
+    override fun showEditFileView() {
 
     }
 
-    override fun onEditFile(mediaFile: MediaFile) {
-
-    }
-
-    override fun onPlayListFile(mediaFile: MediaFile) {
-
-    }
-
-    override fun onClickFile(mediaFile: MediaFile) {
-
-    }
-
-    override fun audioFileNotExist() {
+    override fun fileNotExists() {
         showToast(R.string.toast_audio_file_not_exists)
     }
 

@@ -16,13 +16,13 @@ class AudioFilesAdapter : RecyclerView.Adapter<AudioFilesAdapter.ViewHolder>() {
 
     interface OnAudioFilesAdapterListener {
 
-        fun onDeleteFile(mediaFile: MediaFile)
+        fun onDeleteFile(audioFile: AudioFile, position: Int)
 
-        fun onEditFile(mediaFile: MediaFile)
+        fun onEditFile(audioFile: AudioFile)
 
-        fun onPlayListFile(mediaFile: MediaFile)
+        fun onPlaylistFile(audioFile: AudioFile)
 
-        fun onClickFile(mediaFile: MediaFile)
+        fun onClickFile(audioFile: AudioFile)
     }
 
     private var listener: OnAudioFilesAdapterListener? = null
@@ -34,15 +34,15 @@ class AudioFilesAdapter : RecyclerView.Adapter<AudioFilesAdapter.ViewHolder>() {
             with(audioFile) {
                 itemView.cardAudioFile.setOnFileCardListener(object : AudioFileCardView.OnFileCardListener {
                     override fun onDeleteClick() {
-                        listener?.onDeleteFile(audioFiles[adapterPosition])
+                        listener?.onDeleteFile(audioFiles[adapterPosition], adapterPosition)
                     }
 
                     override fun onEditClick() {
                         listener?.onEditFile(audioFiles[adapterPosition])
                     }
 
-                    override fun onPlayListClick() {
-                        listener?.onPlayListFile(audioFiles[adapterPosition])
+                    override fun onPlaylistClick() {
+                        listener?.onPlaylistFile(audioFiles[adapterPosition])
                     }
 
                     override fun onClick() {
@@ -78,10 +78,17 @@ class AudioFilesAdapter : RecyclerView.Adapter<AudioFilesAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindAudioFile(audioFiles[position])
     }
+
     fun refresh(mediaFiles: List<AudioFile>) {
         this.audioFiles.clear()
         this.audioFiles.addAll(mediaFiles)
         notifyDataSetChanged()
+    }
+
+    fun remove(position: Int) {
+        audioFiles.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, itemCount)
     }
 
     fun hideOpenCards() {

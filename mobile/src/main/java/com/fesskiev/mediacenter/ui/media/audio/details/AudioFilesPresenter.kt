@@ -6,6 +6,7 @@ import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.source.DataRepository
 import com.fesskiev.mediacenter.utils.BitmapUtils
 import com.fesskiev.mediacenter.utils.schedulers.BaseSchedulerProvider
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import java.util.*
 
@@ -39,6 +40,62 @@ class AudioFilesPresenter(private var compositeDisposable: CompositeDisposable,
                 .subscribe({ paletteColors -> handlePaletteColors(paletteColors) }, { throwable -> handleError(throwable) })
     }
 
+    override fun deleteFile(audioFile: AudioFile, position: Int) {
+        if (!audioFile.exists()) {
+            view?.fileNotExists()
+            return
+        }
+        view?.showProgressBar()
+        compositeDisposable.add(dataRepository.localDataSource.deleteAudioFile(audioFile)
+                .subscribeOn(schedulerProvider.io())
+                .flatMap { Single.just(audioFile.audioFilePath.delete()) }
+                .observeOn(schedulerProvider.ui())
+                .subscribe({ deleted -> handleDeletedFile(deleted, position) }, { throwable -> handleError(throwable) }))
+    }
+
+    override fun editFile(audioFile: AudioFile) {
+        if (!audioFile.exists()) {
+            view?.fileNotExists()
+            return
+        }
+        view?.showEditFileView()
+    }
+
+    override fun toPlaylistFile(audioFile: AudioFile) {
+        if (!audioFile.exists()) {
+            view?.fileNotExists()
+            return
+        }
+        view?.showProgressBar()
+        audioFile.setToPlayList(true)
+        compositeDisposable.add(dataRepository.localDataSource.updateAudioFile(audioFile)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe({ handleFileAddedToPlaylist() }, { throwable -> handleError(throwable) }))
+    }
+
+    override fun playFile(audioFile: AudioFile) {
+        if (!audioFile.exists()) {
+            view?.fileNotExists()
+            return
+        }
+    }
+
+    private fun handleDeletedFile(deleted: Boolean, position: Int) {
+        view?.hideProgressBar()
+        if (deleted) {
+            view?.removeFileAdapter(position)
+            view?.showFileDeleted()
+        } else {
+            view?.showFileNotDeleted()
+        }
+    }
+
+    private fun handleFileAddedToPlaylist() {
+        view?.hideProgressBar()
+        view?.showFileAddedPlaylist()
+    }
+
     private fun handlePaletteColors(paletteColors: BitmapUtils.PaletteColors) {
         view?.showPaletteColors(paletteColors)
     }
@@ -65,5 +122,4 @@ class AudioFilesPresenter(private var compositeDisposable: CompositeDisposable,
             view = null
         }
     }
-
 }
