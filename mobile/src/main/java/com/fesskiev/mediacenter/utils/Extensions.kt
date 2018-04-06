@@ -1,5 +1,6 @@
 package com.fesskiev.mediacenter.utils
 
+import android.content.Intent
 import android.graphics.Color
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -55,4 +56,7 @@ fun Fragment.showToast(resId: Int) {
     toastMessage.gravity = Gravity.CENTER
     toastView.setBackgroundResource(R.drawable.bg_rounded)
     toast.show()
+}
+fun AppCompatActivity.openActivity(clazz: Class<*>) {
+    startActivity(Intent(this, clazz))
 }
