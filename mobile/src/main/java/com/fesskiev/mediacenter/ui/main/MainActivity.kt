@@ -16,8 +16,6 @@ import android.support.v7.widget.SearchView
 import android.text.InputType
 import android.util.TypedValue
 import android.view.*
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.inputmethod.EditorInfo
 
 import com.fesskiev.mediacenter.R
@@ -27,20 +25,18 @@ import com.fesskiev.mediacenter.ui.media.audio.AudioFoldersFragment
 import com.fesskiev.mediacenter.ui.media.files.FilesFragment
 import com.fesskiev.mediacenter.ui.media.folders.FoldersFragment
 import com.fesskiev.mediacenter.ui.media.video.VideoFoldersFragment
-import com.fesskiev.mediacenter.utils.PermissionsUtils
 import com.fesskiev.mediacenter.utils.PermissionsUtils.Companion.PERMISSION_STORAGE
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_playback.*
 import javax.inject.Inject
 import android.view.LayoutInflater
-import android.widget.Toast
 import com.fesskiev.mediacenter.domain.entity.media.AudioFile
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.entity.media.VideoFile
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 import com.fesskiev.mediacenter.ui.playlist.PlaylistActivity
-import com.fesskiev.mediacenter.utils.openActivity
+import com.fesskiev.mediacenter.utils.*
 import com.fesskiev.mediacenter.widgets.dialogs.SimpleDialog
 
 class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
@@ -265,13 +261,13 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     private fun visibleSearchView() {
-        searchView.visibility = VISIBLE
+        searchView.visible()
         searchView.isFocusable = true
         searchView.isIconified = false
     }
 
     private fun invisibleSearchView() {
-        searchView.visibility = GONE
+        searchView.invisible()
     }
 
     private fun setupTabs() {
@@ -381,7 +377,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     private fun permissionsDenied() {
-        Toast.makeText(this, R.string.toast_permissions_denied_message, Toast.LENGTH_LONG).show()
+        showToast(R.string.toast_permissions_denied_message)
         finish()
     }
 }

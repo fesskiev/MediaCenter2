@@ -30,7 +30,7 @@
 
         <activity android:name=".ui.media.video.details.VideoFilesActivity" android:theme="@style/TransparentStatusBarTheme"/>
         <activity android:name=".ui.media.audio.details.AudioFilesActivity" android:theme="@style/TransparentStatusBarTheme"/>
-        <activity android:name=".ui.playlist.PlaylistActivity"/>
+        <activity android:name=".ui.playlist.PlaylistActivity" android:theme="@style/TransparentStatusBarTheme"/>
 
         <service
             android:name=".services.ScanSystemService"

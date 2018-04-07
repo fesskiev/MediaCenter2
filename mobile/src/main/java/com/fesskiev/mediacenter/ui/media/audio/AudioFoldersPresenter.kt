@@ -50,7 +50,7 @@ class AudioFoldersPresenter(private var compositeDisposable: CompositeDisposable
         }
     }
 
-    fun getAudioFolderArtwork(audioFolder: AudioFolder): Single<Bitmap> {
+    override fun getAudioFolderArtwork(audioFolder: AudioFolder): Single<Bitmap> {
         return bitmapUtils.getAudioFolderArtwork(audioFolder)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())

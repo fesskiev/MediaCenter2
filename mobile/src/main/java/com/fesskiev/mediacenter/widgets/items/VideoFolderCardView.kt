@@ -7,29 +7,31 @@ import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.widget.ImageView
 import com.fesskiev.mediacenter.R
-import kotlinx.android.synthetic.main.layout_audio_card_view.view.*
+import com.fesskiev.mediacenter.utils.isPointInsideView
+import kotlinx.android.synthetic.main.layout_video_card_view.view.*
 
 
-class AudioCardView(context: Context, attrs: AttributeSet) : CardView(context, attrs) {
+class VideoFolderCardView(context: Context, attrs: AttributeSet) : CardView(context, attrs) {
 
-    interface OnAudioCardViewListener {
+    interface OnVideoCardViewListener {
 
         fun onPopupMenuClick(view: View)
 
-        fun onAudioFolderClick()
+        fun onVideoFolderClick()
     }
 
     init {
         init(context)
     }
 
-    private var listener: OnAudioCardViewListener? = null
+    private var listener: OnVideoCardViewListener? = null
     private lateinit var detector: GestureDetector
 
     private fun init(context: Context) {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        inflater.inflate(R.layout.layout_audio_card_view, this, true)
+        inflater.inflate(R.layout.layout_video_card_view, this, true)
 
         detector = GestureDetector(context, GestureListener())
     }
@@ -45,29 +47,25 @@ class AudioCardView(context: Context, attrs: AttributeSet) : CardView(context, a
             if (isPointInsideView(e.rawX, e.rawY, popupMenu)) {
                 listener?.onPopupMenuClick(popupMenu)
             } else {
-                listener?.onAudioFolderClick()
+                listener?.onVideoFolderClick()
             }
             return true
         }
     }
 
-    private fun isPointInsideView(x: Float, y: Float, view: View): Boolean {
-        val location = IntArray(2)
-        view.getLocationOnScreen(location)
-        val viewX = location[0]
-        val viewY = location[1]
-        return x > viewX && x < viewX + view.width && y > viewY && y < viewY + view.height
-    }
-
-    fun setOnAudioCardViewListener(l: OnAudioCardViewListener) {
+    fun setOnVideoCardViewListener(l: OnVideoCardViewListener) {
         this.listener = l
     }
 
-    fun selectedFolderVisibility(visible : Boolean) {
-        if(visible) {
+    fun selectedFolderVisibility(visible: Boolean) {
+        if (visible) {
             selectFolder.visibility = View.VISIBLE
         } else {
             selectFolder.visibility = View.INVISIBLE
         }
+    }
+
+    fun getVideoFrame(): ImageView {
+        return videoFrame
     }
 }

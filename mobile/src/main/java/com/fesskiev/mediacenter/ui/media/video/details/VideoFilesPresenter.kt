@@ -44,7 +44,7 @@ class VideoFilesPresenter(private var compositeDisposable: CompositeDisposable,
         }
     }
 
-    fun getVideoFileArtwork(videoFile: VideoFile): Single<Bitmap> {
+    override fun getVideoFileArtwork(videoFile: VideoFile): Single<Bitmap> {
         return bitmapUtils.getVideoFileArtwork(videoFile.videoFileFramePath)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())

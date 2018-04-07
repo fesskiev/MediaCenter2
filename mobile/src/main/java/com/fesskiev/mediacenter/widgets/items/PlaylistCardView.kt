@@ -9,22 +9,19 @@ import android.view.MotionEvent
 import android.widget.FrameLayout
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.utils.isPointInsideView
-import kotlinx.android.synthetic.main.layout_video_file_card_view.view.*
+import kotlinx.android.synthetic.main.layout_playlist_card_view.view.*
 
-class VideoFileCardView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+class PlaylistCardView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
-    interface OnFileCardListener {
+    interface OnPlaylistCardListener {
 
         fun onDeleteClick()
 
-        fun onEditClick()
-
-        fun onPlaylistClick()
-
         fun onClick()
 
-        fun onAnimateChanged(view: VideoFileCardView, open: Boolean)
+        fun onAnimateChanged(view: PlaylistCardView, open: Boolean)
     }
+
     companion object {
         private const val MIN_DISTANCE = 50
         private const val DURATION = 200.toLong()
@@ -35,14 +32,14 @@ class VideoFileCardView(context: Context, attrs: AttributeSet) : FrameLayout(con
     }
 
     private lateinit var detector: GestureDetector
-    private var listener: OnFileCardListener? = null
+    private var listener: OnPlaylistCardListener? = null
     private var isOpen: Boolean = false
     private var x1: Float = 0.toFloat()
     private var x2: Float = 0.toFloat()
 
     private fun init(context: Context) {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        inflater.inflate(R.layout.layout_video_file_card_view, this, true)
+        inflater.inflate(R.layout.layout_playlist_card_view, this, true)
 
         detector = GestureDetector(context, GestureListener())
     }
@@ -69,6 +66,7 @@ class VideoFileCardView(context: Context, attrs: AttributeSet) : FrameLayout(con
         return true
     }
 
+
     private inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
 
         override fun onSingleTapUp(e: MotionEvent): Boolean {
@@ -77,15 +75,7 @@ class VideoFileCardView(context: Context, attrs: AttributeSet) : FrameLayout(con
                     animateSlidingContainer(false)
                     return true
                 }
-                if (isPointInsideView(e.rawX, e.rawY, addPlaylistButton)) {
-                    listener?.onPlaylistClick()
-                    return true
-                }
-                if (isPointInsideView(e.rawX, e.rawY, editButton)) {
-                    listener?.onEditClick()
-                    return true
-                }
-                if (isPointInsideView(e.rawX, e.rawY, deleteButton)) {
+                if (isPointInsideView(e.rawX, e.rawY, removePlaylistButton)) {
                     listener?.onDeleteClick()
                     return true
                 }
@@ -106,9 +96,7 @@ class VideoFileCardView(context: Context, attrs: AttributeSet) : FrameLayout(con
                 .setDuration(DURATION)
                 .setListener(object : Animator.AnimatorListener {
                     override fun onAnimationStart(animation: Animator) {
-                        if (listener != null) {
-                            listener?.onAnimateChanged(this@VideoFileCardView, isOpen)
-                        }
+                        listener?.onAnimateChanged(this@PlaylistCardView, isOpen)
                     }
 
                     override fun onAnimationEnd(animation: Animator) {
@@ -125,7 +113,7 @@ class VideoFileCardView(context: Context, attrs: AttributeSet) : FrameLayout(con
                 })
     }
 
-    fun setOnFileCardListener(l: OnFileCardListener) {
+    fun setOnPlaylistCardListener(l: OnPlaylistCardListener) {
         this.listener = l
     }
 

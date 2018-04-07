@@ -1,7 +1,6 @@
 package com.fesskiev.mediacenter.utils
 
 import android.content.Intent
-import android.graphics.Color
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -10,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import android.view.Gravity
+import android.widget.FrameLayout
 import android.widget.TextView
 import com.fesskiev.mediacenter.R
 
@@ -59,4 +59,12 @@ fun Fragment.showToast(resId: Int) {
 }
 fun AppCompatActivity.openActivity(clazz: Class<*>) {
     startActivity(Intent(this, clazz))
+}
+
+fun isPointInsideView(x: Float, y: Float, view: View): Boolean {
+    val location = IntArray(2)
+    view.getLocationOnScreen(location)
+    val viewX = location[0]
+    val viewY = location[1]
+    return x > viewX && x < viewX + view.width && y > viewY && y < viewY + view.height
 }

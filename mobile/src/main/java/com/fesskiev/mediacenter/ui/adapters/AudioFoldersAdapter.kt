@@ -7,9 +7,9 @@ import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.ui.media.audio.AudioFoldersPresenter
 import com.fesskiev.mediacenter.utils.inflate
-import com.fesskiev.mediacenter.widgets.items.AudioCardView
+import com.fesskiev.mediacenter.widgets.items.AudioFolderCardView
 import kotlinx.android.synthetic.main.layout_audio_card_view.view.*
-import kotlinx.android.synthetic.main.item_audio.view.*
+import kotlinx.android.synthetic.main.item_audio_folder.view.*
 
 
 class AudioFoldersAdapter(private var foldersPresenter: AudioFoldersPresenter?) : RecyclerView.Adapter<AudioFoldersAdapter.ViewHolder>() {
@@ -28,7 +28,7 @@ class AudioFoldersAdapter(private var foldersPresenter: AudioFoldersPresenter?) 
         fun bindAudioFolder(audioFolder: AudioFolder) {
             with(audioFolder) {
                 itemView.audioFolderCardView.setOnAudioCardViewListener(object :
-                        AudioCardView.OnAudioCardViewListener {
+                        AudioFolderCardView.OnAudioCardViewListener {
 
                     override fun onPopupMenuClick(view: View) {
                         listener?.onPopupMenuClick(view, audioFolders[adapterPosition])
@@ -47,7 +47,7 @@ class AudioFoldersAdapter(private var foldersPresenter: AudioFoldersPresenter?) 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = parent.inflate(R.layout.item_audio)
+        val v = parent.inflate(R.layout.item_audio_folder)
         return ViewHolder(v)
     }
 

@@ -1,9 +1,11 @@
 package com.fesskiev.mediacenter.ui.media.video.details
 
+import android.graphics.Bitmap
 import com.fesskiev.mediacenter.domain.entity.media.VideoFile
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 import com.fesskiev.mediacenter.ui.BasePresenter
 import com.fesskiev.mediacenter.ui.BaseView
+import io.reactivex.Single
 
 
 interface VideoFilesContract {
@@ -28,6 +30,8 @@ interface VideoFilesContract {
     interface Presenter : BasePresenter {
 
         fun fetchVideoFiles(videoFolder: VideoFolder)
+
+        fun getVideoFileArtwork(videoFile: VideoFile): Single<Bitmap>
 
         fun deleteFile(videoFile: VideoFile, position: Int)
 

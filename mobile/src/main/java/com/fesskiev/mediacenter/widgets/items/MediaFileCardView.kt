@@ -6,9 +6,9 @@ import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.MotionEvent
-import android.view.View
 import android.widget.FrameLayout
 import com.fesskiev.mediacenter.R
+import com.fesskiev.mediacenter.utils.isPointInsideView
 import kotlinx.android.synthetic.main.layout_media_file_card_view.view.*
 
 
@@ -57,7 +57,7 @@ class MediaFileCardView(context: Context, attrs: AttributeSet) : FrameLayout(con
                 val deltaX = x2 - x1
                 if (Math.abs(deltaX) > MIN_DISTANCE) {
                     if (x2 > x1) {
-  //                    animateSlidingContainer(false)
+                        //                    animateSlidingContainer(false)
                     } else {
                         animateSlidingContainer(true)
                     }
@@ -75,7 +75,7 @@ class MediaFileCardView(context: Context, attrs: AttributeSet) : FrameLayout(con
 
         override fun onSingleTapUp(e: MotionEvent): Boolean {
             if (isOpen) {
-                if(isPointInsideView(e.rawX, e.rawY, slidingContainer)){
+                if (isPointInsideView(e.rawX, e.rawY, slidingContainer)) {
                     animateSlidingContainer(false)
                     return true
                 }
@@ -108,9 +108,7 @@ class MediaFileCardView(context: Context, attrs: AttributeSet) : FrameLayout(con
                 .setDuration(DURATION)
                 .setListener(object : Animator.AnimatorListener {
                     override fun onAnimationStart(animation: Animator) {
-                        if (listener != null) {
-                            listener?.onAnimateChanged(this@MediaFileCardView, isOpen)
-                        }
+                        listener?.onAnimateChanged(this@MediaFileCardView, isOpen)
                     }
 
                     override fun onAnimationEnd(animation: Animator) {
@@ -127,19 +125,11 @@ class MediaFileCardView(context: Context, attrs: AttributeSet) : FrameLayout(con
                 })
     }
 
-    private fun isPointInsideView(x: Float, y: Float, view: View): Boolean {
-        val location = IntArray(2)
-        view.getLocationOnScreen(location)
-        val viewX = location[0]
-        val viewY = location[1]
-        return x > viewX && x < viewX + view.width && y > viewY && y < viewY + view.height
-    }
-
     fun setOnFileCardListener(l: OnFileCardListener) {
         this.listener = l
     }
 
-    fun isOpen() : Boolean {
+    fun isOpen(): Boolean {
         return isOpen
     }
 

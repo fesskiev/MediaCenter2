@@ -7,8 +7,8 @@ import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 import com.fesskiev.mediacenter.ui.media.video.VideoFoldersPresenter
 import com.fesskiev.mediacenter.utils.inflate
-import com.fesskiev.mediacenter.widgets.items.VideoCardView
-import kotlinx.android.synthetic.main.item_video.view.*
+import com.fesskiev.mediacenter.widgets.items.VideoFolderCardView
+import kotlinx.android.synthetic.main.item_video_folder.view.*
 import kotlinx.android.synthetic.main.layout_video_card_view.view.*
 
 
@@ -28,7 +28,7 @@ class VideoFoldersAdapter(private var foldersPresenter: VideoFoldersPresenter?) 
         fun bindVideoFolder(videoFolder: VideoFolder) {
             with(videoFolder) {
                 itemView.videoFolderCardView.setOnVideoCardViewListener(object :
-                        VideoCardView.OnVideoCardViewListener {
+                        VideoFolderCardView.OnVideoCardViewListener {
 
                     override fun onPopupMenuClick(view: View) {
                         listener?.onPopupMenuClick(view, videoFolders[adapterPosition])
@@ -47,7 +47,7 @@ class VideoFoldersAdapter(private var foldersPresenter: VideoFoldersPresenter?) 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoFoldersAdapter.ViewHolder {
-        val v = parent.inflate(R.layout.item_video)
+        val v = parent.inflate(R.layout.item_video_folder)
         return ViewHolder(v)
     }
 

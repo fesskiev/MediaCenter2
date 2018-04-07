@@ -53,7 +53,8 @@ class FilesPresenter(private var compositeDisposable: CompositeDisposable,
         view?.showQueryFiles(mediaFiles)
     }
 
-    private fun handleError(throwable: Throwable) {
+    private fun handleError(t: Throwable) {
+        t.printStackTrace()
         view?.hideProgressBar()
     }
 
@@ -66,7 +67,7 @@ class FilesPresenter(private var compositeDisposable: CompositeDisposable,
         }
     }
 
-    fun getMediaFileArtwork(mediaFile: MediaFile): Single<Bitmap> {
+    override fun getMediaFileArtwork(mediaFile: MediaFile): Single<Bitmap> {
         return bitmapUtils.getMediaFileArtwork(mediaFile)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())

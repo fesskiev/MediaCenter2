@@ -1,6 +1,7 @@
 package com.fesskiev.mediacenter.ui.playlist
 
 import com.fesskiev.mediacenter.domain.source.DataRepository
+import com.fesskiev.mediacenter.utils.BitmapUtils
 import com.fesskiev.mediacenter.utils.schedulers.BaseSchedulerProvider
 import dagger.Binds
 import dagger.Module
@@ -17,7 +18,9 @@ abstract class PlaylistModule {
         @Provides
         fun providePlaylistPresenter(compositeDisposable: CompositeDisposable, dataRepository: DataRepository,
                                      schedulerProvider: BaseSchedulerProvider,
-                                     view: PlaylistContract.View): PlaylistPresenter = PlaylistPresenter(compositeDisposable, dataRepository, schedulerProvider, view)
+                                     bitmapUtils: BitmapUtils,
+                                     view: PlaylistContract.View): PlaylistPresenter
+                = PlaylistPresenter(compositeDisposable, dataRepository, schedulerProvider, bitmapUtils, view)
 
         @JvmStatic
         @Provides

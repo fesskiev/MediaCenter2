@@ -1,8 +1,10 @@
 package com.fesskiev.mediacenter.ui.media.audio
 
+import android.graphics.Bitmap
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.ui.BasePresenter
 import com.fesskiev.mediacenter.ui.BaseView
+import io.reactivex.Single
 
 
 interface AudioFoldersContact {
@@ -17,6 +19,8 @@ interface AudioFoldersContact {
     interface Presenter : BasePresenter {
 
         fun fetchAudioFolders()
+
+        fun getAudioFolderArtwork(audioFolder: AudioFolder): Single<Bitmap>
 
         fun checkAudioFolderExist(audioFolder: AudioFolder) :Boolean
     }
