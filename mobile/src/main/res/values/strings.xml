@@ -38,6 +38,9 @@
     <string name="dialog_permission_title">Permissions are required</string>
     <string name="dialog_permission_message">Please turn on this permissions for using the application</string>
 
+    <string name="playback_control_folder_not_selected">Folder is not selected</string>
+    <string name="playback_control_track_not_selected">File is not selected</string>
+
     <string name="toast_audio_folder_not_exists">Audio folder not exists</string>
     <string name="toast_video_folder_not_exists">Video folder not exists</string>
     <string name="toast_audio_file_not_exists">Audio file not exists</string>

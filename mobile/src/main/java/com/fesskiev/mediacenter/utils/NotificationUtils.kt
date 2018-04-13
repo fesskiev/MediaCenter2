@@ -8,6 +8,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.support.v4.app.NotificationCompat
@@ -21,13 +22,19 @@ import com.fesskiev.mediacenter.utils.player.MediaPlayer
 
 
 @TargetApi(Build.VERSION_CODES.O)
-class NotificationUtils(private var context: Context, mediaPlayer: MediaPlayer) {
+class NotificationUtils(private val context: Context, private val mediaPlayer: MediaPlayer) {
 
     companion object {
 
         private const val CONTROL_CHANNEL = "notification_channel_control"
         private const val SCAN_CHANNEL = "notification_channel_scan"
-        const val ACTION_STOP_SCAN = "action.ACTION_STOP_SCAN"
+        const val ACTION_STOP_SCAN = "action.STOP_SCAN"
+
+        const val ACTION_MEDIA_CONTROL_PLAY = "action.MEDIA_CONTROL_PLAY"
+        const val ACTION_MEDIA_CONTROL_PAUSE = "action.MEDIA_CONTROL_PAUSE"
+        const val ACTION_MEDIA_CONTROL_NEXT = "action.MEDIA_CONTROL_NEXT"
+        const val ACTION_MEDIA_CONTROL_PREVIOUS = "action.MEDIA_CONTROL_PREVIOUS"
+        const val ACTION_CLOSE_APP = "action.CLOSE_APP"
 
         const val NOTIFICATION_SCAN_ID = 411
     }
@@ -58,8 +65,59 @@ class NotificationUtils(private var context: Context, mediaPlayer: MediaPlayer) 
         }
     }
 
-    fun createPlaybackNotification(): Notification? {
-        return null
+    fun createPlaybackNotification(mediaFile: MediaFile?, bitmap: Bitmap): Notification? {
+        val artist: String
+        val title: String
+        if (mediaFile != null) {
+            artist = mediaFile.getTitle()
+            title = mediaFile.getTitle()
+        } else {
+            artist = context.getString(R.string.playback_control_track_not_selected)
+            title = context.getString(R.string.playback_control_track_not_selected)
+        }
+        val notificationBigView = RemoteViews(context.packageName, R.layout.notification_playback_big_layout)
+        val notificationView = RemoteViews(context.packageName, R.layout.notification_playback_layout)
+
+        notificationBigView.setTextViewText(R.id.notificationArtist, artist)
+        notificationBigView.setTextViewText(R.id.notificationTitle, title)
+        notificationBigView.setImageViewBitmap(R.id.notificationCover, bitmap)
+
+        notificationView.setTextViewText(R.id.notificationArtist, artist)
+        notificationView.setTextViewText(R.id.notificationTitle, title)
+        notificationView.setImageViewBitmap(R.id.notificationCover, bitmap)
+
+        val notificationBuilder = NotificationCompat.Builder(context, CONTROL_CHANNEL)
+
+        notificationBuilder
+                .setCustomBigContentView(notificationBigView)
+                .setCustomContentView(notificationView)
+                .setSmallIcon(R.drawable.ic_scan)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setOnlyAlertOnce(true)
+                .setContentIntent(createContentIntent())
+
+        notificationBigView.setOnClickPendingIntent(R.id.notificationNext, getPendingIntentAction(ACTION_MEDIA_CONTROL_NEXT))
+        notificationBigView.setOnClickPendingIntent(R.id.notificationPrevious, getPendingIntentAction(ACTION_MEDIA_CONTROL_PREVIOUS))
+        if (mediaPlayer.isPlaying()) {
+            notificationBigView.setImageViewResource(R.id.notificationPlayPause, R.drawable.ic_play)
+            notificationBigView.setOnClickPendingIntent(R.id.notificationPlayPause, getPendingIntentAction(ACTION_MEDIA_CONTROL_PLAY))
+        } else {
+            notificationBigView.setImageViewResource(R.id.notificationPlayPause, R.drawable.ic_pause)
+            notificationBigView.setOnClickPendingIntent(R.id.notificationPlayPause, getPendingIntentAction(ACTION_MEDIA_CONTROL_PAUSE))
+        }
+        notificationBigView.setOnClickPendingIntent(R.id.notificationClose, getPendingIntentAction(ACTION_CLOSE_APP))
+
+        notificationView.setOnClickPendingIntent(R.id.notificationNext, getPendingIntentAction(ACTION_MEDIA_CONTROL_NEXT))
+        notificationView.setOnClickPendingIntent(R.id.notificationPrevious, getPendingIntentAction(ACTION_MEDIA_CONTROL_PREVIOUS))
+        if (!mediaPlayer.isPlaying()) {
+            notificationView.setImageViewResource(R.id.notificationPlayPause, R.drawable.ic_play)
+            notificationView.setOnClickPendingIntent(R.id.notificationPlayPause, getPendingIntentAction(ACTION_MEDIA_CONTROL_PLAY))
+        } else {
+            notificationView.setImageViewResource(R.id.notificationPlayPause, R.drawable.ic_pause)
+            notificationView.setOnClickPendingIntent(R.id.notificationPlayPause, getPendingIntentAction(ACTION_MEDIA_CONTROL_PAUSE))
+        }
+        return notificationBuilder.build()
     }
 
     fun createScanNotification(): Notification? {
@@ -116,5 +174,12 @@ class NotificationUtils(private var context: Context, mediaPlayer: MediaPlayer) 
         val intent = Intent(action)
         return PendingIntent.getBroadcast(context, System.currentTimeMillis().toInt(), intent, 0)
     }
+
+    private fun createContentIntent(): PendingIntent {
+        val intent = Intent(context, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        return PendingIntent.getActivity(context, System.currentTimeMillis().toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    }
+
 
 }
