@@ -32,9 +32,9 @@ class ScanSystemService : DaggerService() {
 
     companion object {
 
-        private const val ACTION_START_FETCH_MEDIA = "com.fesskiev.player.action.FETCH_MEDIA"
-        private const val ACTION_START_FETCH_AUDIO = "com.fesskiev.player.action.START_FETCH_AUDIO"
-        private const val ACTION_START_FETCH_VIDEO = "com.fesskiev.player.action.START_FETCH_VIDEO"
+        private const val ACTION_START_FETCH_MEDIA = "action.FETCH_MEDIA"
+        private const val ACTION_START_FETCH_AUDIO = "action.START_FETCH_AUDIO"
+        private const val ACTION_START_FETCH_VIDEO = "action.START_FETCH_VIDEO"
 
         private const val HANDLE_MEDIA = 0
         private const val HANDLE_VIDEO = 1

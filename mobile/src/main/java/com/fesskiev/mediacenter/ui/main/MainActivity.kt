@@ -35,6 +35,7 @@ import com.fesskiev.mediacenter.domain.entity.media.AudioFile
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.entity.media.VideoFile
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
+import com.fesskiev.mediacenter.services.PlaybackService
 import com.fesskiev.mediacenter.ui.playlist.PlaylistActivity
 import com.fesskiev.mediacenter.utils.*
 import com.fesskiev.mediacenter.widgets.dialogs.SimpleDialog
@@ -62,6 +63,8 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
             setupViews()
             setupViews = true
         }
+
+        PlaybackService.startPlaybackService(this)
     }
 
     override fun onResume() {

@@ -69,13 +69,14 @@
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/vd_music_previous" />
 
-            <com.fesskiev.mediacenter.widgets.buttons.PlayPauseButton
+            <ImageView
                 android:id="@+id/notificationPlayPause"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
-                android:contentDescription="@string/app_name"/>
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_pause"/>
 
             <ImageView
                 android:id="@+id/notificationNext"

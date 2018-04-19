@@ -37,6 +37,7 @@ class NotificationUtils(private val context: Context, private val mediaPlayer: M
         const val ACTION_CLOSE_APP = "action.CLOSE_APP"
 
         const val NOTIFICATION_SCAN_ID = 411
+        const val NOTIFICATION_ID = 412
     }
 
     private var notificationManager: NotificationManager? = null
@@ -51,6 +52,7 @@ class NotificationUtils(private val context: Context, private val mediaPlayer: M
             channelControl.enableVibration(false)
             channelControl.enableLights(false)
             channelControl.setShowBadge(false)
+            channelControl.setSound(null, null)
             notificationManager?.createNotificationChannel(channelControl)
 
             val channelScan = NotificationChannel(SCAN_CHANNEL,
@@ -65,7 +67,17 @@ class NotificationUtils(private val context: Context, private val mediaPlayer: M
         }
     }
 
-    fun createPlaybackNotification(mediaFile: MediaFile?, bitmap: Bitmap): Notification? {
+    fun updatePlaybackNotification(mediaFile: MediaFile?, bitmap: Bitmap?) : Notification? {
+        val notification = createPlaybackNotification(mediaFile, bitmap)
+        notificationManager?.notify(NOTIFICATION_ID, notification)
+        return notification
+    }
+
+    fun stopPlaybackNotification() {
+        notificationManager?.cancel(NOTIFICATION_ID)
+    }
+
+    private fun createPlaybackNotification(mediaFile: MediaFile?, bitmap: Bitmap?): Notification? {
         val artist: String
         val title: String
         if (mediaFile != null) {
@@ -93,8 +105,6 @@ class NotificationUtils(private val context: Context, private val mediaPlayer: M
                 .setCustomContentView(notificationView)
                 .setSmallIcon(R.drawable.ic_scan)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setOnlyAlertOnce(true)
                 .setContentIntent(createContentIntent())
 
         notificationBigView.setOnClickPendingIntent(R.id.notificationNext, getPendingIntentAction(ACTION_MEDIA_CONTROL_NEXT))
@@ -180,6 +190,4 @@ class NotificationUtils(private val context: Context, private val mediaPlayer: M
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         return PendingIntent.getActivity(context, System.currentTimeMillis().toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
-
-
 }
