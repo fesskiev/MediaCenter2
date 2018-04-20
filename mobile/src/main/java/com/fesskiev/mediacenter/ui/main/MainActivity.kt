@@ -3,6 +3,7 @@ package com.fesskiev.mediacenter.ui.main
 import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
@@ -36,6 +37,7 @@ import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.entity.media.VideoFile
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 import com.fesskiev.mediacenter.services.PlaybackService
+import com.fesskiev.mediacenter.services.PlaybackService.Companion.ACTION_FINISH_APP
 import com.fesskiev.mediacenter.ui.playlist.PlaylistActivity
 import com.fesskiev.mediacenter.utils.*
 import com.fesskiev.mediacenter.widgets.dialogs.SimpleDialog
@@ -65,6 +67,14 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         }
 
         PlaybackService.startPlaybackService(this)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        val action = intent?.action
+        if (action != null && action == ACTION_FINISH_APP) {
+            finish()
+        }
     }
 
     override fun onResume() {

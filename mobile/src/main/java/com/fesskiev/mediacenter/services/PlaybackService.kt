@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.IBinder
 import com.fesskiev.mediacenter.receivers.HeadsetReceiver
+import com.fesskiev.mediacenter.ui.main.MainActivity
 import com.fesskiev.mediacenter.utils.NotificationUtils
 import com.fesskiev.mediacenter.utils.NotificationUtils.Companion.ACTION_CLOSE_APP
 import com.fesskiev.mediacenter.utils.NotificationUtils.Companion.ACTION_MEDIA_CONTROL_NEXT
@@ -21,6 +22,7 @@ class PlaybackService : DaggerService() {
     companion object {
 
         private const val ACTION_START_PLAYBACK_SERVICE = "action.START_PLAYBACK_SERVICE"
+        const val ACTION_FINISH_APP = "action.ACTION_FINISH_APP"
 
         fun startPlaybackService(context: Context) {
             val intent = Intent(context, PlaybackService::class.java)
@@ -70,20 +72,24 @@ class PlaybackService : DaggerService() {
 
     private val notificationReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-                val action = intent.action
-                if (action != null) {
-                    when (action) {
-                        ACTION_MEDIA_CONTROL_PLAY -> mediaPlayer?.play()
-                        ACTION_MEDIA_CONTROL_PAUSE -> mediaPlayer?.pause()
-                        ACTION_MEDIA_CONTROL_PREVIOUS -> mediaPlayer?.previous()
-                        ACTION_MEDIA_CONTROL_NEXT -> mediaPlayer?.next()
-                        ACTION_CLOSE_APP -> closeApp()
-                    }
+            val action = intent.action
+            if (action != null) {
+                when (action) {
+                    ACTION_MEDIA_CONTROL_PLAY -> mediaPlayer?.play()
+                    ACTION_MEDIA_CONTROL_PAUSE -> mediaPlayer?.pause()
+                    ACTION_MEDIA_CONTROL_PREVIOUS -> mediaPlayer?.previous()
+                    ACTION_MEDIA_CONTROL_NEXT -> mediaPlayer?.next()
+                    ACTION_CLOSE_APP -> closeApp()
                 }
+            }
         }
     }
 
     private fun closeApp() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        intent.action = ACTION_FINISH_APP
+        startActivity(intent)
         stopSelf()
     }
 
