@@ -47,12 +47,11 @@ class NotificationUtils(private val context: Context, private val mediaPlayer: M
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channelControl = NotificationChannel(CONTROL_CHANNEL,
-                    context.getString(R.string.app_name), NotificationManager.IMPORTANCE_DEFAULT)
+                    context.getString(R.string.app_name), NotificationManager.IMPORTANCE_MIN)
             channelControl.lockscreenVisibility = NotificationCompat.VISIBILITY_PUBLIC
             channelControl.enableVibration(false)
             channelControl.enableLights(false)
             channelControl.setShowBadge(false)
-            channelControl.setSound(null, null)
             notificationManager?.createNotificationChannel(channelControl)
 
             val channelScan = NotificationChannel(SCAN_CHANNEL,
@@ -67,7 +66,7 @@ class NotificationUtils(private val context: Context, private val mediaPlayer: M
         }
     }
 
-    fun updatePlaybackNotification(mediaFile: MediaFile?, bitmap: Bitmap?) : Notification? {
+    fun updatePlaybackNotification(mediaFile: MediaFile?, bitmap: Bitmap?): Notification? {
         val notification = createPlaybackNotification(mediaFile, bitmap)
         notificationManager?.notify(NOTIFICATION_ID, notification)
         return notification
@@ -105,6 +104,7 @@ class NotificationUtils(private val context: Context, private val mediaPlayer: M
                 .setCustomContentView(notificationView)
                 .setSmallIcon(R.drawable.ic_scan)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setOnlyAlertOnce(false)
                 .setContentIntent(createContentIntent())
 
         notificationBigView.setOnClickPendingIntent(R.id.notificationNext, getPendingIntentAction(ACTION_MEDIA_CONTROL_NEXT))
