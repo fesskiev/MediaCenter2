@@ -24,4 +24,8 @@ interface Playable {
     fun shuffle()
 
     fun isPlaying(): Boolean
+
+    fun background()
+
+    fun foreground()
 }

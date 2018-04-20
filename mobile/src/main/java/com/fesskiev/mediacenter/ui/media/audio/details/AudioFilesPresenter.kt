@@ -5,6 +5,7 @@ import com.fesskiev.mediacenter.domain.entity.media.AudioFile
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.source.DataRepository
 import com.fesskiev.mediacenter.utils.BitmapUtils
+import com.fesskiev.mediacenter.utils.player.MediaPlayer
 import com.fesskiev.mediacenter.utils.schedulers.BaseSchedulerProvider
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
@@ -14,6 +15,7 @@ class AudioFilesPresenter(private var compositeDisposable: CompositeDisposable,
                           private var dataRepository: DataRepository,
                           private var schedulerProvider: BaseSchedulerProvider,
                           private var bitmapUtils: BitmapUtils,
+                          private var mediaPlayer: MediaPlayer,
                           private var view: AudioFilesContract.View?) : AudioFilesContract.Presenter {
 
     override fun fetchAudioFiles(audioFolder: AudioFolder) {
@@ -79,6 +81,14 @@ class AudioFilesPresenter(private var compositeDisposable: CompositeDisposable,
             view?.fileNotExists()
             return
         }
+        compositeDisposable.add(dataRepository.localDataSource.updateSelectedAudioFile(audioFile)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe({ playAudioFile(audioFile) }, { throwable -> handleError(throwable) }))
+    }
+
+    private fun playAudioFile(audioFile: AudioFile) {
+        mediaPlayer.open(audioFile)
     }
 
     private fun handleDeletedFile(deleted: Boolean, position: Int) {

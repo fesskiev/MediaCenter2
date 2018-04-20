@@ -5,9 +5,9 @@ import com.fesskiev.engine.SuperpoweredEngine
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import com.fesskiev.mediacenter.engines.ExoPlayerEngine
 
-class MediaPlayer(var ffmpegEngine: FFmpegEngine,
-                  var superpoweredEngine: SuperpoweredEngine,
-                  var exoPlayerEngine: ExoPlayerEngine) : Playable {
+class MediaPlayer(private var ffmpegEngine: FFmpegEngine,
+                  private var superpoweredEngine: SuperpoweredEngine,
+                  private var exoPlayerEngine: ExoPlayerEngine) : Playable {
 
     private var isPlaying: Boolean = false
 
@@ -50,5 +50,13 @@ class MediaPlayer(var ffmpegEngine: FFmpegEngine,
 
     override fun isPlaying(): Boolean {
         return isPlaying
+    }
+
+    override fun background() {
+
+    }
+
+    override fun foreground() {
+
     }
 }

@@ -52,6 +52,7 @@ ext {
     dagger = '2.14.1'
     playServices = '15.0.0'
     archComponents = "1.0.0"
+    archComponentsLifecycle = "1.1.1"
     commons = '2.5'
     leakCanary = '1.5.4'
     loggingInterceptor = '3.9.0'
