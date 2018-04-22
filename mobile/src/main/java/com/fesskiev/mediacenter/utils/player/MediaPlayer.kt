@@ -2,6 +2,7 @@ package com.fesskiev.mediacenter.utils.player
 
 import com.fesskiev.engine.FFmpegEngine
 import com.fesskiev.engine.SuperpoweredEngine
+import com.fesskiev.mediacenter.domain.entity.media.AudioFile
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import com.fesskiev.mediacenter.engines.ExoPlayerEngine
 
@@ -13,7 +14,9 @@ class MediaPlayer(private var ffmpegEngine: FFmpegEngine,
 
 
     override fun open(mediaFile: MediaFile) {
-
+        if (mediaFile is AudioFile) {
+            superpoweredEngine.openAudioFile(mediaFile.getFilePath())
+        }
     }
 
     override fun next() {

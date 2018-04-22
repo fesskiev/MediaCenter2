@@ -5,7 +5,7 @@ import android.app.Activity
 import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 
-class PermissionsUtils {
+open class PermissionsUtils {
 
     companion object {
         const val PERMISSION_RECORD = 1
