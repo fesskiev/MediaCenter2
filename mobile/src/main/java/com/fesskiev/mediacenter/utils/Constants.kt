@@ -12,5 +12,6 @@ class Constants {
         const val EXTRA_AUDIO_FOLDER = "extra.AUDIO_FOLDER"
         const val EXTRA_VIDEO_FOLDER = "extra.VIDEO_FOLDER"
         const val EXTRA_SEARCH_FILES = "extra.EXTRA_SEARCH_FILES"
+        const val EXTRA_FOLDER_PATH = "extra.FOLDER_PATH"
     }
 }

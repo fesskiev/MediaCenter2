@@ -8,6 +8,10 @@ import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.ui.adapters.FoldersAdapter
 import com.fesskiev.mediacenter.utils.Constants.Companion.EXTERNAL_STORAGE
+import com.fesskiev.mediacenter.utils.Constants.Companion.EXTRA_FOLDER_PATH
+import com.fesskiev.mediacenter.utils.invisible
+import com.fesskiev.mediacenter.utils.visible
+import com.fesskiev.mediacenter.widgets.dialogs.SimpleDialog
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_folders.*
 import java.io.File
@@ -26,7 +30,7 @@ class FoldersFragment : DaggerFragment(), FoldersContract.View {
     @JvmField
     var presenter: FoldersPresenter? = null
     private lateinit var adapter: FoldersAdapter
-    private var selectedPath: File? = null
+    private lateinit var selectedPath: File
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -37,7 +41,17 @@ class FoldersFragment : DaggerFragment(), FoldersContract.View {
         super.onViewCreated(view, savedInstanceState)
         setupButtonUp()
         setupRecyclerView()
-        getRootDir()
+        if (savedInstanceState != null) {
+            selectedPath = File(savedInstanceState.getString(EXTRA_FOLDER_PATH))
+            changeDirectory(selectedPath)
+        } else {
+            getRootDir()
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString(EXTRA_FOLDER_PATH, selectedPath.absolutePath)
+        super.onSaveInstanceState(outState)
     }
 
     private fun getRootDir() {
@@ -49,7 +63,7 @@ class FoldersFragment : DaggerFragment(), FoldersContract.View {
     }
 
     private fun processUpClick() {
-        val parent = selectedPath?.parentFile
+        val parent = selectedPath.parentFile
         if (parent != null) {
             changeDirectory(parent)
         }
@@ -80,17 +94,41 @@ class FoldersFragment : DaggerFragment(), FoldersContract.View {
     private fun processFileClick(file: File) {
         if (file.isDirectory) {
             changeDirectory(file)
+            presenter?.checkDirIsMedia(file)
         } else {
-            selectedPath = file
-            textSelectedPath.text = file.absolutePath
+            presenter?.getMediaFileByPath(file)
         }
     }
 
-    override fun showProgressBar() {
+    override fun showAddAudioFolder() {
+        val transaction = fragmentManager?.beginTransaction()
+        val dialog = SimpleDialog.newInstance(getString(R.string.dialog_add_folder_title),
+                getString(R.string.dialog_add_audio_folder), R.drawable.ic_launch_splash)
+        dialog.setPositiveListener(object : SimpleDialog.OnPositiveListener {
+            override fun onClick() {
 
+            }
+        })
+        dialog.show(transaction, SimpleDialog::class.java.name)
+    }
+
+    override fun showAddVideoFolder() {
+        val transaction = fragmentManager?.beginTransaction()
+        val dialog = SimpleDialog.newInstance(getString(R.string.dialog_add_folder_title),
+                getString(R.string.dialog_add_video_folder), R.drawable.ic_launch_splash)
+        dialog.setPositiveListener(object : SimpleDialog.OnPositiveListener {
+            override fun onClick() {
+
+            }
+        })
+        dialog.show(transaction, SimpleDialog::class.java.name)
+    }
+
+    override fun showProgressBar() {
+        progressBar.visible()
     }
 
     override fun hideProgressBar() {
-
+        progressBar.invisible()
     }
 }
