@@ -10,12 +10,10 @@ import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 import com.fesskiev.mediacenter.domain.source.DataRepository
 import com.fesskiev.mediacenter.engines.TagsEngine
-import com.fesskiev.mediacenter.utils.FileSystemUtils
+import com.fesskiev.mediacenter.utils.*
 import com.fesskiev.mediacenter.utils.Constants.Companion.EXTERNAL_STORAGE
-import com.fesskiev.mediacenter.utils.NotificationUtils
 import com.fesskiev.mediacenter.utils.NotificationUtils.Companion.ACTION_STOP_SCAN
 import com.fesskiev.mediacenter.utils.NotificationUtils.Companion.NOTIFICATION_SCAN_ID
-import com.fesskiev.mediacenter.utils.StorageUtils
 import com.fesskiev.mediacenter.utils.enums.ScanState
 import com.fesskiev.mediacenter.utils.enums.ScanType
 import dagger.android.DaggerService
@@ -23,7 +21,6 @@ import org.apache.commons.io.FileUtils
 import org.apache.commons.io.filefilter.IOFileFilter
 import org.apache.commons.io.filefilter.TrueFileFilter
 import java.io.File
-import java.io.FilenameFilter
 import java.io.IOException
 import java.util.*
 import javax.inject.Inject
@@ -237,11 +234,11 @@ class ScanSystemService : DaggerService() {
     }
 
     private fun filterVideoFolders(directoryFile: File, progress: Float) {
-        val videoPaths = directoryFile.listFiles(videoFilter())
+        val videoPaths = filterVideoFilesInFolder(directoryFile)
         if (videoPaths.isNotEmpty()) {
             val videoFolder = VideoFolder()
 
-            val filterImages = directoryFile.listFiles(folderImageFilter())
+            val filterImages = filterImagesInFolder(directoryFile)
             if (filterImages.isNotEmpty()) {
                 videoFolder.videoFolderImage = filterImages[0]
             }
@@ -264,11 +261,11 @@ class ScanSystemService : DaggerService() {
     }
 
     private fun filterAudioFolders(directoryFile: File, progress: Float) {
-        val audioPaths = directoryFile.listFiles(audioFilter())
+        val audioPaths = filterAudioFilesInFolder(directoryFile)
         if (audioPaths.isNotEmpty()) {
             val audioFolder = AudioFolder()
 
-            val filterImages = directoryFile.listFiles(folderImageFilter())
+            val filterImages = filterImagesInFolder(directoryFile)
             if (filterImages.isNotEmpty()) {
                 audioFolder.audioFolderImage = filterImages[0]
             }
@@ -343,33 +340,5 @@ class ScanSystemService : DaggerService() {
 
     private fun isPlainDir(file: File): Boolean {
         return file.isDirectory && !isSymbolicLink(file)
-    }
-
-    private fun audioFilter(): FilenameFilter {
-        return FilenameFilter { dir, name ->
-            val lowercaseName = name.toLowerCase()
-            (lowercaseName.endsWith(".mp3")
-                    || lowercaseName.endsWith(".flac")
-                    || lowercaseName.endsWith(".wav")
-                    || lowercaseName.endsWith(".m4a")
-                    || lowercaseName.endsWith(".aac")
-                    || lowercaseName.endsWith(".aiff"))
-        }
-    }
-
-    private fun folderImageFilter(): FilenameFilter {
-        return FilenameFilter { dir, name ->
-            val lowercaseName = name.toLowerCase()
-            lowercaseName.endsWith(".png") || lowercaseName.endsWith(".jpg")
-        }
-    }
-
-    private fun videoFilter(): FilenameFilter {
-        return FilenameFilter { dir, name ->
-            val lowercaseName = name.toLowerCase()
-            lowercaseName.endsWith(".mp4")
-                    || lowercaseName.endsWith(".ts")
-                    || lowercaseName.endsWith(".mkv")
-        }
     }
 }

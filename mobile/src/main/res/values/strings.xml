@@ -32,6 +32,10 @@
     <string name="dialog_ok">Yes</string>
     <string name="dialog_cancel">No</string>
 
+    <string name="dialog_add_folder_title">New folder are detected!</string>
+    <string name="dialog_add_audio_folder">Do you want add audio folder to list?</string>
+    <string name="dialog_add_video_folder">Do you want add video folder to list?</string>
+
     <string name="dialog_search_title">Search</string>
     <string name="dialog_search_message">Do you want to start searching for files?</string>
 
