@@ -31,7 +31,6 @@ import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_playback.*
 import javax.inject.Inject
-import android.view.LayoutInflater
 import com.fesskiev.mediacenter.domain.entity.media.AudioFile
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.entity.media.VideoFile
@@ -40,6 +39,7 @@ import com.fesskiev.mediacenter.services.PlaybackService
 import com.fesskiev.mediacenter.services.PlaybackService.Companion.ACTION_FINISH_APP
 import com.fesskiev.mediacenter.ui.playlist.PlaylistActivity
 import com.fesskiev.mediacenter.utils.*
+import com.fesskiev.mediacenter.widgets.controls.AudioControlLayout
 import com.fesskiev.mediacenter.widgets.dialogs.SimpleDialog
 
 class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
@@ -228,11 +228,8 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     override fun showAudioControl() {
-        val inflater = LayoutInflater.from(this)
-        val view = inflater.inflate(R.layout.layout_audio_control, null,
-                false)
         contentContainer.removeAllViews()
-        contentContainer.addView(view)
+        contentContainer.addView(AudioControlLayout(this))
     }
 
     override fun showVideoControl() {

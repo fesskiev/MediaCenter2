@@ -47,12 +47,12 @@ class App : DaggerApplication() {
 
         @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
         fun resumed() {
-            mediaPlayer?.play()
+            mediaPlayer?.foreground()
         }
 
         @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
         fun paused() {
-            mediaPlayer?.pause()
+            mediaPlayer?.background()
         }
     }
 }

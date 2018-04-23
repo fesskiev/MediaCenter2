@@ -15,6 +15,7 @@ class SuperpoweredEngine(recordPath: String, sampleRate: Int, bufferSize: Int) {
 
     init {
         createAudioPlayer(sampleRate, bufferSize, recordPath)
+        registerCallback()
     }
 
     companion object {

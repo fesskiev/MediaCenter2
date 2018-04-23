@@ -51,6 +51,7 @@ class PlaybackService : DaggerService() {
 
     override fun onDestroy() {
         super.onDestroy()
+        mediaPlayer?.shutdown()
         receiver?.unregister()
         notificationUtils?.stopPlaybackNotification()
         unregisterNotificationReceiver()

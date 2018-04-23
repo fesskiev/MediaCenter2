@@ -28,4 +28,6 @@ interface Playable {
     fun background()
 
     fun foreground()
+
+    fun shutdown()
 }

@@ -18,6 +18,7 @@ import javax.inject.Inject
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.AppBarLayout
 import com.fesskiev.mediacenter.utils.*
+import com.fesskiev.mediacenter.widgets.controls.AudioControlLayout
 
 
 class AudioFilesActivity : DaggerAppCompatActivity(), AudioFilesContract.View,
@@ -108,7 +109,9 @@ class AudioFilesActivity : DaggerAppCompatActivity(), AudioFilesContract.View,
     }
 
     override fun showPaletteColors(paletteColors: BitmapUtils.PaletteColors) {
-        setupPalette(paletteColors)
+        toolbarLayout.setContentScrimColor(paletteColors.vibrantLight)
+        toolbarLayout.setStatusBarScrimColor(paletteColors.vibrantLight)
+        toolbarLayout.setBackgroundColor(paletteColors.vibrantLight)
     }
 
     override fun showProgressBar() {
@@ -159,6 +162,7 @@ class AudioFilesActivity : DaggerAppCompatActivity(), AudioFilesContract.View,
             val value = scrollY / height
             animateTopView(1f - value)
         })
+        contentContainer.addView(AudioControlLayout(this))
     }
 
     private fun collapseToolbar() {
@@ -172,11 +176,5 @@ class AudioFilesActivity : DaggerAppCompatActivity(), AudioFilesContract.View,
         fabPlayPause.animate().alpha(value)
         cardTitle.animate().alpha(value)
         cardSubtitle.animate().alpha(value)
-    }
-
-    private fun setupPalette(paletteColors: BitmapUtils.PaletteColors) {
-        toolbarLayout.setContentScrimColor(paletteColors.muted)
-        toolbarLayout.setStatusBarScrimColor(paletteColors.vibrantDark)
-        toolbarLayout.setBackgroundColor(paletteColors.vibrantDark)
     }
 }

@@ -67,8 +67,8 @@
 
         <ImageView
             android:id="@+id/notificationPlayPause"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:contentDescription="@string/app_name"
@@ -91,7 +91,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_margin="8dp"
+        android:padding="12dp"
         android:contentDescription="@string/app_name"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_close" />

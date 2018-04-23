@@ -11,11 +11,14 @@ class MediaPlayer(private var ffmpegEngine: FFmpegEngine,
                   private var exoPlayerEngine: ExoPlayerEngine) : Playable {
 
     private var isPlaying: Boolean = false
+    private var currentMediaFile: MediaFile? = null
+    private var currentMediaFilesList: List<MediaFile>? = null
 
 
     override fun open(mediaFile: MediaFile) {
         if (mediaFile is AudioFile) {
             superpoweredEngine.openAudioFile(mediaFile.getFilePath())
+            superpoweredEngine.togglePlayback()
         }
     }
 
@@ -61,5 +64,10 @@ class MediaPlayer(private var ffmpegEngine: FFmpegEngine,
 
     override fun foreground() {
 
+    }
+
+    override fun shutdown() {
+        superpoweredEngine.unregisterCallback()
+        superpoweredEngine.onDestroyAudioPlayer()
     }
 }
