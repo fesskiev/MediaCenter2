@@ -123,22 +123,7 @@ SuperpoweredPlayer::SuperpoweredPlayer(unsigned int samplerate, unsigned int buf
 bool SuperpoweredPlayer::process(short int *inputOutput, unsigned int numberOfSamples) {
 
     bool silence = !player->process(buffer, false, numberOfSamples, volume);
-
-//    float *mixerInputs[4] = {buffer, NULL, NULL, NULL};
-//
-//    float *mixerOutputs[2] = {buffer, NULL};
-//
-//    float mixerInputLevels[8] = {1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
-//
-//    float mixerOutputLevels[2] = {left, right};
-//
-//
-//    mixer->process(mixerInputs, mixerOutputs, mixerInputLevels, mixerOutputLevels, NULL, NULL,
-//                   numberOfSamples);
-
     if (!silence) {
-//        SuperpoweredFloatToShortInt(mixerOutputs[0], output, numberOfSamples);
-
         if (bandEQ->enabled) {
             bandEQ->process(buffer, buffer, numberOfSamples);
         }

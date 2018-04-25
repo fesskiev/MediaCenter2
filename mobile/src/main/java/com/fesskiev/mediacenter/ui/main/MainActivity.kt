@@ -237,7 +237,8 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     override fun updateSelectedAudioFile(audioFile: AudioFile) {
-
+        playbackTitle.text = audioFile.audioFileArtist
+        playbackDesc.text = audioFile.audioFileTitle
     }
 
     override fun updateSelectedVideoFile(videoFile: VideoFile) {

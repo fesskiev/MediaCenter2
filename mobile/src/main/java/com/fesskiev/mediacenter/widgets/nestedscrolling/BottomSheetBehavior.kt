@@ -20,8 +20,7 @@ class BottomSheetBehavior(context: Context?, attrs: AttributeSet?) : Coordinator
         val fabHalfHeight = child.findViewById<View>(R.id.fabPlayPause).height / 2
         setTopMargin(child.findViewById(R.id.cardView), fabHalfHeight)
 
-        val maxHeight = (child.height - fabHalfHeight - child.findViewById<View>(R.id.cardTitle).height
-                - child.findViewById<View>(R.id.cardSubtitle).height)
+        val maxHeight = (child.height - fabHalfHeight - child.findViewById<View>(R.id.playbackHeader).height)
 
         val frameLayout = child.findViewById<MaxHeightView>(R.id.contentContainer)
         frameLayout.setMaxHeight(maxHeight + fabHalfHeight)

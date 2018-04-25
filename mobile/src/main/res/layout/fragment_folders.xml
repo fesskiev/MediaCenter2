@@ -41,7 +41,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/from_bottom_sheet_padding"
+            android:layout_marginBottom="@dimen/playback_content_height"
             android:layout_weight="1"
             tools:listitem="@layout/item_folder_content" />
 

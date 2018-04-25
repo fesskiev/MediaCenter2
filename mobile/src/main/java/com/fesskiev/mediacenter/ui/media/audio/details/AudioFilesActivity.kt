@@ -174,7 +174,7 @@ class AudioFilesActivity : DaggerAppCompatActivity(), AudioFilesContract.View,
 
     private fun animateTopView(value: Float) {
         fabPlayPause.animate().alpha(value)
-        cardTitle.animate().alpha(value)
-        cardSubtitle.animate().alpha(value)
+        playbackTitle.animate().alpha(value)
+        playbackDesc.animate().alpha(value)
     }
 }

@@ -10,7 +10,7 @@
         style="@style/FolderGridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/from_bottom_sheet_padding"
+        android:layout_marginBottom="@dimen/playback_content_height"
         tools:listitem="@layout/item_audio_folder" />
 
     <ProgressBar

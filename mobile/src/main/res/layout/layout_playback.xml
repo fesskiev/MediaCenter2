@@ -24,35 +24,37 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/cardTitle"
+                <LinearLayout
+                    android:id="@+id/playbackHeader"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:paddingBottom="4dp"
-                    android:paddingLeft="24dp"
-                    android:paddingRight="24dp"
-                    android:paddingTop="16dp"
-                    android:text="Title"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+                    android:layout_height="@dimen/playback_content_height"
+                    android:layout_margin="8dp"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/cardSubtitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:paddingBottom="8dp"
-                    android:paddingLeft="24dp"
-                    android:paddingRight="24dp"
-                    android:text="Subtitle"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+                    <TextView
+                        android:id="@+id/playbackTitle"
+                        style="@style/PlaybackTitleTextAppearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:ellipsize="end"
+                        android:maxLines="1" />
+
+                    <TextView
+                        android:id="@+id/playbackDesc"
+                        style="@style/PlaybackDescTextAppearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:ellipsize="end"
+                        android:maxLines="1" />
+
+                </LinearLayout>
 
                 <com.fesskiev.mediacenter.widgets.nestedscrolling.MaxHeightView
                     android:id="@+id/contentContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
 
             </LinearLayout>
 
