@@ -38,6 +38,7 @@ import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 import com.fesskiev.mediacenter.services.PlaybackService
 import com.fesskiev.mediacenter.services.PlaybackService.Companion.ACTION_FINISH_APP
 import com.fesskiev.mediacenter.ui.playlist.PlaylistActivity
+import com.fesskiev.mediacenter.ui.settings.SettingsActivity
 import com.fesskiev.mediacenter.utils.*
 import com.fesskiev.mediacenter.widgets.controls.AudioControlLayout
 import com.fesskiev.mediacenter.widgets.dialogs.SimpleDialog
@@ -153,9 +154,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
             R.id.effects -> {
 
             }
-            R.id.settings -> {
-
-            }
+            R.id.settings -> openActivity(SettingsActivity::class.java)
             R.id.about -> {
 
             }

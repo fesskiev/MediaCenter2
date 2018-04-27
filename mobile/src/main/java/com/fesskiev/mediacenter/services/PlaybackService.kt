@@ -44,8 +44,8 @@ class PlaybackService : DaggerService() {
     override fun onCreate() {
         super.onCreate()
         receiver?.register()
-        val notification = notificationUtils?.updatePlaybackNotification(null, null)
-        startForeground(NotificationUtils.NOTIFICATION_ID, notification)
+//        val notification = notificationUtils?.updatePlaybackNotification(null, null)
+//        startForeground(NotificationUtils.NOTIFICATION_ID, notification)
         registerNotificationReceiver()
     }
 
