@@ -144,6 +144,25 @@ class BitmapUtils(private var context: Context, private var okHttpClient: OkHttp
         }
     }
 
+    fun getMediaFileArtworkPlayback(mediaFile: MediaFile): Single<Bitmap> {
+        val path = mediaFile.getArtworkPath()
+        return Single.create { e ->
+            try {
+                if (path.isNotEmpty()) {
+                    val bitmap = getBitmapFromPath(path)
+                    e.onSuccess(bitmap)
+                } else {
+                    val bitmap = getNoCoverTrackBitmap()
+                    e.onSuccess(bitmap)
+                }
+            } catch (ex: Exception) {
+                val bitmap = getNoCoverTrackBitmap()
+                e.onSuccess(bitmap)
+                e.onError(ex)
+            }
+        }
+    }
+
     fun getAudioFolderArtwork(audioFolder: AudioFolder): Single<Bitmap> {
         return Single.create { e ->
             try {

@@ -1,5 +1,6 @@
 package com.fesskiev.mediacenter.ui.main
 
+import android.graphics.Bitmap
 import com.fesskiev.mediacenter.domain.entity.media.AudioFile
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.entity.media.VideoFile
@@ -22,6 +23,8 @@ interface MainContract {
         fun updateSelectedAudioFolder(audioFolder: AudioFolder)
 
         fun updateSelectedVideoFolder(videoFolder: VideoFolder)
+
+        fun updateMediaFileArtwork(bitmap: Bitmap)
     }
 
     interface Presenter : BasePresenter {

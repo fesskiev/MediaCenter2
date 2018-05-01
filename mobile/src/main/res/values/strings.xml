@@ -59,4 +59,11 @@
     <string name="toast_permissions_denied_message">Please turn on storage permission in the application settings for using this app!</string>
 
     <string name="empty_playlist">Playlist is empty</string>
+
+    <string name="repeat_button_on">On</string>
+    <string name="repeat_button_off">Off</string>
+    <string name="repeat_loop_off">n/a</string>
+
+    <string name="effect_tempo_name">Tempo</string>
+    <string name="effect_pitch_shift_name">Pitch shift</string>
 </resources>

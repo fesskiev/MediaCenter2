@@ -14,7 +14,7 @@ import com.fesskiev.mediacenter.R
 
 class PlayPauseButton(c: Context?, attrs: AttributeSet?) : AppCompatImageView(c, attrs) {
 
-    interface OnClickListener {
+    interface OnPlayPauseClickListener {
         fun onPlay(play: Boolean)
     }
 
@@ -22,7 +22,7 @@ class PlayPauseButton(c: Context?, attrs: AttributeSet?) : AppCompatImageView(c,
         private const val PLAY_PAUSE_ANIMATION_DURATION: Long = 200
     }
 
-    private var listener: OnClickListener? = null
+    private var listenerPlayPause: OnPlayPauseClickListener? = null
     private var drawable: PlayPauseDrawable
     private var animatorSet: AnimatorSet? = null
     private var timerDrawable: Drawable? = null
@@ -43,7 +43,7 @@ class PlayPauseButton(c: Context?, attrs: AttributeSet?) : AppCompatImageView(c,
 
     private fun togglePlay() {
         val play = !drawable.isPlay()
-        listener?.onPlay(play)
+        listenerPlayPause?.onPlay(play)
         setPlay(play)
     }
 
@@ -87,7 +87,7 @@ class PlayPauseButton(c: Context?, attrs: AttributeSet?) : AppCompatImageView(c,
         setImageDrawable(null)
     }
 
-    fun setOnClickListener(listener: OnClickListener) {
-        this.listener = listener
+    fun setOnPlayPauseClickListener(listenerPlayPause: OnPlayPauseClickListener) {
+        this.listenerPlayPause = listenerPlayPause
     }
 }

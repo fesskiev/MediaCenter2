@@ -4,11 +4,13 @@ import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
+import android.support.v4.view.ViewCompat
 import android.support.v4.view.ViewPager
 import android.support.v4.widget.NestedScrollView
 import android.support.v4.widget.SwipeRefreshLayout
@@ -238,6 +240,17 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     override fun updateSelectedAudioFile(audioFile: AudioFile) {
         playbackTitle.text = audioFile.audioFileArtist
         playbackDesc.text = audioFile.audioFileTitle
+        val view = contentContainer.getChildAt(0)
+        if (view is AudioControlLayout) {
+            view.setTrackInformation(audioFile)
+        }
+    }
+
+    override fun updateMediaFileArtwork(bitmap: Bitmap) {
+        val view = contentContainer.getChildAt(0)
+        if (view is AudioControlLayout) {
+            view.setArtwork(bitmap)
+        }
     }
 
     override fun updateSelectedVideoFile(videoFile: VideoFile) {
@@ -356,7 +369,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     private fun animateTopView(value: Float) {
-        fabPlayPause.animate().alpha(value)
+        ViewCompat.animate(fabPlayPause).alpha(value).start()
     }
 
     private fun getPagerFragments(): Array<Fragment> {

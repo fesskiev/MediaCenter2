@@ -1,16 +1,19 @@
 package com.fesskiev.mediacenter.ui.main
 
+import android.graphics.Bitmap
 import com.fesskiev.mediacenter.domain.entity.media.AudioFile
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.entity.media.VideoFile
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 import com.fesskiev.mediacenter.domain.source.DataRepository
+import com.fesskiev.mediacenter.utils.BitmapUtils
 import com.fesskiev.mediacenter.utils.schedulers.BaseSchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 
 class MainPresenter(private var compositeDisposable: CompositeDisposable,
                     private var dataRepository: DataRepository,
                     private var schedulerProvider: BaseSchedulerProvider,
+                    private var bitmapUtils: BitmapUtils,
                     private var view: MainContract.View?) : MainContract.Presenter {
 
 
@@ -28,7 +31,13 @@ class MainPresenter(private var compositeDisposable: CompositeDisposable,
         compositeDisposable.add(dataRepository.localDataSource.getSelectedAudioFile()
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
-                .subscribe({ audioFile -> handleSelectedAudioFile(audioFile) },
+                .doOnNext { audioFile -> handleSelectedAudioFile(audioFile) }
+                .subscribeOn(schedulerProvider.io())
+                .take(1)
+                .singleOrError()
+                .flatMap { audioFile -> bitmapUtils.getMediaFileArtworkPlayback(audioFile) }
+                .observeOn(schedulerProvider.ui())
+                .subscribe({ artwork -> handleMediaFileArtwork(artwork) },
                         { throwable -> handleError(throwable) }))
 
         compositeDisposable.add(dataRepository.localDataSource.getSelectedVideoFolder()
@@ -42,6 +51,10 @@ class MainPresenter(private var compositeDisposable: CompositeDisposable,
                 .observeOn(schedulerProvider.ui())
                 .subscribe({ videoFile -> handleSelectedVideoFile(videoFile) },
                         { throwable -> handleError(throwable) }))
+    }
+
+    private fun handleMediaFileArtwork(artwork: Bitmap) {
+        view?.updateMediaFileArtwork(artwork)
     }
 
     private fun handleSelectedVideoFolder(videoFolder: VideoFolder) {

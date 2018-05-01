@@ -1,0 +1,17 @@
+<resources>
+
+    <dimen name="seek_slider">18dp</dimen>
+    <dimen name="volume_slider">18dp</dimen>
+    <dimen name="seek_radius">100dp</dimen>
+    <dimen name="volume_radius">60dp</dimen>
+    <dimen name="line_radius">120dp</dimen>
+    <dimen name="circle_stroke_width">8dp</dimen>
+    <dimen name="audio_control_padding">2dp</dimen>
+
+    <dimen name="audio_control_cover_size">72dp</dimen>
+
+    <dimen name="audio_control_margin_normal">5dp</dimen>
+    <dimen name="audio_control_margin_mini">3dp</dimen>
+    <dimen name="audio_control_margin_micro">2dp</dimen>
+
+</resources>
