@@ -20,10 +20,6 @@ interface MainContract {
 
         fun updateSelectedVideoFile(videoFile: VideoFile)
 
-        fun updateSelectedAudioFolder(audioFolder: AudioFolder)
-
-        fun updateSelectedVideoFolder(videoFolder: VideoFolder)
-
         fun updateMediaFileArtwork(bitmap: Bitmap)
     }
 
@@ -32,5 +28,15 @@ interface MainContract {
         fun fetchMediaControl()
 
         fun fetchSelectedMedia()
+
+        fun changePlaying(play: Boolean)
+
+        fun changeVolume(volume: Int)
+
+        fun changeSeek(seek: Int)
+
+        fun changePitchShift(value: Int)
+
+        fun changeTempo(value: Int)
     }
 }

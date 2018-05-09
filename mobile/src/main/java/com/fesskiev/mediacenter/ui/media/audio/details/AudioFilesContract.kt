@@ -43,6 +43,6 @@ interface AudioFilesContract {
 
         fun toPlaylistFile(audioFile: AudioFile)
 
-        fun playFile(audioFile: AudioFile)
+        fun playFile(audioFolder: AudioFolder, audioFile: AudioFile)
     }
 }

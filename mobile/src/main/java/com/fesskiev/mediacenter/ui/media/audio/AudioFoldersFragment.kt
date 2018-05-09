@@ -90,4 +90,8 @@ class AudioFoldersFragment : DaggerFragment(), AudioFoldersContact.View, AudioFo
         super.onDestroy()
         foldersPresenter?.detach()
     }
+
+    override fun updateSelectedAudioFolder(audioFolder: AudioFolder) {
+        adapter.updateSelectedAudioFolder(audioFolder)
+    }
 }

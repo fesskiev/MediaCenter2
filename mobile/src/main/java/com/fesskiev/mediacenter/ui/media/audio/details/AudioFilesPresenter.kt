@@ -76,12 +76,13 @@ class AudioFilesPresenter(private var compositeDisposable: CompositeDisposable,
                 .subscribe({ handleFileAddedToPlaylist() }, { throwable -> handleError(throwable) }))
     }
 
-    override fun playFile(audioFile: AudioFile) {
+    override fun playFile(audioFolder: AudioFolder, audioFile: AudioFile) {
         if (!audioFile.exists()) {
             view?.fileNotExists()
             return
         }
-        compositeDisposable.add(dataRepository.localDataSource.updateSelectedAudioFile(audioFile)
+        compositeDisposable.add(dataRepository.localDataSource.updateSelectedAudioFolder(audioFolder)
+                .flatMap { dataRepository.localDataSource.updateSelectedAudioFile(audioFile) }
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe({ playAudioFile(audioFile) }, { throwable -> handleError(throwable) }))

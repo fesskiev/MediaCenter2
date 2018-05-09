@@ -32,22 +32,24 @@ class MediaPlayer(private var ffmpegEngine: FFmpegEngine,
 
     override fun play() {
         isPlaying = true
+        superpoweredEngine.togglePlayback()
     }
 
     override fun pause() {
         isPlaying = false
+        superpoweredEngine.togglePlayback()
     }
 
     override fun seek(seek: Int) {
-
+        superpoweredEngine.setSeek(seek)
     }
 
     override fun position(position: Int) {
-
+        superpoweredEngine.setPosition(position)
     }
 
     override fun volume(volume: Float) {
-
+        superpoweredEngine.setVolume(volume)
     }
 
     override fun shuffle() {
@@ -59,11 +61,11 @@ class MediaPlayer(private var ffmpegEngine: FFmpegEngine,
     }
 
     override fun background() {
-
+        superpoweredEngine.onBackground()
     }
 
     override fun foreground() {
-
+        superpoweredEngine.onForeground()
     }
 
     override fun shutdown() {

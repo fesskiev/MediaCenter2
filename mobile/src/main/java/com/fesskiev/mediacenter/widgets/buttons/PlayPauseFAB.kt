@@ -14,7 +14,7 @@ import com.fesskiev.mediacenter.R
 
 class PlayPauseFAB(c: Context, attrs: AttributeSet?) : FloatingActionButton(c, attrs) {
 
-    interface OnClickListener {
+    interface OnPlayPauseClickListener {
         fun onPlay(play: Boolean)
     }
 
@@ -22,7 +22,7 @@ class PlayPauseFAB(c: Context, attrs: AttributeSet?) : FloatingActionButton(c, a
         private const val PLAY_PAUSE_ANIMATION_DURATION: Long = 200
     }
 
-    private var listener: OnClickListener? = null
+    private var listener: OnPlayPauseClickListener? = null
     private var drawable: PlayPauseDrawable
     private var animatorSet: AnimatorSet? = null
     private var timerDrawable: Drawable? = null
@@ -82,7 +82,7 @@ class PlayPauseFAB(c: Context, attrs: AttributeSet?) : FloatingActionButton(c, a
         setImageDrawable(null)
     }
 
-    fun setOnClickListener(listener: OnClickListener) {
-        this.listener = listener
+    fun setOnPlayPauseClickListener(l: OnPlayPauseClickListener) {
+        this.listener = l
     }
 }

@@ -16,10 +16,20 @@ class VideoFoldersPresenter(private var compositeDisposable: CompositeDisposable
 
     override fun fetchVideoFolders() {
         view?.showProgressBar()
-        compositeDisposable.add(dataRepository.localDataSource.getVideoFolders()
+        val localDataSource = dataRepository.localDataSource
+        compositeDisposable.add(localDataSource.getVideoFolders()
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
-                .subscribe({ videoFolders -> handleVideoFolders(videoFolders) }, { throwable -> handleError(throwable) }))
+                .map { videoFolders -> handleVideoFolders(videoFolders) }
+                .flatMap { localDataSource.getSelectedVideoFolder() }
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .doOnNext { videoFolder -> videoFolder.videoFolderSelected = true }
+                .subscribe({ videoFolder -> handleSelectedVideoFolder(videoFolder) }, { throwable -> handleError(throwable) }))
+    }
+
+    private fun handleSelectedVideoFolder(videoFolder: VideoFolder) {
+        view?.updateSelectedVideoFolder(videoFolder)
     }
 
     override fun checkVideoFolderExist(videoFolder: VideoFolder): Boolean {

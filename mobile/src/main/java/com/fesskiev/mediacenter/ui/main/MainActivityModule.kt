@@ -2,6 +2,7 @@ package com.fesskiev.mediacenter.ui.main
 
 import com.fesskiev.mediacenter.domain.source.DataRepository
 import com.fesskiev.mediacenter.utils.BitmapUtils
+import com.fesskiev.mediacenter.utils.player.MediaPlayer
 import com.fesskiev.mediacenter.utils.schedulers.BaseSchedulerProvider
 import dagger.Binds
 import dagger.Module
@@ -20,8 +21,9 @@ abstract class MainActivityModule {
                                  dataRepository: DataRepository,
                                  schedulerProvider: BaseSchedulerProvider,
                                  bitmapUtils: BitmapUtils,
+                                 mediaPlayer: MediaPlayer,
                                  view: MainContract.View): MainPresenter = MainPresenter(compositeDisposable,
-                dataRepository, schedulerProvider, bitmapUtils, view)
+                dataRepository, schedulerProvider, bitmapUtils, mediaPlayer,  view)
 
 
         @JvmStatic

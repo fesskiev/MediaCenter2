@@ -14,6 +14,8 @@ interface AudioFoldersContact {
         fun showAudioFolders(audioFolders : List<AudioFolder>)
 
         fun showAudioFolderNotExist()
+
+        fun updateSelectedAudioFolder(audioFolder: AudioFolder)
     }
 
     interface Presenter : BasePresenter {

@@ -133,4 +133,8 @@ class AudioControlLayout(context: Context) : FrameLayout(context) {
     fun setArtwork(bitmap: Bitmap) {
         cover.setImageBitmap(bitmap)
     }
+
+    fun setOnAudioControlListener(l: OnAudioControlListener){
+        this.listener = l
+    }
 }

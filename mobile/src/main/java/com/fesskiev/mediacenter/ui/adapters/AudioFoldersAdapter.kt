@@ -41,7 +41,8 @@ class AudioFoldersAdapter(private var foldersPresenter: AudioFoldersPresenter?) 
                 itemView.audioFolderCardView.selectedFolderVisibility(audioFolderSelected)
                 itemView.albumName.text = audioFolderName
                 foldersPresenter?.getAudioFolderArtwork(audioFolder)?.subscribe({ bitmap ->
-                    itemView.albumCover.setImageBitmap(bitmap) })
+                    itemView.albumCover.setImageBitmap(bitmap)
+                })
             }
         }
     }
@@ -67,5 +68,17 @@ class AudioFoldersAdapter(private var foldersPresenter: AudioFoldersPresenter?) 
 
     fun setOnAudioFolderAdapterListener(l: OnAudioFolderAdapterListener) {
         this.listener = l
+    }
+
+    fun updateSelectedAudioFolder(audioFolder: AudioFolder) {
+        val iterator = audioFolders.listIterator()
+        while (iterator.hasNext()) {
+            val next = iterator.next()
+            if (next.audioFolderId == audioFolder.audioFolderId) {
+                iterator.set(audioFolder)
+                notifyDataSetChanged()
+                break
+            }
+        }
     }
 }

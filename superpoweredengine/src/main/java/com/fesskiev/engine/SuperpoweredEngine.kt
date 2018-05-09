@@ -1,6 +1,8 @@
 package com.fesskiev.engine
 
-class SuperpoweredEngine(recordPath: String, sampleRate: Int, bufferSize: Int) {
+class SuperpoweredEngine(private val recordPath: String,
+                         private val sampleRate: Int,
+                         private val bufferSize: Int) {
 
     private var duration: Int = 0
     private var position: Int = 0
@@ -13,15 +15,15 @@ class SuperpoweredEngine(recordPath: String, sampleRate: Int, bufferSize: Int) {
     private var enableEcho: Boolean = false
     private var enableWhoosh: Boolean = false
 
-    init {
-        createAudioPlayer(sampleRate, bufferSize, recordPath)
-        registerCallback()
-    }
-
     companion object {
         init {
             System.loadLibrary("SuperpoweredEngine")
         }
+    }
+
+    fun createAudioPlayer(){
+        createAudioPlayer(sampleRate, bufferSize, recordPath)
+        registerCallback()
     }
 
     external fun updatePlaybackState()
@@ -36,7 +38,7 @@ class SuperpoweredEngine(recordPath: String, sampleRate: Int, bufferSize: Int) {
 
     external fun unregisterCallback()
 
-    private external fun createAudioPlayer(sampleRate: Int, bufferSize: Int, recorderTempPath: String)
+    external fun createAudioPlayer(sampleRate: Int, bufferSize: Int, recorderTempPath: String)
 
     external fun openAudioFile(path: String)
 

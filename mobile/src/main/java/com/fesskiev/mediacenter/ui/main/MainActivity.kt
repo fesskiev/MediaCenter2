@@ -20,6 +20,7 @@ import android.text.InputType
 import android.util.TypedValue
 import android.view.*
 import android.view.inputmethod.EditorInfo
+import com.fesskiev.engine.SuperpoweredEngine
 
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.services.ScanSystemService
@@ -34,19 +35,19 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_playback.*
 import javax.inject.Inject
 import com.fesskiev.mediacenter.domain.entity.media.AudioFile
-import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.entity.media.VideoFile
-import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 import com.fesskiev.mediacenter.services.PlaybackService
 import com.fesskiev.mediacenter.services.PlaybackService.Companion.ACTION_FINISH_APP
 import com.fesskiev.mediacenter.ui.playlist.PlaylistActivity
 import com.fesskiev.mediacenter.ui.settings.SettingsActivity
 import com.fesskiev.mediacenter.utils.*
+import com.fesskiev.mediacenter.utils.PermissionsUtils.Companion.ALL_PERMISSIONS
+import com.fesskiev.mediacenter.widgets.buttons.PlayPauseFAB
 import com.fesskiev.mediacenter.widgets.controls.AudioControlLayout
 import com.fesskiev.mediacenter.widgets.dialogs.SimpleDialog
 
-class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
-        SwipeRefreshLayout.OnRefreshListener, MainContract.View {
+class MainActivity : DaggerAppCompatActivity(), MainContract.View, NavigationView.OnNavigationItemSelectedListener,
+        SwipeRefreshLayout.OnRefreshListener, AudioControlLayout.OnAudioControlListener {
 
     @Inject
     @JvmField
@@ -56,6 +57,10 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     @JvmField
     var permissionsUtils: PermissionsUtils? = null
 
+    @Inject
+    @JvmField
+    var superpoweredEngine: SuperpoweredEngine? = null
+
     private lateinit var adapter: ViewPagerAdapter
     private var setupViews = false
 
@@ -63,13 +68,18 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme)
         setContentView(R.layout.activity_main)
-        val checkPermission = permissionsUtils?.checkPermissionsStorage(this)
-        if (checkPermission != null && checkPermission) {
+        val checkPermissions = permissionsUtils?.checkAllPermissions(this)
+        if (checkPermissions != null && checkPermissions) {
+            setupEngines()
             setupViews()
             setupViews = true
         }
 
         PlaybackService.startPlaybackService(this)
+    }
+
+    private fun setupEngines() {
+        superpoweredEngine?.createAudioPlayer()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -188,19 +198,35 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
-            PERMISSION_STORAGE -> checkGrantResults(grantResults)
+            PERMISSION_STORAGE -> checkGrantResultsStorage(grantResults)
+            ALL_PERMISSIONS -> checkGrantResultsAll(grantResults)
         }
     }
 
-    private fun checkGrantResults(grantResults: IntArray) {
+    private fun checkGrantResultsAll(grantResults: IntArray) {
         if (grantResults.isNotEmpty()) {
             val checkPermission = permissionsUtils?.checkPermissionsResultGranted(grantResults)
             if (checkPermission != null && checkPermission) {
                 if (!setupViews) {
+                    setupEngines()
                     setupViews()
-                } else {
-                    ScanSystemService.startFetchMedia(applicationContext)
                 }
+            } else {
+                val showRationale = permissionsUtils?.shouldShowRequestAllPermissionRationale(this)
+                if (showRationale != null && showRationale) {
+                    createExplanationPermissionDialog()
+                } else {
+                    permissionsDenied()
+                }
+            }
+        }
+    }
+
+    private fun checkGrantResultsStorage(grantResults: IntArray) {
+        if (grantResults.isNotEmpty()) {
+            val checkPermission = permissionsUtils?.checkPermissionsResultGranted(grantResults)
+            if (checkPermission != null && checkPermission) {
+                ScanSystemService.startFetchMedia(applicationContext)
             } else {
                 val showRationale = permissionsUtils?.shouldShowRequestStoragePermissionRationale(this)
                 if (showRationale != null && showRationale) {
@@ -230,7 +256,9 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
 
     override fun showAudioControl() {
         contentContainer.removeAllViews()
-        contentContainer.addView(AudioControlLayout(this))
+        val audioControlView = AudioControlLayout(this)
+        audioControlView.setOnAudioControlListener(this)
+        contentContainer.addView(audioControlView)
     }
 
     override fun showVideoControl() {
@@ -257,11 +285,31 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
 
     }
 
-    override fun updateSelectedAudioFolder(audioFolder: AudioFolder) {
+    override fun changedPlaying(play: Boolean) {
+        presenter?.changePlaying(play)
+    }
+
+    override fun changedVolume(volume: Int) {
+        presenter?.changeVolume(volume)
+    }
+
+    override fun changedSeek(seek: Int) {
+        presenter?.changeSeek(seek)
+    }
+
+    override fun changedPitchShift(value: Int) {
+        presenter?.changePitchShift(value)
+    }
+
+    override fun changedTempo(value: Int) {
+        presenter?.changeTempo(value)
+    }
+
+    override fun onNextTrack() {
 
     }
 
-    override fun updateSelectedVideoFolder(videoFolder: VideoFolder) {
+    override fun onPreviousTrack() {
 
     }
 
@@ -365,6 +413,11 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
             val height = (v.getChildAt(0).measuredHeight - v.measuredHeight).toFloat()
             val value = scrollY / height
             animateTopView(1f - value)
+        })
+        fabPlayPause.setOnPlayPauseClickListener(object : PlayPauseFAB.OnPlayPauseClickListener {
+            override fun onPlay(play: Boolean) {
+                presenter?.changePlaying(play)
+            }
         })
     }
 

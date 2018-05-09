@@ -7,6 +7,7 @@ import com.fesskiev.mediacenter.domain.entity.media.VideoFile
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 import com.fesskiev.mediacenter.domain.source.DataRepository
 import com.fesskiev.mediacenter.utils.BitmapUtils
+import com.fesskiev.mediacenter.utils.player.MediaPlayer
 import com.fesskiev.mediacenter.utils.schedulers.BaseSchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 
@@ -14,6 +15,7 @@ class MainPresenter(private var compositeDisposable: CompositeDisposable,
                     private var dataRepository: DataRepository,
                     private var schedulerProvider: BaseSchedulerProvider,
                     private var bitmapUtils: BitmapUtils,
+                    private var mediaPlayer: MediaPlayer,
                     private var view: MainContract.View?) : MainContract.Presenter {
 
 
@@ -22,11 +24,6 @@ class MainPresenter(private var compositeDisposable: CompositeDisposable,
     }
 
     override fun fetchSelectedMedia() {
-        compositeDisposable.add(dataRepository.localDataSource.getSelectedAudioFolder()
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .subscribe({ audioFolders -> handleSelectedAudioFolders(audioFolders) },
-                        { throwable -> handleError(throwable) }))
 
         compositeDisposable.add(dataRepository.localDataSource.getSelectedAudioFile()
                 .subscribeOn(schedulerProvider.io())
@@ -40,12 +37,6 @@ class MainPresenter(private var compositeDisposable: CompositeDisposable,
                 .subscribe({ artwork -> handleMediaFileArtwork(artwork) },
                         { throwable -> handleError(throwable) }))
 
-        compositeDisposable.add(dataRepository.localDataSource.getSelectedVideoFolder()
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .subscribe({ videoFolder -> handleSelectedVideoFolder(videoFolder) },
-                        { throwable -> handleError(throwable) }))
-
         compositeDisposable.add(dataRepository.localDataSource.getSelectedVideoFile()
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
@@ -53,20 +44,36 @@ class MainPresenter(private var compositeDisposable: CompositeDisposable,
                         { throwable -> handleError(throwable) }))
     }
 
+    override fun changePlaying(play: Boolean) {
+        if (play) {
+            mediaPlayer.pause()
+        } else {
+            mediaPlayer.play()
+        }
+    }
+
+    override fun changeVolume(volume: Int) {
+        mediaPlayer.volume(volume.toFloat())
+    }
+
+    override fun changeSeek(seek: Int) {
+        mediaPlayer.seek(seek)
+    }
+
+    override fun changePitchShift(value: Int) {
+
+    }
+
+    override fun changeTempo(value: Int) {
+
+    }
+
     private fun handleMediaFileArtwork(artwork: Bitmap) {
         view?.updateMediaFileArtwork(artwork)
     }
 
-    private fun handleSelectedVideoFolder(videoFolder: VideoFolder) {
-        view?.updateSelectedVideoFolder(videoFolder)
-    }
-
     private fun handleSelectedVideoFile(videoFile: VideoFile) {
         view?.updateSelectedVideoFile(videoFile)
-    }
-
-    private fun handleSelectedAudioFolders(audioFolders: AudioFolder) {
-        view?.updateSelectedAudioFolder(audioFolders)
     }
 
     private fun handleSelectedAudioFile(audioFile: AudioFile) {

@@ -16,11 +16,21 @@ class AudioFoldersPresenter(private var compositeDisposable: CompositeDisposable
 
     override fun fetchAudioFolders() {
         view?.showProgressBar()
-        compositeDisposable.add(dataRepository.localDataSource.getAudioFolders()
+        val localDataSource = dataRepository.localDataSource
+        compositeDisposable.add(localDataSource.getAudioFolders()
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
-                .subscribe({ audioFolders -> handleAudioFolders(audioFolders) },
+                .map { audioFolders -> handleAudioFolders(audioFolders) }
+                .flatMap { localDataSource.getSelectedAudioFolder() }
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .doOnNext { audioFolder: AudioFolder -> audioFolder.audioFolderSelected = true }
+                .subscribe({ audioFolder -> handleSelectedAudioFolder(audioFolder) },
                         { throwable -> handleError(throwable) }))
+    }
+
+    private fun handleSelectedAudioFolder(audioFolder: AudioFolder) {
+        view?.updateSelectedAudioFolder(audioFolder)
     }
 
     override fun checkAudioFolderExist(audioFolder: AudioFolder): Boolean {

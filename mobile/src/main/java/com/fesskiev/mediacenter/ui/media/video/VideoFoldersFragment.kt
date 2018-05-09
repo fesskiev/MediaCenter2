@@ -86,6 +86,10 @@ class VideoFoldersFragment : DaggerFragment(), VideoFoldersContract.View, VideoF
 
     }
 
+    override fun updateSelectedVideoFolder(videoFolder: VideoFolder) {
+        adapter.updateSelectedVideoFolder(videoFolder)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         foldersPresenter?.detach()

@@ -371,11 +371,25 @@ static inline void setBoolField(JNIEnv *javaEnvironment, jobject obj, jclass thi
                                      (jboolean) value);
 }
 
+extern "C" JNIEXPORT void
+Java_com_fesskiev_engine_SuperpoweredEngine_createAudioPlayer(JNIEnv *env,
+                                                              jobject instance,
+                                                              jint sampleRate,
+                                                              jint bufferSize,
+                                                              jstring recordTempPath) {
+    const char *str = env->GetStringUTFChars(recordTempPath, 0);
+
+    player = new SuperpoweredPlayer((unsigned int) sampleRate, (unsigned int) bufferSize, str);
+
+    env->ReleaseStringUTFChars(recordTempPath, str);
+}
 
 extern "C" JNIEXPORT void
 Java_com_fesskiev_engine_SuperpoweredEngine_onDestroyAudioPlayer(JNIEnv *env,
                                                                  jobject instance) {
-    player->~SuperpoweredPlayer();
+    if (player != NULL) {
+        player->~SuperpoweredPlayer();
+    }
     __android_log_print(ANDROID_LOG_DEBUG, "MediaCenter", "DESTROY");
 }
 
@@ -398,12 +412,16 @@ Java_com_fesskiev_engine_SuperpoweredEngine_updatePlaybackState(JNIEnv *javaEnvi
 
 extern "C" JNIEXPORT void
 Java_com_fesskiev_engine_SuperpoweredEngine_onBackground(JNIEnv *env, jobject instance) {
-    player->onBackground();
+    if (player != NULL) {
+        player->onBackground();
+    }
 }
 
 extern "C" JNIEXPORT void
 Java_com_fesskiev_engine_SuperpoweredEngine_onForeground(JNIEnv *env, jobject instance) {
-    player->onForeground();
+    if (player != NULL) {
+        player->onForeground();
+    }
 }
 
 
@@ -424,7 +442,9 @@ Java_com_fesskiev_engine_SuperpoweredEngine_unregisterCallback(JNIEnv *env,
 extern "C" JNIEXPORT void
 Java_com_fesskiev_engine_SuperpoweredEngine_enableEQ(JNIEnv *env, jobject instance,
                                                      jboolean enable) {
-    player->enableEQ(enable);
+    if (player != NULL) {
+        player->enableEQ(enable);
+    }
 }
 
 
@@ -433,7 +453,9 @@ extern "C" JNIEXPORT void
 Java_com_fesskiev_engine_SuperpoweredEngine_setEQBands(JNIEnv *javaEnvironment,
                                                        jobject obj,
                                                        jint band, jint value) {
-    player->setEQBands(band, value);
+    if (player != NULL) {
+        player->setEQBands(band, value);
+    }
 }
 
 extern "C" JNIEXPORT void
@@ -444,24 +466,13 @@ Java_com_fesskiev_engine_SuperpoweredEngine_setLooping(JNIEnv *env,
 }
 
 extern "C" JNIEXPORT void
-Java_com_fesskiev_engine_SuperpoweredEngine_createAudioPlayer(JNIEnv *env,
-                                                              jobject instance,
-                                                              jint sampleRate,
-                                                              jint bufferSize,
-                                                              jstring recordTempPath) {
-    const char *str = env->GetStringUTFChars(recordTempPath, 0);
-
-    player = new SuperpoweredPlayer((unsigned int) sampleRate, (unsigned int) bufferSize, str);
-
-    env->ReleaseStringUTFChars(recordTempPath, str);
-}
-
-extern "C" JNIEXPORT void
 Java_com_fesskiev_engine_SuperpoweredEngine_openAudioFile(JNIEnv *env, jobject instance,
                                                           jstring path) {
     const char *str = env->GetStringUTFChars(path, 0);
 
-    player->open(str);
+    if (player != NULL) {
+        player->open(str);
+    }
 
     env->ReleaseStringUTFChars(path, str);
 }
@@ -469,57 +480,75 @@ Java_com_fesskiev_engine_SuperpoweredEngine_openAudioFile(JNIEnv *env, jobject i
 
 extern "C" JNIEXPORT void
 Java_com_fesskiev_engine_SuperpoweredEngine_togglePlayback(JNIEnv *env, jobject instance) {
-    player->togglePlayback();
+    if (player != NULL) {
+        player->togglePlayback();
+    }
 }
 
 extern "C" JNIEXPORT void
 Java_com_fesskiev_engine_SuperpoweredEngine_setVolume(JNIEnv *env, jobject instance,
                                                       jfloat value) {
-    player->setVolume(value);
+    if (player != NULL) {
+        player->setVolume(value);
+    }
 }
 
 extern "C" JNIEXPORT void
 Java_com_fesskiev_engine_SuperpoweredEngine_setSeek(JNIEnv *env, jobject instance,
                                                     jint value) {
-    player->setSeek(value);
+    if (player != NULL) {
+        player->setSeek(value);
+    }
 }
 
 extern "C" JNIEXPORT void
 Java_com_fesskiev_engine_SuperpoweredEngine_setEchoValue(JNIEnv *env, jobject instance,
                                                          jint value) {
-    player->echoValue(value);
+    if (player != NULL) {
+        player->echoValue(value);
+    }
 }
 
 extern "C" JNIEXPORT void
 Java_com_fesskiev_engine_SuperpoweredEngine_enableEcho(JNIEnv *env, jobject instance,
                                                        jboolean enable) {
-    player->enableEcho(enable);
+    if (player != NULL) {
+        player->enableEcho(enable);
+    }
 }
 
 extern "C" JNIEXPORT void
 Java_com_fesskiev_engine_SuperpoweredEngine_setReverbValue(JNIEnv *env, jobject instance,
                                                            jint mix, jint width,
                                                            jint damp, jint roomSize) {
-    player->reverbValue(mix, width, damp, roomSize);
+    if (player != NULL) {
+        player->reverbValue(mix, width, damp, roomSize);
+    }
 }
 
 extern "C" JNIEXPORT void
 Java_com_fesskiev_engine_SuperpoweredEngine_enableReverb(JNIEnv *env, jobject instance,
                                                          jboolean enable) {
-    player->enableReverb(enable);
+    if (player != NULL) {
+        player->enableReverb(enable);
+    }
 }
 
 extern "C" JNIEXPORT void
 Java_com_fesskiev_engine_SuperpoweredEngine_setWhooshValue(JNIEnv *env, jobject instance,
                                                            jint wet, jint frequency) {
-    player->whooshValue(wet, frequency);
+    if (player != NULL) {
+        player->whooshValue(wet, frequency);
+    }
 
 }
 
 extern "C" JNIEXPORT void
 Java_com_fesskiev_engine_SuperpoweredEngine_enableWhoosh(JNIEnv *env, jobject instance,
                                                          jboolean enable) {
-    player->enableWhoosh(enable);
+    if (player != NULL) {
+        player->enableWhoosh(enable);
+    }
 }
 
 extern "C" JNIEXPORT void
@@ -527,44 +556,58 @@ Java_com_fesskiev_engine_SuperpoweredEngine_startRecording(JNIEnv *env, jobject 
                                                            jstring destination) {
     const char *destinationPath = env->GetStringUTFChars(destination, 0);
 
-    player->startRecording(destinationPath);
+    if (player != NULL) {
+        player->startRecording(destinationPath);
+    }
 
     env->ReleaseStringUTFChars(destination, destinationPath);
 }
 
 extern "C" JNIEXPORT void
 Java_com_fesskiev_engine_SuperpoweredEngine_stopRecording(JNIEnv *env, jobject instance) {
-    player->stopRecording();
+    if (player != NULL) {
+        player->stopRecording();
+    }
 }
 
 extern "C" JNIEXPORT void
 Java_com_fesskiev_engine_SuperpoweredEngine_setPitchShift(JNIEnv *env, jobject instance,
                                                           jint pitchShift) {
-    player->setPitchShift(pitchShift);
+    if (player != NULL) {
+        player->setPitchShift(pitchShift);
+    }
 }
 
 extern "C" JNIEXPORT void
 Java_com_fesskiev_engine_SuperpoweredEngine_AudioPlaybackService_setTempo(JNIEnv *env,
                                                                           jobject instance,
                                                                           jdouble tempo) {
-    player->setTempo(tempo);
+    if (player != NULL) {
+        player->setTempo(tempo);
+    }
 }
 
 extern "C" JNIEXPORT void
 Java_com_fesskiev_engine_SuperpoweredEngine_AudioPlaybackService_setPosition(JNIEnv *env,
                                                                              jobject instance,
                                                                              jint value) {
-    player->setPosition(value);
+    if (player != NULL) {
+        player->setPosition(value);
+    }
 }
 
 extern "C" JNIEXPORT void
 Java_com_fesskiev_engine_SuperpoweredEngine_loopBetween(JNIEnv *env, jobject instance,
                                                         jdouble startMs, jdouble endMs) {
-    player->loopBetween(startMs, endMs);
+    if (player != NULL) {
+        player->loopBetween(startMs, endMs);
+    }
 }
 
 extern "C" JNIEXPORT void
 Java_com_fesskiev_engine_SuperpoweredEngine_loopExit(JNIEnv *env, jobject instance) {
-    player->loopExit();
+    if (player != NULL) {
+        player->loopExit();
+    }
 }
 

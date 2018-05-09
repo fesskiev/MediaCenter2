@@ -22,7 +22,7 @@ class PlayPauseButton(c: Context?, attrs: AttributeSet?) : AppCompatImageView(c,
         private const val PLAY_PAUSE_ANIMATION_DURATION: Long = 200
     }
 
-    private var listenerPlayPause: OnPlayPauseClickListener? = null
+    private var listener: OnPlayPauseClickListener? = null
     private var drawable: PlayPauseDrawable
     private var animatorSet: AnimatorSet? = null
     private var timerDrawable: Drawable? = null
@@ -43,7 +43,7 @@ class PlayPauseButton(c: Context?, attrs: AttributeSet?) : AppCompatImageView(c,
 
     private fun togglePlay() {
         val play = !drawable.isPlay()
-        listenerPlayPause?.onPlay(play)
+        listener?.onPlay(play)
         setPlay(play)
     }
 
@@ -88,6 +88,6 @@ class PlayPauseButton(c: Context?, attrs: AttributeSet?) : AppCompatImageView(c,
     }
 
     fun setOnPlayPauseClickListener(listenerPlayPause: OnPlayPauseClickListener) {
-        this.listenerPlayPause = listenerPlayPause
+        this.listener = listenerPlayPause
     }
 }

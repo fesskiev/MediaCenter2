@@ -76,7 +76,7 @@ class AudioFilesActivity : DaggerAppCompatActivity(), AudioFilesContract.View,
     }
 
     override fun onClickFile(audioFile: AudioFile) {
-        presenter?.playFile(audioFile)
+        presenter?.playFile(audioFolder, audioFile)
     }
 
     override fun showFileDeleted() {

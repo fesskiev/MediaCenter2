@@ -56,7 +56,7 @@
     <string name="toast_audio_file_added_playlist">Audio file has been added to playlist</string>
     <string name="toast_video_file_added_playlist">Video file has been added to playlist</string>
     <string name="toast_video_file_deleted_playlist">Media file has been deleted from playlist</string>
-    <string name="toast_permissions_denied_message">Please turn on storage permission in the application settings for using this app!</string>
+    <string name="toast_permissions_denied_message">Please turn on permissions in the application settings for using this app!</string>
 
     <string name="empty_playlist">Playlist is empty</string>
 

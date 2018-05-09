@@ -14,6 +14,8 @@ interface VideoFoldersContract {
         fun showVideoFolders(videoFolders: List<VideoFolder>)
 
         fun showVideoFolderNotExist()
+
+        fun updateSelectedVideoFolder(videoFolder: VideoFolder)
     }
 
     interface Presenter : BasePresenter {

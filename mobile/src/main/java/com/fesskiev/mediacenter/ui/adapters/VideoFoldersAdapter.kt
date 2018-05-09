@@ -70,4 +70,16 @@ class VideoFoldersAdapter(private var foldersPresenter: VideoFoldersPresenter?) 
     fun setOnVideoFolderAdapterListener(l: OnVideoFolderAdapterListener) {
         this.listener = l
     }
+
+    fun updateSelectedVideoFolder(videoFolder: VideoFolder) {
+        val iterator = videoFolders.listIterator()
+        while (iterator.hasNext()) {
+            val next = iterator.next()
+            if (next.videoFolderId == videoFolder.videoFolderId) {
+                iterator.set(videoFolder)
+                notifyDataSetChanged()
+                break
+            }
+        }
+    }
 }
