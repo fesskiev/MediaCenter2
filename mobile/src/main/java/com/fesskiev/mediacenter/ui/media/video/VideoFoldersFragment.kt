@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
+import com.fesskiev.mediacenter.services.ScanSystemService
 import com.fesskiev.mediacenter.ui.adapters.VideoFoldersAdapter
 import com.fesskiev.mediacenter.ui.media.video.details.VideoFilesActivity
 import com.fesskiev.mediacenter.utils.Constants.Companion.EXTRA_VIDEO_FOLDER
@@ -16,6 +17,7 @@ import com.fesskiev.mediacenter.utils.showToast
 import com.fesskiev.mediacenter.utils.visible
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_audio.*
+import kotlinx.android.synthetic.main.layout_empty_media_folders.*
 import javax.inject.Inject
 
 class VideoFoldersFragment : DaggerFragment(), VideoFoldersContract.View, VideoFoldersAdapter.OnVideoFolderAdapterListener {
@@ -39,6 +41,11 @@ class VideoFoldersFragment : DaggerFragment(), VideoFoldersContract.View, VideoF
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        setupScanButton()
+    }
+
+    private fun setupScanButton() {
+        scanButton.setOnClickListener({ ScanSystemService.startFetchVideo(context) })
     }
 
     private fun setupRecyclerView() {
@@ -54,6 +61,14 @@ class VideoFoldersFragment : DaggerFragment(), VideoFoldersContract.View, VideoF
     override fun onResume() {
         super.onResume()
         foldersPresenter?.fetchVideoFolders()
+    }
+
+    override fun showHintScanView() {
+        scanHintRootLayout.visible()
+    }
+
+    override fun hideHintScanView() {
+        scanHintRootLayout.invisible()
     }
 
     override fun showProgressBar() {

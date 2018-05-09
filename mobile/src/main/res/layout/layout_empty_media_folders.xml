@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scanHintRootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:visibility="gone">
+
+    <TextView
+        style="@style/HintTextAppearance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="2"
+        android:text="@string/hint_empty_folders_text" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/scanButton"
+        style="@style/ButtonStyle"
+        android:layout_width="@dimen/scan_button_width"
+        android:layout_height="@dimen/scan_button_height"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:text="@string/hint_empty_folders_button" />
+
+</LinearLayout>

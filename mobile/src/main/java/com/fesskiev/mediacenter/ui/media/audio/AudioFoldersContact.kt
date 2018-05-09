@@ -16,6 +16,10 @@ interface AudioFoldersContact {
         fun showAudioFolderNotExist()
 
         fun updateSelectedAudioFolder(audioFolder: AudioFolder)
+
+        fun showHintScanView()
+
+        fun hideHintScanView()
     }
 
     interface Presenter : BasePresenter {

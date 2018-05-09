@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
+import com.fesskiev.mediacenter.services.ScanSystemService
 import com.fesskiev.mediacenter.ui.adapters.AudioFoldersAdapter
 import com.fesskiev.mediacenter.ui.media.audio.details.AudioFilesActivity
 import com.fesskiev.mediacenter.utils.Constants.Companion.EXTRA_AUDIO_FOLDER
@@ -16,6 +17,7 @@ import com.fesskiev.mediacenter.utils.showToast
 import com.fesskiev.mediacenter.utils.visible
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_audio.*
+import kotlinx.android.synthetic.main.layout_empty_media_folders.*
 import javax.inject.Inject
 
 
@@ -40,6 +42,11 @@ class AudioFoldersFragment : DaggerFragment(), AudioFoldersContact.View, AudioFo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        setupScanButton()
+    }
+
+    private fun setupScanButton() {
+        scanButton.setOnClickListener({ ScanSystemService.startFetchAudio(context) })
     }
 
     private fun setupRecyclerView() {
@@ -63,6 +70,14 @@ class AudioFoldersFragment : DaggerFragment(), AudioFoldersContact.View, AudioFo
 
     override fun hideProgressBar() {
         progressBar.invisible()
+    }
+
+    override fun showHintScanView() {
+        scanHintRootLayout.visible()
+    }
+
+    override fun hideHintScanView() {
+        scanHintRootLayout.invisible()
     }
 
     override fun showAudioFolders(audioFolders: List<AudioFolder>) {

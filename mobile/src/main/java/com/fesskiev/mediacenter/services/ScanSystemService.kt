@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.*
+import com.fesskiev.mediacenter.R
 import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 import com.fesskiev.mediacenter.domain.source.DataRepository
@@ -48,16 +49,16 @@ class ScanSystemService : DaggerService() {
             context.startService(intent)
         }
 
-        fun startFetchAudio(context: Context) {
+        fun startFetchAudio(context: Context?) {
             val intent = Intent(context, ScanSystemService::class.java)
             intent.action = ACTION_START_FETCH_AUDIO
-            context.startService(intent)
+            context?.startService(intent)
         }
 
-        fun startFetchVideo(context: Context) {
+        fun startFetchVideo(context: Context?) {
             val intent = Intent(context, ScanSystemService::class.java)
             intent.action = ACTION_START_FETCH_VIDEO
-            context.startService(intent)
+            context?.startService(intent)
         }
     }
 
@@ -95,11 +96,15 @@ class ScanSystemService : DaggerService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val action = intent?.action
-        if (action != null && scanState != ScanState.SCANNING) {
-            when (action) {
-                ACTION_START_FETCH_MEDIA -> handler?.sendEmptyMessage(HANDLE_MEDIA)
-                ACTION_START_FETCH_VIDEO -> handler?.sendEmptyMessage(HANDLE_VIDEO)
-                ACTION_START_FETCH_AUDIO -> handler?.sendEmptyMessage(HANDLE_AUDIO)
+        if (action != null) {
+            if (scanState != ScanState.SCANNING) {
+                when (action) {
+                    ACTION_START_FETCH_MEDIA -> handler?.sendEmptyMessage(HANDLE_MEDIA)
+                    ACTION_START_FETCH_VIDEO -> handler?.sendEmptyMessage(HANDLE_VIDEO)
+                    ACTION_START_FETCH_AUDIO -> handler?.sendEmptyMessage(HANDLE_AUDIO)
+                }
+            } else {
+                showToast(R.string.toast_media_scanning)
             }
         }
         return Service.START_NOT_STICKY

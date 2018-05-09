@@ -1,7 +1,9 @@
 package com.fesskiev.mediacenter.utils
 
+import android.app.Service
 import android.content.Intent
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
@@ -41,7 +43,7 @@ fun AppCompatActivity.showToast(resId: Int) {
     val toastView = toast.view
     val toastMessage = toastView.findViewById(android.R.id.message) as TextView
     toastMessage.textSize = 14f
-    toastMessage.setTextColor(resources.getColor(R.color.white))
+    toastMessage.setTextColor(ContextCompat.getColor(this, R.color.white))
     toastMessage.gravity = Gravity.CENTER
     toastView.setBackgroundResource(R.drawable.bg_rounded)
     toast.show()
@@ -53,7 +55,18 @@ fun Fragment.showToast(resId: Int) {
     val toastView = toast.view
     val toastMessage = toastView.findViewById(android.R.id.message) as TextView
     toastMessage.textSize = 14f
-    toastMessage.setTextColor(resources.getColor(R.color.white))
+    toastMessage.setTextColor(ContextCompat.getColor(context!!, R.color.white))
+    toastMessage.gravity = Gravity.CENTER
+    toastView.setBackgroundResource(R.drawable.bg_rounded)
+    toast.show()
+}
+
+fun Service.showToast(resId: Int) {
+    val toast = Toast.makeText(this, resId, Toast.LENGTH_LONG)
+    val toastView = toast.view
+    val toastMessage = toastView.findViewById(android.R.id.message) as TextView
+    toastMessage.textSize = 14f
+    toastMessage.setTextColor(ContextCompat.getColor(this, R.color.white))
     toastMessage.gravity = Gravity.CENTER
     toastView.setBackgroundResource(R.drawable.bg_rounded)
     toast.show()

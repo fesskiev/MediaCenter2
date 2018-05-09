@@ -44,6 +44,11 @@ class AudioFoldersPresenter(private var compositeDisposable: CompositeDisposable
     private fun handleAudioFolders(audioFolders: List<AudioFolder>) {
         view?.hideProgressBar()
         view?.showAudioFolders(audioFolders)
+        if (audioFolders.isNotEmpty()) {
+            view?.hideHintScanView()
+        } else {
+            view?.showHintScanView()
+        }
     }
 
     private fun handleError(throwable: Throwable) {

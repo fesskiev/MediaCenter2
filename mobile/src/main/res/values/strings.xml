@@ -18,8 +18,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="scan_notification_title">Waiting!</string>
-    <string name="scan_notification_message">Search for new files</string>
+    <string name="scan_notification_title">Wait!</string>
+    <string name="scan_notification_message">Searching in progress...</string>
 
     <string name="drawer_item_about">About</string>
     <string name="drawer_item_settings">Settings</string>
@@ -45,6 +45,7 @@
     <string name="playback_control_folder_not_selected">Folder is not selected</string>
     <string name="playback_control_track_not_selected">File is not selected</string>
 
+    <string name="toast_media_scanning">Scan is already working!</string>
     <string name="toast_audio_folder_not_exists">Audio folder does not exist</string>
     <string name="toast_video_folder_not_exists">Video folder does not exist</string>
     <string name="toast_audio_file_not_exists">Audio file does not exist</string>
@@ -66,4 +67,7 @@
 
     <string name="effect_tempo_name">Tempo</string>
     <string name="effect_pitch_shift_name">Pitch shift</string>
+
+    <string name="hint_empty_folders_text">The folders were not found</string>
+    <string name="hint_empty_folders_button">Scan</string>
 </resources>

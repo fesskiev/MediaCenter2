@@ -34,4 +34,7 @@
 
     <integer name="folder_columns">2</integer>
 
+    <dimen name="scan_button_height">42dp</dimen>
+    <dimen name="scan_button_width">128dp</dimen>
+
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -9,14 +10,18 @@
         style="@style/FolderGridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/playback_content_height" />
+        android:layout_marginBottom="@dimen/playback_content_height"
+        tools:listitem="@layout/item_video_folder" />
+
+    <include
+        layout="@layout/layout_empty_media_folders"/>
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="@dimen/progress_bar_size"
         android:layout_height="@dimen/progress_bar_size"
-        android:indeterminateTintMode="src_atop"
+        android:layout_gravity="center"
         android:indeterminateTint="@color/yellow"
-        android:layout_gravity="center" />
+        android:indeterminateTintMode="src_atop" />
 
 </FrameLayout>

@@ -16,6 +16,10 @@ interface VideoFoldersContract {
         fun showVideoFolderNotExist()
 
         fun updateSelectedVideoFolder(videoFolder: VideoFolder)
+
+        fun showHintScanView()
+
+        fun hideHintScanView()
     }
 
     interface Presenter : BasePresenter {

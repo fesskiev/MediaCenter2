@@ -43,6 +43,11 @@ class VideoFoldersPresenter(private var compositeDisposable: CompositeDisposable
     private fun handleVideoFolders(videoFolders: List<VideoFolder>) {
         view?.hideProgressBar()
         view?.showVideoFolders(videoFolders)
+        if (videoFolders.isNotEmpty()) {
+            view?.hideHintScanView()
+        } else {
+            view?.showHintScanView()
+        }
     }
 
     private fun handleError(throwable: Throwable) {
