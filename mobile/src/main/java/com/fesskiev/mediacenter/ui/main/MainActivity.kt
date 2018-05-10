@@ -422,7 +422,7 @@ class MainActivity : DaggerAppCompatActivity(), MainContract.View, NavigationVie
     }
 
     private fun animateTopView(value: Float) {
-        ViewCompat.animate(fabPlayPause).alpha(value).start()
+       fabPlayPause.alpha = value
     }
 
     private fun getPagerFragments(): Array<Fragment> {
