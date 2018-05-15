@@ -173,8 +173,6 @@ class AudioFilesActivity : DaggerAppCompatActivity(), AudioFilesContract.View,
     }
 
     private fun animateTopView(value: Float) {
-        fabPlayPause.animate().alpha(value)
-        playbackTitle.animate().alpha(value)
-        playbackDesc.animate().alpha(value)
+        fabPlayPause.alpha = value
     }
 }

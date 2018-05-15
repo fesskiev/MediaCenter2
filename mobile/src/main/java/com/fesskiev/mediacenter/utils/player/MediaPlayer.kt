@@ -2,13 +2,13 @@ package com.fesskiev.mediacenter.utils.player
 
 import com.fesskiev.engine.FFmpegEngine
 import com.fesskiev.engine.SuperpoweredEngine
-import com.fesskiev.mediacenter.domain.entity.media.AudioFile
 import com.fesskiev.mediacenter.domain.entity.media.MediaFile
 import com.fesskiev.mediacenter.engines.ExoPlayerEngine
+import com.fesskiev.mediacenter.utils.enums.MediaType
 
-class MediaPlayer(private var ffmpegEngine: FFmpegEngine,
-                  private var superpoweredEngine: SuperpoweredEngine,
-                  private var exoPlayerEngine: ExoPlayerEngine) : Playable {
+class MediaPlayer(private val ffmpegEngine: FFmpegEngine,
+                  private val superpoweredEngine: SuperpoweredEngine,
+                  private val exoPlayerEngine: ExoPlayerEngine) : Playable {
 
     private var isPlaying: Boolean = false
     private var currentMediaFile: MediaFile? = null
@@ -16,7 +16,7 @@ class MediaPlayer(private var ffmpegEngine: FFmpegEngine,
 
 
     override fun open(mediaFile: MediaFile) {
-        if (mediaFile is AudioFile) {
+        if (mediaFile.getMediaType() == MediaType.AUDIO) {
             superpoweredEngine.openAudioFile(mediaFile.getFilePath())
             superpoweredEngine.togglePlayback()
         }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.fesskiev.mediacenter.widgets.nestedscrolling.CustomNestedScrollView2 xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id='@+id/nestedScrollview'
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <android.support.constraint.ConstraintLayout
                     android:id="@+id/playbackHeader"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/playback_content_height"
@@ -34,22 +35,34 @@
                     <TextView
                         android:id="@+id/playbackTitle"
                         style="@style/PlaybackTitleTextAppearance"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:ellipsize="end"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.19999999"
+                        tools:text="Splin" />
 
                     <TextView
                         android:id="@+id/playbackDesc"
                         style="@style/PlaybackDescTextAppearance"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
                         android:ellipsize="end"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.7"
+                        tools:text="No Exit" />
 
-                </LinearLayout>
+                </android.support.constraint.ConstraintLayout>
 
                 <com.fesskiev.mediacenter.widgets.nestedscrolling.MaxHeightView
                     android:id="@+id/contentContainer"

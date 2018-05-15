@@ -2,9 +2,7 @@ package com.fesskiev.mediacenter.ui.main
 
 import android.graphics.Bitmap
 import com.fesskiev.mediacenter.domain.entity.media.AudioFile
-import com.fesskiev.mediacenter.domain.entity.media.AudioFolder
 import com.fesskiev.mediacenter.domain.entity.media.VideoFile
-import com.fesskiev.mediacenter.domain.entity.media.VideoFolder
 import com.fesskiev.mediacenter.domain.source.DataRepository
 import com.fesskiev.mediacenter.utils.BitmapUtils
 import com.fesskiev.mediacenter.utils.player.MediaPlayer

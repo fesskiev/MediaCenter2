@@ -1,7 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_margin="@dimen/activity_horizontal_margin"
+    android:background="@color/color_background"
+    android:fillViewport="true">
 
-</LinearLayout>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/viewSettingsTitle"
+            style="@style/SettingsTitleAppearance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_view_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.035" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/enableAppGuideSwitch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_view_enable_app_guide"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewSettingsTitle"
+            app:layout_constraintVertical_bias="0.035" />
+
+        <TextView
+            android:id="@+id/mediaSettingsTitle"
+            style="@style/SettingsTitleAppearance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_media_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enableAppGuideSwitch"
+            app:layout_constraintVertical_bias="0.035" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/playHeadsetPlugInSwitch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/settings_play_music"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mediaSettingsTitle"
+            app:layout_constraintVertical_bias="0.035" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/audioBackgroundPlaybackSwitch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/settings_background_audio"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/playHeadsetPlugInSwitch"
+            app:layout_constraintVertical_bias="0.035" />
+
+        <TextView
+            android:id="@+id/foldersSettingsTitle"
+            style="@style/SettingsTitleAppearance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_files_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/audioBackgroundPlaybackSwitch"
+            app:layout_constraintVertical_bias="0.035" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/showHiddenFilesSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/settings_hidden_files_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/foldersSettingsTitle"
+            app:layout_constraintVertical_bias="0.035" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v4.widget.NestedScrollView>
