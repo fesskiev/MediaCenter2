@@ -1,8 +1,7 @@
 package com.fesskiev.engine
 
-class SuperpoweredEngine(private val recordPath: String,
-                         private val sampleRate: Int,
-                         private val bufferSize: Int) {
+data class SuperpoweredEngine(private val recordPath: String, private val sampleRate: Int,
+                              private val bufferSize: Int) {
 
     private var duration: Int = 0
     private var position: Int = 0
@@ -21,7 +20,7 @@ class SuperpoweredEngine(private val recordPath: String,
         }
     }
 
-    fun createAudioPlayer(){
+    fun createAudioPlayer() {
         createAudioPlayer(sampleRate, bufferSize, recordPath)
         registerCallback()
     }
@@ -34,11 +33,11 @@ class SuperpoweredEngine(private val recordPath: String,
 
     external fun onForeground()
 
-    external fun registerCallback()
+    private external fun registerCallback()
 
     external fun unregisterCallback()
 
-    external fun createAudioPlayer(sampleRate: Int, bufferSize: Int, recorderTempPath: String)
+    private external fun createAudioPlayer(sampleRate: Int, bufferSize: Int, recorderTempPath: String)
 
     external fun openAudioFile(path: String)
 
@@ -91,14 +90,12 @@ class SuperpoweredEngine(private val recordPath: String,
 
     external fun stopRecording()
 
-
     /**
      * looping
      */
     external fun loopBetween(startMs: Double, endMs: Double)
 
     external fun loopExit()
-
 
     fun playStatusCallback(status: Int) {
 

@@ -300,7 +300,7 @@ class MainActivity : DaggerAppCompatActivity(), MainContract.View, NavigationVie
         presenter?.changePitchShift(value)
     }
 
-    override fun changedTempo(value: Int) {
+    override fun changedTempo(value: Double) {
         presenter?.changeTempo(value)
     }
 

@@ -24,7 +24,7 @@ class AudioControlLayout(context: Context) : FrameLayout(context) {
 
         fun changedPitchShift(value: Int)
 
-        fun changedTempo(value: Int)
+        fun changedTempo(value: Double)
 
         fun onNextTrack()
 
@@ -68,7 +68,7 @@ class AudioControlLayout(context: Context) : FrameLayout(context) {
 
         seekTempo.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                listener?.changedTempo(progress)
+                listener?.changedTempo(progress.toDouble())
                 tempoValue.text = String.format(Locale.ENGLISH, "%1$.2f X", progress.toFloat() / 50)
             }
 

@@ -37,6 +37,6 @@ interface MainContract {
 
         fun changePitchShift(value: Int)
 
-        fun changeTempo(value: Int)
+        fun changeTempo(value: Double)
     }
 }

@@ -22,8 +22,8 @@ class MainPresenter(private var compositeDisposable: CompositeDisposable,
     }
 
     override fun fetchSelectedMedia() {
-
-        compositeDisposable.add(dataRepository.localDataSource.getSelectedAudioFile()
+        val localSource = dataRepository.localDataSource
+        compositeDisposable.add(localSource.getSelectedAudioFile()
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .doOnNext { audioFile -> handleSelectedAudioFile(audioFile) }
@@ -35,7 +35,7 @@ class MainPresenter(private var compositeDisposable: CompositeDisposable,
                 .subscribe({ artwork -> handleMediaFileArtwork(artwork) },
                         { throwable -> handleError(throwable) }))
 
-        compositeDisposable.add(dataRepository.localDataSource.getSelectedVideoFile()
+        compositeDisposable.add(localSource.getSelectedVideoFile()
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe({ videoFile -> handleSelectedVideoFile(videoFile) },
@@ -59,11 +59,11 @@ class MainPresenter(private var compositeDisposable: CompositeDisposable,
     }
 
     override fun changePitchShift(value: Int) {
-
+        mediaPlayer.pitchShift(value)
     }
 
-    override fun changeTempo(value: Int) {
-
+    override fun changeTempo(value: Double) {
+        mediaPlayer.tempo(value)
     }
 
     private fun handleMediaFileArtwork(artwork: Bitmap) {

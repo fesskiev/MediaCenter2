@@ -7,9 +7,9 @@ interface Playable {
 
     fun open(mediaFile: MediaFile)
 
-    fun next()
+    fun next(): MediaFile?
 
-    fun previous()
+    fun previous(): MediaFile?
 
     fun play()
 
@@ -17,9 +17,13 @@ interface Playable {
 
     fun seek(seek: Int)
 
-    fun position(position : Int)
+    fun position(position: Int)
 
-    fun volume(volume : Float)
+    fun pitchShift(pitchShift: Int)
+
+    fun tempo(tempo: Double)
+
+    fun volume(volume: Float)
 
     fun shuffle()
 
